@@ -52,11 +52,7 @@ Starfield.prototype.start = function() {
   //save starfield scope as self
   var self = this;
 //start a timer
-  document.addEventListener('keyup', function(event) {
-    if(event.keyCode === 70) {
-      self.warpSpeed();
-    };
-  });
+  
   this.intervalId = setInterval(function() {
     self.update();
     self.draw();

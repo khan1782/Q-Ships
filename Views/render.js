@@ -54,9 +54,10 @@ Renderer.prototype.dimensions = function(currentAsset){
     }
 }
 
-Renderer.prototype.gameLoop = function(){
+Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
   setInterval(function(){
+      self.objectsArray = snapshotAssets.items
       self.draw();
   }, 50)
 }

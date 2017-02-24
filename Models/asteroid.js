@@ -1,0 +1,1 @@
+//asteroid class and associated functions

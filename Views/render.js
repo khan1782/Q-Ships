@@ -1,4 +1,4 @@
-///////////////////////contoller////////////////////////////////
+// ----------------------CONTROLLER-----------------------------
 document.addEventListener("DOMContentLoaded", function(event) {
 
   //identify starfield div container
@@ -19,14 +19,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
   render = new Renderer(canvas, assets)
   render.initialize()
 
-  //draw canvas
-  render.draw()
+  //start of the game loop (running draw at 50fps)
+  render.gameLoop();
 })
 
 
 
-///////////////////////models//////////////////////////////////
-
+// ----------------------MODELS-----------------------------
 
 //constructor definition
 function Renderer(canvas, snapshotAssets){
@@ -44,8 +43,6 @@ function Renderer(canvas, snapshotAssets){
 }
 
 
-
-
 //define canvas dimensions (grabbed from pipeline in definition)
 Renderer.prototype.initialize = function() {
   this.canvas.height = this.gameSetting.height;
@@ -60,8 +57,6 @@ Renderer.prototype.draw = function(){
 
     var dims = this.dimensions(currentObject)
     this.ctx.fillStyle ="white";
-
-
 
     this.ctx.translate(dims.midpointX, dims.midpointY)
     this.ctx.rotate(dims.rad)
@@ -84,13 +79,22 @@ Renderer.prototype.dimensions = function(currentAsset){
     }
 }
 
+Renderer.prototype.gameLoop = function(){
+  var self = this;
+  setInterval(function(){
+      self.draw();
+  }, 50)
+}
 
-//////////////////////////keys////////////////////////////////
+
+// ----------------------KEYS-----------------------------
 var itemKey = {
   ship: {width: 10, height: 20},
   merg: {width: 15, height: 25}
 }
-/////////////////////////////////input///////////////////////////
+
+
+// ----------------------INPUTS-----------------------------
 var assets =
   {
     width:1000,

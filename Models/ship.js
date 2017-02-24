@@ -20,6 +20,7 @@ function Ship() {
   this.class = "ship";
   this.keys = {
     up: false,
+    down: false,
     left: false,
     right: false
   };
@@ -33,6 +34,10 @@ Ship.prototype.navigateTheStars = function() {
   if (this.keys.up === true) {
     this.dx += this.thrust * Math.cos(this.rad);
     this.dy += this.thrust * Math.sin(this.rad);  
+  }
+  if (this.keys.down === true) {
+    this.dx -= this.thrust / 2 * Math.cos(this.rad);
+    this.dy -= this.thrust / 2 * Math.sin(this.rad);  
   }
   if (this.keys.left === true) {
     this.angle -= this.rotate;

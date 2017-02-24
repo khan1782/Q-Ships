@@ -28,8 +28,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
   //snapshot is captured
-  var currentSnapshot = JSON.parse(game.snapshot())
-  render.gameLoop(currentSnapshot);
+  var currentSnapshot = function() {
+    return JSON.parse(game.snapshot())
+  }
+  render.gameLoop(currentSnapshot());
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
 

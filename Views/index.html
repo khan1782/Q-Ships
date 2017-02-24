@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Q-Ships</title>
-  <script src="../Models/game.js" type="text/javascript"></script>
-  <script src="../Models/ship.js" type="text/javascript"></script>
-  <script src="../Controllers/gamestate.js" type="text/javascript"></script>
-</head>
-<body>
+  <html>
+    <head>
+      <title>Q-Ships</title>
+      <link rel="stylesheet" href="application.css">
+      <script src="starBackground/starBackground.js"></script>
+      <script src="render.js"></script>
+      <script src="../Models/game.js" type="text/javascript"></script>
+      <script src="../Models/ship.js" type="text/javascript"></script>
+      <script src="../Controllers/gamestate.js" type="text/javascript"></script>
+    </head>
 
-</body>
+    <body>
+      <div id='container'>
+
+        <div id="background-container">
+          <canvas id="starField"></canvas>
+        </div>
+
+        <div id="game-container">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+
+      </div>
+    </body>
 </html>

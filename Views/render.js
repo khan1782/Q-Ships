@@ -38,13 +38,9 @@ function Renderer(canvas, snapshotAssets){
   this.ctx = this.canvas.getContext("2d");
 
   //pipeline assets saved in renderer
-  this.gameSettings = snapshotAssets[0];
-  this.assets = snapshotAssets[1]
-
-  //fetch canvas dimensions from pipeline *schwoooooooo*
-  this.width = this.gameSettings.width;
-  this.height = this.gameSettings.height;
-
+  this.objectsArray = snapshotAssets.items;
+  delete(snapshotAssets["items"]);
+  this.gameSetting = snapshotAssets;
 }
 
 
@@ -52,30 +48,41 @@ function Renderer(canvas, snapshotAssets){
 
 //define canvas dimensions (grabbed from pipeline in definition)
 Renderer.prototype.initialize = function() {
-  this.canvas.height = this.height;
-  this.canvas.width = this.width
+  this.canvas.height = this.gameSetting.height;
+  this.canvas.width = this.gameSetting.width
 };
-
-
 
 
 //draw each pipeline object
 Renderer.prototype.draw = function(){
-  for(var i = 0; i < this.assets.length; i++){
-    var currentAsset = this.assets[i];
+  for(var i = 0; i < this.objectsArray.length; i++){
+    var currentObject = this.objectsArray[i];
 
-    var currentAssetWidth = itemKey[currentAsset.type].width;
-    var currentAssetHeight = itemKey[currentAsset.type].height;
-
+    var dims = this.dimensions(currentObject)
     this.ctx.fillStyle ="white";
-    this.ctx.fillRect(currentAsset.x,currentAsset.y,currentAssetWidth,currentAssetHeight);
+
+
+
+    this.ctx.translate(dims.midpointX, dims.midpointY)
+    this.ctx.rotate(dims.rad)
+    this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+    this.ctx.rotate(dims.rad/-1)
+    this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1)
   }
 };
 
-// itemKey[currentAsset.type].width
-// itemKey[currentAsset.type].height
-
-
+// takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
+Renderer.prototype.dimensions = function(currentAsset){
+    return {
+      width: itemKey[currentAsset.type].width,
+      height: itemKey[currentAsset.type].height,
+      rad: currentAsset.rad,
+      x: currentAsset.x,
+      y: currentAsset.y,
+      midpointX: currentAsset.x + (itemKey[currentAsset.type].width/2),
+      midpointY: currentAsset.y + (itemKey[currentAsset.type].height/2)
+    }
+}
 
 
 //////////////////////////keys////////////////////////////////
@@ -85,14 +92,15 @@ var itemKey = {
 }
 /////////////////////////////////input///////////////////////////
 var assets =
-  [ {width: 1000, height: 1000, state:""},
-    [
-      {x:400, y:600, rad:0, type:"ship"},
-      {x:400, y:300, rad:0, type:"merg"}
+  {
+    width:1000,
+    height:1000,
+    state:0,
+    items: [
+      {x:400, y:600, rad:2.6, type:"ship"},
+      {x:400, y:300, rad:1.3, type:"merg"}
     ]
-  ]
-
-
+  }
 
 
 

@@ -1,9 +1,34 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Q-Ships</title>
-</head>
-<body>
+  <html>
+    <head>
+      <title>Q-Ships</title>
+      <link rel="stylesheet" href="application.css">
+      <script src="starBackground/starBackground.js"></script>
+      <script src="render.js"></script>
+    </head>
 
-</body>
+    <body>
+      <div id='container'>
+
+        <div id="background-container">
+          <canvas id="starField"></canvas>
+        </div>
+
+        <div id="game-container">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+
+      </div>
+
+      <script>
+
+        //identify starfield div container
+        var background = document.getElementById('background');
+        //initialize new starfield beep beep boop
+        var starfield = new Starfield();
+        //run initialize on initialized starfield
+        starfield.initialize(background);
+        starfield.start();
+      </script>
+    </body>
 </html>

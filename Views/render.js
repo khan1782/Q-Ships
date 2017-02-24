@@ -97,8 +97,8 @@ var assets =
     height:1000,
     state:0,
     items: [
-      {x:400, y:600, rad:2.6, type:"ship"},
-      {x:400, y:300, rad:1.3, type:"merg"}
+      {x:400, y:600, rad:1.6, type:"ship"},
+      {x:400, y:300, rad:1.6, type:"merg"}
     ]
   }
 

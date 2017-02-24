@@ -49,28 +49,28 @@ function keyStrokeListeners(game) {
     if(event.keyCode === 39) {
       //this is where we will send information to the game engine
       console.log("right")
-      game.keys.right = true
+      game.ship.keys.right = true
     }
 
     //listening for left
     if(event.keyCode === 37) {
       //this is where we will send information to the game engine
       console.log("left")
-      game.keys.left = true
+      game.ship.keys.left = true
     }
 
     //listening for up
     if(event.keyCode === 38) {
       //this is where we will send information to the game engine
       console.log("up")
-      game.keys.up = true
+      game.ship.keys.up = true
     }
 
     //listening for down
     if(event.keyCode === 40) {
       //this is where we will send information to the game engine
       console.log("down")
-      game.keys.down = true
+      game.ship.keys.down = true
     }
   });
 }

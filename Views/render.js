@@ -44,19 +44,20 @@ Renderer.prototype.draw = function(){
 // takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
 Renderer.prototype.dimensions = function(currentAsset){
     return {
-      width: itemKey[currentAsset.type].width,
-      height: itemKey[currentAsset.type].height,
+      width: itemKey[currentAsset.class].width,
+      height: itemKey[currentAsset.class].height,
       rad: currentAsset.rad,
       x: currentAsset.x,
       y: currentAsset.y,
-      midpointX: currentAsset.x + (itemKey[currentAsset.type].width/2),
-      midpointY: currentAsset.y + (itemKey[currentAsset.type].height/2)
+      midpointX: currentAsset.x + (itemKey[currentAsset.class].width/2),
+      midpointY: currentAsset.y + (itemKey[currentAsset.class].height/2)
     }
 }
 
-Renderer.prototype.gameLoop = function(){
+Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
   setInterval(function(){
+      self.objectsArray = snapshotAssets.items
       self.draw();
   }, 50)
 }

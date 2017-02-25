@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // render.gameLoop(currentSnapshot());
   render.gameLoop(render.objectsArray);
   //add listeners for key strokes for initialized game
-  keyStrokeListeners()
+  keyStrokeListeners(game)
 })
 
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function keyStrokeListeners(game) {
   //document event listener for keydown
-  keys = {up: false, down: false, left: false, right: false}
+  var keys = {up: false, down: false, left: false, right: false}
 
   document.addEventListener('keydown', function(event){
     //listening for up

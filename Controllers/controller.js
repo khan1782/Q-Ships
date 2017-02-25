@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 //-----------------Server Side----------------------
   var game = new Game()
-  game.ship = new Ship()
 //--------------------------------------------------
 
 
@@ -74,7 +73,6 @@ function keyStrokeListeners(game) {
 
       console.log("right")
       game.ship.keys.right = true
-      console.log(game.ship.key)
     }
 
     //listening for left

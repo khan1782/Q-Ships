@@ -15,11 +15,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   game.ship = new Ship
 //--------------------------------------------------
 
+  var currentSnapshot = function() {
+    return JSON.parse(game.snapshot)
+  }
 
   //identify game canvas
   var canvas = document.getElementById("gameCanvas")
   //initialize renderer machinery *wa wa wa wa*
-  render = new Renderer(canvas, assets)
+  render = new Renderer(canvas, currentSnapshot())
   //set game bounds
   render.initialize()
   //start of the game loop (running draw at 50fps)
@@ -28,14 +31,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
   //snapshot is captured
-  //TODO
-  var currentSnapshot = function() {
-    return JSON.parse(game.snapshot())
-  }
 
 
   // render.gameLoop(currentSnapshot());
-  render.gameLoop(currentSnapshot());
+  render.gameLoop(currentSnapshot);
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
 })

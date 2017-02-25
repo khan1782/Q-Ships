@@ -75,3 +75,18 @@ Game.prototype.checkers = function() {
   //add other checkers
     //collision detection
 };
+
+
+
+Game.prototype.updateEntity = function(package){
+  var package = JSON.parse(package)
+  if(package.keys){
+    this.players[0].ship.keys.up = package.keys.up;
+    this.players[0].ship.keys.down = package.keys.down;
+    this.players[0].ship.keys.left = package.keys.left;
+    this.players[0].ship.keys.right = package.keys.right;
+  }
+  if(package.fire){
+    this.players[0].ship.sayPew()
+  }
+};

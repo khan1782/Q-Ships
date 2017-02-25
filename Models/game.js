@@ -71,7 +71,7 @@ Game.prototype.gameLoop = function() {
 //will eventually check for any collisions
 Game.prototype.checkers = function() {
   for(var i=0;i< this.players.length;i++){
-    this.players[i].removePew()
+    this.players[i].ship.removePew()
   };
   //add other checkers
     //collision detection

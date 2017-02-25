@@ -40,8 +40,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
  
-  game.players[0].ship.sayPew()
 
+
+})
 
 
 // game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})

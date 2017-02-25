@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 //-----------------Server Side----------------------
   var game = new Game()
+  game.ship = new Ship
 //--------------------------------------------------
 
 
@@ -29,12 +30,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   //snapshot is captured
   //TODO
   var currentSnapshot = function() {
-    return JSON.parse(render.objectsArray)
+    return JSON.parse(game.snapshot())
   }
 
 
   // render.gameLoop(currentSnapshot());
-  render.gameLoop(render.objectsArray);
+  render.gameLoop(currentSnapshot());
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
 })

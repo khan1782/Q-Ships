@@ -1,18 +1,4 @@
-//ship class with all of the ships associated functions
-// var Ship.defaults = {
-//   x: 100,
-//   y: 100,
-//   height: 10,
-//   width: 10,
-//   rad: -(Math.PI/2),
-//   initialDx: 0,
-//   initialDy: 0,
-//   thrust: .25,
-//   rotate: (Math.PI/6),
-//   maxSpeed: 10
-// };
-
-function Ship() {
+function Ship(uuid) {
   this.x = Ship.defaults.x;
   this.y = Ship.defaults.y;
   this.height = Ship.defaults.height;
@@ -30,6 +16,8 @@ function Ship() {
   this.thrust = Ship.defaults.thrust;
   this.rotate = Ship.defaults.rotate;
   this.maxSpeed = Ship.defaults.maxSpeed;
+  this.pewBay: [];
+  this.uuid = uuid;
 };
 
 Ship.defaults = {
@@ -80,4 +68,20 @@ Ship.prototype.navigateTheStars = function() {
 
 Ship.prototype.speed = function() {
   return (Math.sqrt(ship.dx**2 + ship.dy**2));
+}
+
+Ship.prototype.sayPew = function() {
+  var recoil = 1;
+  pewBay.push[new Pew(this.uuid, this.x, this.y, this.dx, this.dy, this.rad)];
+  this.x -= recoil * Math.cos(this.rad);
+  this.y -= recoil * Math.sin(this.rad);
+}
+
+Ship.prototype.snapshot = function() {
+  return {
+       x: this.x,
+       y: this.y,
+     rad: this.rad,
+    type: "ship"
+  }
 }

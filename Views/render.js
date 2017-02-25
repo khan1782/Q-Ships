@@ -25,8 +25,8 @@ Renderer.prototype.initialize = function() {
 
 //iterate through all of the snapshot assets and run draw and each one
 Renderer.prototype.populateUniverse = function(){
-  for(var i = 0; i < this.objectsArray.length; i++){
-    var currentObject = this.objectsArray[i];
+  for(var i = 0; i < this.objectsArray.items.length; i++){
+    var currentObject = this.objectsArray.items[i];
     this.draw(currentObject);
   }
 };
@@ -38,6 +38,7 @@ Renderer.prototype.draw = function(object){
   var dims = this.dimensions(object)
 
   // paste object accounting for it's angle using canvas rotate function
+  this.ctx.clearRect(0,0,this.width, this.height)
   this.ctx.fillStyle ="white";
   this.ctx.translate(dims.midpointX, dims.midpointY);
   this.ctx.rotate(dims.rad);
@@ -65,14 +66,11 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
   function execute(){
   window.requestAnimationFrame(execute);
-    self.objectsArray = snapshotAssets;
+    self.objectsArray = snapshotAssets();
     self.populateUniverse();
   }
   execute();
 }
-
-
-
 
 
 // ----------------------KEYS-----------------------------

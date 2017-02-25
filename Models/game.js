@@ -63,4 +63,5 @@ Game.prototype.gameLoop = function() {
   setInterval(function(){
     self.newFrame();
   },1000/50);
+}
 

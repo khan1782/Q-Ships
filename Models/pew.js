@@ -7,11 +7,13 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.dy = dy + pewThrust * Math.sin(rad);
   this.rad = rad;
   this.uuid = uuid;
+  this.isExpired = false;
+  this.destructionTimer();
 }
 
 Pew.prototype.move = function() {
-  this.x += dx;
-  this.y += dy;
+  this.x += this.dx;
+  this.y += this.dy;
 }
 
 Pew.prototype.snapshot = function() {
@@ -22,3 +24,10 @@ Pew.prototype.snapshot = function() {
     type: "pew"
   }
 }
+
+Pew.prototype.destructionTimer = function() {
+  var self = this
+  setTimeout(function() {
+    self.isExpired = true
+  }, 2000);
+};

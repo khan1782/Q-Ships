@@ -4,6 +4,8 @@ var GAME_STATE = {
   run: 1
 }
 
+//TODO: move state to a new player object. player state. player has ship. player has unique id?
+
 function Game() {
  this.width = 1000;
  this.height = 1000;

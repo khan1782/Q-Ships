@@ -48,9 +48,19 @@ Game.prototype.removePlayer = function(uuid) {
 
 Game.prototype.newFrame = function() {
   for (var i = 0; i < this.players.length; i++) {
+    this.players[i].ship.navigateTheStars();
     this.players[i].ship.move();
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
       this.players[i].ship.pewBay[j].move();
     }
   }
 }
+
+
+//game loop will run 50 fps and run new frame
+Game.prototype.gameLoop = function() {
+  self = this;
+  setInterval(function(){
+    self.newFrame();
+  },1000/50);
+

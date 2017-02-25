@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //-----------------Server Side----------------------
   var game = new Game()
   game.ship = new Ship
+  game.gameLoop()
 //--------------------------------------------------
 
   var currentSnapshot = function() {

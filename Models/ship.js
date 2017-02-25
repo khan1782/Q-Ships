@@ -81,4 +81,3 @@ Ship.prototype.navigateTheStars = function() {
 Ship.prototype.speed = function() {
   return (Math.sqrt(ship.dx**2 + ship.dy**2));
 }
-

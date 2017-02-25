@@ -65,12 +65,13 @@ function keyStrokeListeners(game) {
       //then you'll see a thruster turn on. but a place to start
       //CLIENT PREDICTION AFTER
       //dont send an update unless a change occured.
-      game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})
+      // game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})
 
       // ws.sendMessage(JSON.stringify({messageType: "entityUpdate", update: {id: "jf9324j32", keys: [true, true, false, false]}})
 
       console.log("right")
-      // game.ship.keys.right = true
+      game.ship.keys.right = true
+      console.log(game.ship.key)
     }
 
     //listening for left

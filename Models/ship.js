@@ -53,15 +53,22 @@ Ship.prototype.navigateTheStars = function() {
     } else {
       newdx = this.dx + this.thrust * Math.cos(this.rad);
       newdy = this.dy + this.thrust * Math.sin(this.rad);
-      newRad = Math.atan2(newdx, newdy);
-
-
+      newRad = Math.atan2(newdy, newdx);
+      this.dx = this.maxSpeed * Math.cos(newRad);
+      this.dy = this.maxSpeed * Math.sin(newRad);
     }
   }
   if (this.keys.down === true) {
-    this.dx -= this.thrust / 2 * Math.cos(this.rad);
-    this.dy -= this.thrust / 2 * Math.sin(this.rad);  
-  }
+    if (ship.speed() < ship.maxSpeed) {
+      this.dx -= this.thrust / 2 * Math.cos(this.rad);
+      this.dy -= this.thrust / 2 * Math.sin(this.rad);  
+    } else {
+      newdx = this.dx + this.thrust / 2 * Math.cos(this.rad);
+      newdy = this.dy + this.thrust / 2 * Math.sin(this.rad);
+      newRad = Math.atan2(newdy, newdx);
+      this.dx = this.maxSpeed * Math.cos(newRad);
+      this.dy = this.maxSpeed * Math.sin(newRad);
+    }
   if (this.keys.left === true) {
     this.angle -= this.rotate;
   }

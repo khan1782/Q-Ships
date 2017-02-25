@@ -32,13 +32,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
   render.gameLoop(currentSnapshot);
 
   //add listeners for key strokes for initialized game
-  keyStrokeListeners(game)
+  keyStrokeListeners()
  
 })
 
 
 
-function keyStrokeListeners(game) {
+function keyStrokeListeners() {
   //json package ready for editing
   var keys = {keys: {up: false, down: false, left: false, right: false}}
   

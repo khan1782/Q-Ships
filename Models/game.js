@@ -16,7 +16,6 @@ Game.prototype.items = function() {
   return gameItems;
 }
 
-
 Game.prototype.snapshot = function() {
   gameAssets = []
   gameAssets.push({
@@ -29,20 +28,24 @@ Game.prototype.snapshot = function() {
   return JSON.stringify(gameAssets[0]);
 }
 
+Game.prototype.findPlayerIndex = function(uuid) {
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.players[i].uuid === uuid) {
+      return i;
+    }
+  }
+}
+
 Game.prototype.addPlayer = function() {
   //ws connection created
-  this.players.push(new Player())
+  var noob = new Player();
+  this.players.push(noob);
+  return noob.uuid;
 }
 
 Game.prototype.removePlayer = function(uuid) {
   //when ws connection broken
-  var quitter;
-  for (var i = 0; i < this.players.length; i++) {
-    if (this.players[i].uuid === uuid) {
-      quitter = i;
-      break;
-    }
-  }
+  var quitter = this.findPlayerIndex(uuid);
   this.players.splice(quitter, 1);
 }
 
@@ -75,8 +78,6 @@ Game.prototype.checkers = function() {
   //add other checkers
     //collision detection
 };
-
-
 
 Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package)

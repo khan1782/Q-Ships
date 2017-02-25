@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //--------------------------------------------------
 
   var currentSnapshot = function() {
-    return JSON.parse(game.snapshot)
+    return JSON.parse(game.snapshot())
   }
 
   //identify game canvas

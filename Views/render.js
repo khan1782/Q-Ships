@@ -73,9 +73,6 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
 }
 
 
-
-
-
 // ----------------------KEYS-----------------------------
 var itemKey = {
   ship: {width: 10, height: 20},

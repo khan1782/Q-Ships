@@ -72,14 +72,14 @@ Ship.prototype.speed = function() {
 
 Ship.prototype.sayPew = function() {
   var recoil = 1;
-  pewBay.push[new Pew(this.uuid, this.x, this.y, this.dx, this.dy, this.rad)];
+  this.pewBay.push(new Pew(this.uuid, this.x, this.y, this.dx, this.dy, this.rad));
   this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
 }
 
 Ship.prototype.move = function() { 
-  this.x += dx;
-  this.y += dy;
+  this.x += this.dx;
+  this.y += this.dy;
 }
 
 Ship.prototype.snapshot = function() {
@@ -90,3 +90,12 @@ Ship.prototype.snapshot = function() {
     type: "ship"
   }
 }
+
+Ship.prototype.removePew = function() {
+  var self = this;
+  for(var i=0; i < this.pewBay.length; i++){
+    if(this.pewBay[i].isExpired === true){
+      self.pewBay.splice(i,1)
+    }
+  }
+};

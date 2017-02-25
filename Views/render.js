@@ -25,20 +25,20 @@ Renderer.prototype.initialize = function() {
 
 //iterate through all of the snapshot assets and run draw and each one
 Renderer.prototype.populateUniverse = function(){
-  for(var i = 0; i < this.objectsArray.items.length; i++){
-    var currentObject = this.objectsArray.items[i];
+  this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
+
+  for(var i = 0; i < this.objectsArray.length; i++){
+    var currentObject = this.objectsArray[i];
     this.draw(currentObject);
   }
 };
 
 // for an individual asset, run canvas methods to place on canvas
 Renderer.prototype.draw = function(object){
-
   //get dimensions from earlier function
   var dims = this.dimensions(object)
 
   // paste object accounting for it's angle using canvas rotate function
-  this.ctx.clearRect(0,0,this.width, this.height)
   this.ctx.fillStyle ="white";
   this.ctx.translate(dims.midpointX, dims.midpointY);
   this.ctx.rotate(dims.rad);
@@ -66,7 +66,7 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
   function execute(){
   window.requestAnimationFrame(execute);
-    self.objectsArray = snapshotAssets();
+    self.objectsArray = snapshotAssets().items;
     self.populateUniverse();
   }
   execute();
@@ -76,7 +76,8 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
 // ----------------------KEYS-----------------------------
 var itemKey = {
   ship: {width: 10, height: 20},
-  merg: {width: 15, height: 25}
+  merg: {width: 15, height: 25},
+  pew: {width:2, height: 15}
 }
 
 

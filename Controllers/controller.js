@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 //-----------------Server Side----------------------
   var game = new Game()
-  game.ship = new Ship
+  game.players.push(new Player)
+  game.players[0].ship = new Ship
   game.gameLoop()
 //--------------------------------------------------
 
@@ -38,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   render.gameLoop(currentSnapshot);
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
+ 
+
+
 })
 
 

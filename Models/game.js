@@ -46,7 +46,7 @@ Game.prototype.removePlayer = function(uuid) {
   this.players.splice(quitter, 1);
 }
 
-Game.prototype.makeTheWorldMove = function(this.width, this.height) {
+Game.prototype.makeTheWorldMove = function() {
   for (var i = 0; i < this.players.length; i++) {
     this.players[i].ship.navigateTheStars();
     this.players[i].ship.move(this.width, this.height);
@@ -61,7 +61,7 @@ Game.prototype.makeTheWorldMove = function(this.width, this.height) {
 Game.prototype.gameLoop = function() {
   self = this;
   setInterval(function(){
-    self.newFrame();
+    self.makeTheWorldMove();
     self.checkers();
   },1000/50);
 }

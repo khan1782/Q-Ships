@@ -28,6 +28,8 @@ Renderer.prototype.initialize = function() {
 //draw each pipeline object
 Renderer.prototype.draw = function(){
   for(var i = 0; i < this.objectsArray.length; i++){
+
+  //TODO make into a funciton take in a current object
     var currentObject = this.objectsArray[i];
 
     var dims = this.dimensions(currentObject)
@@ -56,6 +58,7 @@ Renderer.prototype.dimensions = function(currentAsset){
 
 Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
+  //TODO request next animation frame look into
   setInterval(function(){
       self.objectsArray = snapshotAssets.items
       self.draw();

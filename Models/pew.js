@@ -9,16 +9,16 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.uuid = uuid;
 }
 
-Pew.prototype.move() {
+Pew.prototype.move = function() {
   this.x += dx;
   this.y += dy;
 }
 
 Pew.prototype.snapshot = function() {
   return {
-       x: this.x,
-       y: this.y,
-     rad: this.rad,
+    x: this.x,
+    y: this.y,
+    rad: this.rad,
     type: "pew"
   }
 }

@@ -16,7 +16,7 @@ function Ship(uuid) {
   this.thrust = Ship.defaults.thrust;
   this.rotate = Ship.defaults.rotate;
   this.maxSpeed = Ship.defaults.maxSpeed;
-  this.pewBay: [];
+  this.pewBay = [];
   this.uuid = uuid;
 };
 
@@ -77,11 +77,16 @@ Ship.prototype.sayPew = function() {
   this.y -= recoil * Math.sin(this.rad);
 }
 
+Ship.prototype.move = function() { 
+  this.x += dx;
+  this.y += dy;
+}
+
 Ship.prototype.snapshot = function() {
   return {
-       x: this.x,
-       y: this.y,
-     rad: this.rad,
+    x: this.x,
+    y: this.y,
+    rad: this.rad,
     type: "ship"
   }
 }

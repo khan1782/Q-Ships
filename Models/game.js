@@ -29,12 +29,12 @@ Game.prototype.snapshot = function() {
   return JSON.stringify(gameAssets[0]);
 }
 
-Game.prototype.addPlayer() {
+Game.prototype.addPlayer = function() {
   //ws connection created
   this.players.push(new Player())
 }
 
-Game.prototype.removePlayer(uuid) {
+Game.prototype.removePlayer= function(uuid) {
   //when ws connection broken
   var quitter;
   for (var i = 0; i < this.players.length; i++) {
@@ -47,6 +47,10 @@ Game.prototype.removePlayer(uuid) {
 }
 
 Game.prototype.newFrame = function() {
-//move missiles
-//move ship
+  for (var i = 0; i < this.players.length; i++) {
+    this.players[i].ship.move)
+    for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
+      this.players[i].ship.pewBay[j].move
+    }
+  }
 }

@@ -36,64 +36,75 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // render.gameLoop(currentSnapshot());
   render.gameLoop(render.objectsArray);
   //add listeners for key strokes for initialized game
-  keyStrokeListeners(game)
+  keyStrokeListeners()
 
+  // setInterval(function(){
+  //   console.log(keys)
+  // })
 })
 
 
-
-
+// game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})
+// ws.sendMessage(JSON.stringify({messageType: "entityUpdate", update: {id: "jf9324j32", keys: [true, true, false, false]}})
 //sets up event listeners for up, down, left, right
+
 function keyStrokeListeners(game) {
-
-  var self = game
   //document event listener for keydown
+  keys = {up: false, down: false, left: false, right: false}
+
   document.addEventListener('keydown', function(event){
+    //listening for up
+    if(event.keyCode === 38 && keys.up === false) {
+      keys.up = true;
+      // send json to server controller
+      //SEND THIS!!! JSON.stringify(keys)
+    }
+    //listening for down
+    if(event.keyCode === 40 && keys.down === false ) {
+      keys.down = true;
 
-    // listening for right
-    if(event.keyCode === 39) {
-      //this is where we will send information to the game engine
-      //TODO send person's key -
-      //game.update entity that takes command
-      //in game code turn this into an action
-      //get the idea of time going, on the server it has a sense of time where it updates people.
-      //will tell server, left thruster is on, then the server will see that change
-      //the way that comes in may be a method
-      //game engine method, if you tell me some stuff about how it should update ill do it
-      //i can imagine an update method taking a js object that has a player ID, and list of Keys that are currently on.
-      //client is getting snapshot of its state going to the game engine
-      //the game engine can be runnign on either side
-      //hit a key go to the server, game state updates get back snapshot back
-      //then you'll see a thruster turn on. but a place to start
-      //CLIENT PREDICTION AFTER
-      //dont send an update unless a change occured.
-      // game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})
-
-      // ws.sendMessage(JSON.stringify({messageType: "entityUpdate", update: {id: "jf9324j32", keys: [true, true, false, false]}})
-
-      console.log("right")
-      game.ship.keys.right = true
+      // send json to server controller
+       //SEND THIS!!! JSON.stringify(keys)
     }
 
     //listening for left
-    if(event.keyCode === 37) {
-      //this is where we will send information to the game engine
-      console.log("left")
-      game.ship.keys.left = true
+    if(event.keyCode === 37 && keys.left === false) {
+      keys.left = true;
+
+      // send json to server controller
+       //SEND THIS!!! JSON.stringify(keys)
     }
 
-    //listening for up
+    // listening for right
+    if(event.keyCode === 39 && keys.right === false ) {
+      keys.right = true;
+
+      // send json to server controller
+      //SEND THIS!!! JSON.stringify(keys)
+    }
+  });
+
+  //document event listener for keydown to reset keys to false
+  document.addEventListener('keyup', function(event){
     if(event.keyCode === 38) {
-      //this is where we will send information to the game engine
-      console.log("up")
-      game.ship.keys.up = true
+      keys.up = false;
+       //SEND THIS!!! JSON.stringify(keys)
     }
-
-    //listening for down
     if(event.keyCode === 40) {
-      //this is where we will send information to the game engine
-      console.log("down")
-      game.ship.keys.down = true
+      keys.down = false;
+       //SEND THIS!!! JSON.stringify(keys)
+    }
+    if(event.keyCode === 37) {
+      keys.left = false;
+       //SEND THIS!!! JSON.stringify(keys)
+    }
+    if(event.keyCode === 39) {
+      keys.right = false;
+       //SEND THIS!!! JSON.stringify(keys)
+    }
+    if(event.keyCode === 32) {
+      // send a missle json that is stamped with a user id
+      //SEND THIS!!!! "fire"
     }
   });
 }

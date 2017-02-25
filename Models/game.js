@@ -8,9 +8,9 @@ function Game() {
 Game.prototype.items = function() {
   var gameItems = [];
   for (var i = 0; i < this.players.length; i++) {
-    gameItems.push(this.players[i].ship.snapshot)
+    gameItems.push(this.players[i].ship.snapshot())
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
-      gameItems.push(this.players[i].ship.pewBay[j].snapshot)
+      gameItems.push(this.players[i].ship.pewBay[j].snapshot())
     }
   }
   return gameItems;
@@ -47,6 +47,10 @@ Game.prototype.removePlayer = function(uuid) {
 }
 
 Game.prototype.newFrame = function() {
-//move missiles
-//move ship
+  for (var i = 0; i < this.players.length; i++) {
+    this.players[i].ship.move)
+    for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
+      this.players[i].ship.pewBay[j].move
+    }
+  }
 }

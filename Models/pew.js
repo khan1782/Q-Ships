@@ -9,7 +9,7 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.uuid = uuid;
 }
 
-Pew.prototype.move = function() {
+Pew.prototype.move = function(width, height) {
   this.x += dx;
   this.y += dy;
 }

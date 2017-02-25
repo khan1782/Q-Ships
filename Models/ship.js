@@ -77,9 +77,12 @@ Ship.prototype.sayPew = function() {
   this.y -= recoil * Math.sin(this.rad);
 }
 
-Ship.prototype.move = function() { 
-  this.x += dx;
-  this.y += dy;
+Ship.prototype.move = function(width, height) { 
+  if (this.x > width) {
+
+
+    this.x += dx;
+    this.y += dy;
 }
 
 Ship.prototype.snapshot = function() {

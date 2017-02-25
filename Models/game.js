@@ -46,11 +46,11 @@ Game.prototype.removePlayer = function(uuid) {
   this.players.splice(quitter, 1);
 }
 
-Game.prototype.newFrame = function() {
+Game.prototype.makeTheWorldMove = function(this.width, this.height) {
   for (var i = 0; i < this.players.length; i++) {
-    this.players[i].ship.move();
+    this.players[i].ship.move(this.width, this.height))
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
-      this.players[i].ship.pewBay[j].move();
+      this.players[i].ship.pewBay[j].move(this.width, this.height)
     }
   }
 }

@@ -56,8 +56,8 @@ Game.prototype.makeTheWorldMove = function(this.width, this.height) {
   }
 }
 
-
 //game loop will run 50 fps and run new frame and checkers
+
 Game.prototype.gameLoop = function() {
   self = this;
   setInterval(function(){

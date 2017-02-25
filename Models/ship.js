@@ -1,4 +1,5 @@
 function Ship(uuid) {
+  this.move = Ufo.call(this, move);
   this.x = Ship.defaults.x;
   this.y = Ship.defaults.y;
   this.height = Ship.defaults.height;

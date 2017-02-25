@@ -41,18 +41,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   keyStrokeListeners(game)
  
   game.players[0].ship.sayPew()
-  console.log(game.players[0].ship.pewBay[0])
-  setTimeout(function(){
-      console.log(game.players[0].ship.pewBay[0])
 
-  },2500)
-
-
-  setInterval(function(){
-    game.players[0].ship.removePew()
-  },1000/50);
-
-})
 
 
 // game.updateEntity({id: "jf9324j32", keys: [true, true, false, false]})

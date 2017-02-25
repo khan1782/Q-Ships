@@ -46,6 +46,7 @@ Game.prototype.removePlayer = function(uuid) {
   this.players.splice(quitter, 1);
 }
 
+//
 Game.prototype.newFrame = function() {
   for (var i = 0; i < this.players.length; i++) {
     this.players[i].ship.navigateTheStars();
@@ -57,11 +58,21 @@ Game.prototype.newFrame = function() {
 }
 
 
-//game loop will run 50 fps and run new frame
+//game loop will run 50 fps and run new frame and checkers
 Game.prototype.gameLoop = function() {
   self = this;
   setInterval(function(){
     self.newFrame();
+    self.checkers();
   },1000/50);
 }
 
+//will check for any pews that need to be removed
+//will eventually check for any collisions
+Game.prototype.checkers = function() {
+  for(var i=0;i< this.players.length;i++){
+    this.players[i].removePew()
+  };
+  //add other checkers
+    //collision detection
+};

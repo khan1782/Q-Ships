@@ -48,9 +48,9 @@ Game.prototype.removePlayer = function(uuid) {
 
 Game.prototype.newFrame = function() {
   for (var i = 0; i < this.players.length; i++) {
-    this.players[i].ship.move
+    this.players[i].ship.move();
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
-      this.players[i].ship.pewBay[j].move
+      this.players[i].ship.pewBay[j].move();
     }
   }
 }

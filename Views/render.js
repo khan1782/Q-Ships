@@ -59,24 +59,16 @@ Renderer.prototype.dimensions = function(currentAsset){
   }
 }
 
+//runs populateUniverse in a repeated loop
+//takes in a snapshotAssetArray to update itself
 Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
-
-
-  //TODO *look into request next animation frame look*
-  // setInterval(function(){
-  //     self.objectsArray = snapshotAssets.items
-  //     self.populateUniverse();
-  // }, 50)
-
-  // what we had if we had a json object
-  // this.objectsArray = snapshotAssets.items;
-
-  self.objectsArray = snapshotAssets;
-  self.populateUniverse();
-  // debugger
-
-  window.requestAnimationFrame(this.gameLoop(snapshotAssets));
+  function execute(){
+  window.requestAnimationFrame(execute);
+    self.objectsArray = snapshotAssets;
+    self.populateUniverse();
+  }
+  execute();
 }
 
 
@@ -97,8 +89,8 @@ var assets =
     height:1000,
     state:0,
     items: [
-      {x:400, y:600, rad:1.6, type:"ship"},
-      {x:400, y:300, rad:1.6, type:"merg"}
+      {x:400, y:600, rad:0, type:"ship"},
+      {x:400, y:300, rad:3.14, type:"merg"}
     ]
   }
 

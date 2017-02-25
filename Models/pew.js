@@ -11,17 +11,18 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.destructionTimer();
 }
 
-Pew.prototype.move = function() {
+Pew.prototype.move = function(width, height) { 
   this.x += this.dx;
   this.y += this.dy;
-}
-
-Pew.prototype.snapshot = function() {
-  return {
-    x: this.x,
-    y: this.y,
-    rad: this.rad,
-    type: "pew"
+  if (this.x > width) {
+    this.x = this.x - width;
+  } else if (this.x < 0) {
+    this.x = this.x + width;
+  }
+  if (this.y > height) {
+    this.y = this.y - height;
+  } else if (this.y < 0) {
+    this.y = this.y + height;
   }
 }
 
@@ -31,3 +32,12 @@ Pew.prototype.destructionTimer = function() {
     self.isExpired = true
   }, 2000);
 };
+
+Pew.prototype.snapshot = function() {
+  return {
+    x: this.x,
+    y: this.y,
+    rad: this.rad,
+    type: "pew"
+  }
+}

@@ -37,10 +37,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   render.gameLoop(render.objectsArray);
   //add listeners for key strokes for initialized game
   keyStrokeListeners()
-
-  // setInterval(function(){
-  //   console.log(keys)
-  // })
 })
 
 
@@ -62,7 +58,6 @@ function keyStrokeListeners(game) {
     //listening for down
     if(event.keyCode === 40 && keys.down === false ) {
       keys.down = true;
-
       // send json to server controller
        //SEND THIS!!! JSON.stringify(keys)
     }
@@ -70,7 +65,6 @@ function keyStrokeListeners(game) {
     //listening for left
     if(event.keyCode === 37 && keys.left === false) {
       keys.left = true;
-
       // send json to server controller
        //SEND THIS!!! JSON.stringify(keys)
     }
@@ -78,7 +72,6 @@ function keyStrokeListeners(game) {
     // listening for right
     if(event.keyCode === 39 && keys.right === false ) {
       keys.right = true;
-
       // send json to server controller
       //SEND THIS!!! JSON.stringify(keys)
     }

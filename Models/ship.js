@@ -16,7 +16,7 @@ function Ship(uuid) {
   this.thrust = Ship.defaults.thrust;
   this.rotate = Ship.defaults.rotate;
   this.maxSpeed = Ship.defaults.maxSpeed;
-  this.pewBay: [];
+  this.pewBay= [];
   this.uuid = uuid;
 };
 

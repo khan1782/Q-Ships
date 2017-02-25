@@ -5,7 +5,7 @@
 //   height: 10,
 //   width: 10,
 //   rad: -(Math.PI/2),
-//   initialDx: 0, 
+//   initialDx: 0,
 //   initialDy: 0,
 //   thrust: .25,
 //   rotate: (Math.PI/6),
@@ -38,7 +38,7 @@ Ship.defaults = {
   height: 10,
   width: 10,
   rad: -(Math.PI/2),
-  initialDx: 0, 
+  initialDx: 0,
   initialDy: 0,
   thrust: .25,
   rotate: (Math.PI/6),
@@ -49,7 +49,7 @@ Ship.prototype.navigateTheStars = function() {
   if (this.keys.up === true) {
     if (ship.speed() < ship.maxSpeed) {
       this.dx += this.thrust * Math.cos(this.rad);
-      this.dy += this.thrust * Math.sin(this.rad);    
+      this.dy += this.thrust * Math.sin(this.rad);
     } else {
       newdx = this.dx + this.thrust * Math.cos(this.rad);
       newdy = this.dy + this.thrust * Math.sin(this.rad);
@@ -61,7 +61,7 @@ Ship.prototype.navigateTheStars = function() {
   if (this.keys.down === true) {
     if (ship.speed() < ship.maxSpeed) {
       this.dx -= this.thrust / 2 * Math.cos(this.rad);
-      this.dy -= this.thrust / 2 * Math.sin(this.rad);  
+      this.dy -= this.thrust / 2 * Math.sin(this.rad);
     } else {
       newdx = this.dx + this.thrust / 2 * Math.cos(this.rad);
       newdy = this.dy + this.thrust / 2 * Math.sin(this.rad);
@@ -74,7 +74,7 @@ Ship.prototype.navigateTheStars = function() {
     this.angle -= this.rotate;
   }
   if (this.keys.right === true) {
-    this.angle += this.rotate; 
+    this.angle += this.rotate;
   }
 };
 

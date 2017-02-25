@@ -24,15 +24,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
   render.initialize()
   //start of the game loop (running draw at 50fps)
   //update the assets per loop
-  
+
 
 
   //snapshot is captured
-  //TODO 
+  //TODO
   var currentSnapshot = function() {
-    return JSON.parse(game.snapshot())
+    return JSON.parse(render.objectsArray)
   }
-  render.gameLoop(currentSnapshot());
+
+
+  // render.gameLoop(currentSnapshot());
+  render.gameLoop(render.objectsArray);
   //add listeners for key strokes for initialized game
   keyStrokeListeners(game)
 
@@ -51,7 +54,7 @@ function keyStrokeListeners(game) {
     // listening for right
     if(event.keyCode === 39) {
       //this is where we will send information to the game engine
-      //TODO send person's key - 
+      //TODO send person's key -
       //game.update entity that takes command
       //in game code turn this into an action
       //get the idea of time going, on the server it has a sense of time where it updates people.

@@ -1,5 +1,3 @@
-
-
 // ----------------------MODELS-----------------------------
 
 //constructor definition
@@ -25,45 +23,64 @@ Renderer.prototype.initialize = function() {
 };
 
 
-//draw each pipeline object
-Renderer.prototype.draw = function(){
+//iterate through all of the snapshot assets and run draw and each one
+Renderer.prototype.populateUniverse = function(){
   for(var i = 0; i < this.objectsArray.length; i++){
-
-  //TODO make into a funciton take in a current object
     var currentObject = this.objectsArray[i];
-
-    var dims = this.dimensions(currentObject)
-    this.ctx.fillStyle ="white";
-
-    this.ctx.translate(dims.midpointX, dims.midpointY)
-    this.ctx.rotate(dims.rad)
-    this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
-    this.ctx.rotate(dims.rad/-1)
-    this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1)
+    this.draw(currentObject);
   }
 };
 
+// for an individual asset, run canvas methods to place on canvas
+Renderer.prototype.draw = function(object){
+
+  //get dimensions from earlier function
+  var dims = this.dimensions(object)
+
+  // paste object accounting for it's angle using canvas rotate function
+  this.ctx.fillStyle ="white";
+  this.ctx.translate(dims.midpointX, dims.midpointY);
+  this.ctx.rotate(dims.rad);
+  this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+  this.ctx.rotate(dims.rad/-1);
+  this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
+}
+
 // takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
 Renderer.prototype.dimensions = function(currentAsset){
-    return {
-      width: itemKey[currentAsset.type].width,
-      height: itemKey[currentAsset.type].height,
-      rad: currentAsset.rad,
-      x: currentAsset.x,
-      y: currentAsset.y,
-      midpointX: currentAsset.x + (itemKey[currentAsset.type].width/2),
-      midpointY: currentAsset.y + (itemKey[currentAsset.type].height/2)
-    }
+  return {
+    width: itemKey[currentAsset.type].width,
+    height: itemKey[currentAsset.type].height,
+    rad: currentAsset.rad,
+    x: currentAsset.x,
+    y: currentAsset.y,
+    midpointX: currentAsset.x + (itemKey[currentAsset.type].width/2),
+    midpointY: currentAsset.y + (itemKey[currentAsset.type].height/2)
+  }
 }
 
 Renderer.prototype.gameLoop = function(snapshotAssets){
   var self = this;
-  //TODO request next animation frame look into
-  setInterval(function(){
-      self.objectsArray = snapshotAssets.items
-      self.draw();
-  }, 50)
+
+
+  //TODO *look into request next animation frame look*
+  // setInterval(function(){
+  //     self.objectsArray = snapshotAssets.items
+  //     self.populateUniverse();
+  // }, 50)
+
+  // what we had if we had a json object
+  // this.objectsArray = snapshotAssets.items;
+
+  self.objectsArray = snapshotAssets;
+  self.populateUniverse();
+  // debugger
+
+  window.requestAnimationFrame(this.gameLoop(snapshotAssets));
 }
+
+
+
 
 
 // ----------------------KEYS-----------------------------

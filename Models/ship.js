@@ -69,6 +69,7 @@ Ship.prototype.navigateTheStars = function() {
       this.dx = this.maxSpeed * Math.cos(newRad);
       this.dy = this.maxSpeed * Math.sin(newRad);
     }
+  }
   if (this.keys.left === true) {
     this.angle -= this.rotate;
   }
@@ -78,5 +79,6 @@ Ship.prototype.navigateTheStars = function() {
 };
 
 Ship.prototype.speed = function() {
-  return (Math.sqrt(ship.dx**2 + ship.dy**2); 
-};
+  return (Math.sqrt(ship.dx**2 + ship.dy**2));
+}
+

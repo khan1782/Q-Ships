@@ -34,7 +34,7 @@ Game.prototype.addPlayer = function() {
   this.players.push(new Player())
 }
 
-Game.prototype.removePlayer= function(uuid) {
+Game.prototype.removePlayer = function(uuid) {
   //when ws connection broken
   var quitter;
   for (var i = 0; i < this.players.length; i++) {

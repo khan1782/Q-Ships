@@ -6,8 +6,8 @@ var PLAYER_STATE = {
 
 function Player() {
   this.state = PLAYER_STATE.start;
-  this.ship;
   this.uuid = uuid();
+  this.ship = new Ship(uuid);
 }
 
 function uuid() {
@@ -16,6 +16,6 @@ function uuid() {
       .toString(16)
       .substring(1);
   }
-  return s4() + s4() + 'pew' + s4() + 'pew' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
+  return s4() + s4() + 'pew' + s4() + 'pew' + s4() + 'pew' +
+    s4() + 'pew' + s4() + s4() + s4();
 }

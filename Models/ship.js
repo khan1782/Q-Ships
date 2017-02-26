@@ -100,8 +100,7 @@ Ship.prototype.speed = function() {
 Ship.prototype.sayPew = function() {
   // console.log("ASD")
   var recoil = 2.5;
-  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 -2, this.y + 1, this.dx, this.dy, this.rad));
-  this.x -= recoil * Math.cos(this.rad);
+  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));  this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
 }
 

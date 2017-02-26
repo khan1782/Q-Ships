@@ -37,13 +37,12 @@ Renderer.prototype.populateUniverse = function(){
 Renderer.prototype.draw = function(object){
   //get dimensions from earlier function
   var dims = this.dimensions(object)
-
   // paste object accounting for it's angle using canvas rotate function
   this.ctx.fillStyle ="white";
   this.ctx.translate(dims.midpointX, dims.midpointY);
-  this.ctx.rotate(dims.rad);
+  this.ctx.rotate(dims.rad-(Math.PI/2));
   this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
-  this.ctx.rotate(dims.rad/-1);
+  this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
   this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
 }
 
@@ -75,24 +74,7 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
 
 // ----------------------KEYS-----------------------------
 var itemKey = {
-  ship: {width: 10, height: 20},
+  ship: {width: 20, height: 40},
   merg: {width: 15, height: 25},
-  pew: {width:2, height: 15}
+  pew: {width:4, height: 10}
 }
-
-
-// ----------------------INPUTS-----------------------------
-var assets =
-  {
-    width:1000,
-    height:1000,
-    state:0,
-    items: [
-      {x:400, y:600, rad:0, type:"ship"},
-      {x:400, y:300, rad:3.14, type:"merg"}
-    ]
-  }
-
-
-
-

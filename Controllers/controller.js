@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   //add listeners for key strokes for initialized game
   keyStrokeListeners()
- 
+
 })
 
 
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function keyStrokeListeners() {
   //json package ready for editing
   var keys = {keys: {up: false, down: false, left: false, right: false}}
-  
+
   //document event listener for keydown
     document.addEventListener('keydown', function(event){
     //listening for up
@@ -103,6 +103,7 @@ function keyStrokeListeners() {
       // send a missle json that is stamped with a user id
       //SEND THIS!!!! "fire"
       websock.package = JSON.stringify({fire:"pew"})
+      websock.sent = true
     }
   });
 }

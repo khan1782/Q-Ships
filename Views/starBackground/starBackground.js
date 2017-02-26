@@ -52,7 +52,7 @@ Starfield.prototype.start = function() {
   //save starfield scope as self
   var self = this;
 //start a timer
-  
+
   this.intervalId = setInterval(function() {
     self.update();
     self.draw();

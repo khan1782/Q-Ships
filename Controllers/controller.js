@@ -23,24 +23,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var canvas = document.getElementById("gameCanvas")
 
   //initialize renderer machinery *wa wa wa wa*
-  render = new Renderer(canvas, currentSnapshot())
+  render = new Renderer(canvas);
 
-  //set game bounds
-  render.initialize()
+  setInterval(function(){
+    render.objectsArray = currentSnapshot().items
+  },1000/50)
 
+function uuid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  }
+  return s4() + s4() + 'pew' + s4() + 'pew' + s4() + 'pew' + s4() + 'pew' + s4() + s4() + s4();
+}
+var playerId = 12345;
   //run game loop
-  render.gameLoop(currentSnapshot);
+  //*** Don't forget to render.objectsArray = msg.data.items ws.onMessage ***
+  render.tickTock();
 
   //add listeners for key strokes for initialized game
-  keyStrokeListeners()
-
+  keyStrokeListeners(playerId)
 })
 
+// connecToServer Function({
+  // onOpen = function(){ socket.send(JSON.stringify(uuid))}
+  //onMessage({
+      // render.objectsArray = JSON.parse(msg).items
+  // })
+// })
 
-
-function keyStrokeListeners() {
+function keyStrokeListeners(uuid) {
   //json package ready for editing
-  var keys = {keys: {up: false, down: false, left: false, right: false}}
+  var keys = {uuid: uuid, keys: {up: false, down: false, left: false, right: false}}
 
   //document event listener for keydown
     document.addEventListener('keydown', function(event){
@@ -102,7 +115,9 @@ function keyStrokeListeners() {
     if(event.keyCode === 32) {
       // send a missle json that is stamped with a user id
       //SEND THIS!!!! "fire"
-      websock.package = JSON.stringify({fire:"pew"})
+      // debugger
+
+      websock.package = JSON.stringify({uuid: uuid, fire:"pew"})
       websock.sent = true
     }
   });

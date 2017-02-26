@@ -39,9 +39,9 @@ Game.prototype.findPlayerIndex = function(uuid) {
   }
 }
 
-Game.prototype.addPlayer = function() {
+Game.prototype.addPlayer = function(uuid) {
   //ws connection created
-  var noob = new Player();
+  var noob = new Player(uuid);
   this.players.push(noob);
   return noob.uuid;
 }
@@ -117,15 +117,22 @@ Game.prototype.ouch = function () {
 
 Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package)
+
+  // find the index of the player
+  var index = this.findPlayerIndex(package.uuid);
+
+  // update that specific player's ship's movements
   if(package.keys){
     //TODO update w/ find by id
-    this.players[0].ship.keys.up = package.keys.up;
-    this.players[0].ship.keys.down = package.keys.down;
-    this.players[0].ship.keys.left = package.keys.left;
-    this.players[0].ship.keys.right = package.keys.right;
+    this.players[index].ship.keys.up = package.keys.up;
+    this.players[index].ship.keys.down = package.keys.down;
+    this.players[index].ship.keys.left = package.keys.left;
+    this.players[index].ship.keys.right = package.keys.right;
   }
+
+  // update that specific player's pew's movements
   if(package.fire){
-    this.players[0].ship.sayPew()
+    this.players[index].ship.sayPew();
   }
 };
 
@@ -134,11 +141,11 @@ Game.prototype.removeShrapnel = function() {
   var self = this;
   for(var i=0; i < this.players.length; i++){
     var currentShip = this.players[i].ship;
-    
+
     for(var j=0; j < currentShip.shrapnel.length; j++){
       var currentShrapnel = currentShip.shrapnel[j];
       if(currentShrapnel.isExpired === true){
-        currentShip.shrapnel.splice(j,1) 
+        currentShip.shrapnel.splice(j,1)
       }
     }
   }

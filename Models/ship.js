@@ -18,6 +18,7 @@ function Ship(uuid) {
   this.maxSpeed = Ship.defaults.maxSpeed;
   this.pewBay = [];
   this.uuid = uuid;
+  this.shrapnel =[]
 };
 
 Ship.defaults = {

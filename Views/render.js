@@ -1,42 +1,39 @@
 // ----------------------MODELS-----------------------------
 
 //constructor definition
-function Renderer(canvas, snapshotAssets){
+function Renderer(canvas){
 
   //grab given html canvas object
   this.canvas = canvas;
 
   //start lawn mower
   this.ctx = this.canvas.getContext("2d");
-
-  //pipeline assets saved in renderer
-  this.objectsArray = snapshotAssets.items;
-  delete(snapshotAssets["items"]);
-  this.gameSetting = snapshotAssets;
 }
-
-
-//define canvas dimensions (grabbed from pipeline in definition)
-Renderer.prototype.initialize = function() {
-  this.canvas.height = this.gameSetting.height;
-  this.canvas.width = this.gameSetting.width
-};
-
 
 //iterate through all of the snapshot assets and run draw and each one
 Renderer.prototype.populateUniverse = function(){
+
+  //clear the canvas before very frame
   this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
 
-  for(var i = 0; i < this.objectsArray.length; i++){
-    var currentObject = this.objectsArray[i];
-    this.draw(currentObject);
+  //check if there is any input from WS
+  if(this.objectsArray){
+
+    //iterate through all the objects set in controller from on message WS
+    for(var i = 0; i < this.objectsArray.length; i++){
+
+      //run draw function for each individual object
+      this.draw(this.objectsArray[i]);
+    }
   }
 };
 
 // for an individual asset, run canvas methods to place on canvas
 Renderer.prototype.draw = function(object){
+
   //get dimensions from earlier function
   var dims = this.dimensions(object)
+
   // paste object accounting for it's angle using canvas rotate function
   this.ctx.fillStyle ="white";
   this.ctx.translate(dims.midpointX, dims.midpointY);
@@ -61,12 +58,10 @@ Renderer.prototype.dimensions = function(currentAsset){
 
 //runs populateUniverse in a repeated loop
 //takes in a snapshotAssetArray to update itself
-Renderer.prototype.gameLoop = function(snapshotAssets){
+Renderer.prototype.tickTock = function(){
   var self = this;
   function execute(){
   window.requestAnimationFrame(execute);
-    self.objectsArray = snapshotAssets().items;
-    console.log(self.objectsArray)
     self.populateUniverse();
   }
   execute();

@@ -11,7 +11,7 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.destructionTimer();
 }
 
-Pew.prototype.move = function(width, height) { 
+Pew.prototype.move = function(width, height) {
   this.x += this.dx;
   this.y += this.dy;
   if (this.x > width) {
@@ -30,7 +30,7 @@ Pew.prototype.destructionTimer = function() {
   var self = this
   setTimeout(function() {
     self.isExpired = true
-  }, 2000);
+  }, 900);
 };
 
 Pew.prototype.snapshot = function() {

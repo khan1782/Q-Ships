@@ -75,19 +75,43 @@ Game.prototype.checkers = function() {
   for(var i=0;i< this.players.length;i++){
     this.players[i].ship.removePew()
   };
+  this.ouch()
   //add other checkers
-    //collision detection
+};
+
+// checking every collision
+Game.prototype.ouch = function () {
+  for (var i = 0; i < this.players.length; i++) {
+    var currentShip = this.players[i].ship
+
+    for (var j = 0; j < currentShip.pewBay.length; j++) {
+      var currentPew = currentShip.pewBay[j]
+
+      for(var l = 0; l < this.players.length; l++){
+        var anotherShip  = this.players[l].ship
+
+        if (currentPew.x > anotherShip.x -10 && currentPew.x < anotherShip.x + anotherShip.width + 10 && currentPew.y > anotherShip.y - 10 && currentPew.y < anotherShip.y +this.players[l].ship.height + 10){
+          console.log("OUCHHHH!");
+          debugger
+        }
+      }
+
+    }
+  }
+  // currentPew.y - 10 < this.players[1].ship.y +this.players[1].ship.height && currentPew.y + 10 > this.players[1].ship.y
 };
 
 Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package)
   if(package.keys){
+    //TODO update w/ find by id
     this.players[0].ship.keys.up = package.keys.up;
     this.players[0].ship.keys.down = package.keys.down;
     this.players[0].ship.keys.left = package.keys.left;
     this.players[0].ship.keys.right = package.keys.right;
   }
   if(package.fire){
+    console.log("PEWED");
     this.players[0].ship.sayPew()
   }
 };

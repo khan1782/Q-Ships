@@ -66,6 +66,7 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
   function execute(){
   window.requestAnimationFrame(execute);
     self.objectsArray = snapshotAssets().items;
+    console.log(self.objectsArray)
     self.populateUniverse();
   }
   execute();
@@ -74,7 +75,8 @@ Renderer.prototype.gameLoop = function(snapshotAssets){
 
 // ----------------------KEYS-----------------------------
 var itemKey = {
-  ship: {width: 20, height: 40},
-  merg: {width: 15, height: 25},
-  pew: {width:4, height: 10}
+  ship:     {width: 20, height: 40},
+  merg:     {width: 15, height: 25},
+  pew:      {width:4, height: 10},
+  shrapnel: {width:3, height:3}
 }

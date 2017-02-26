@@ -12,6 +12,9 @@ Game.prototype.items = function() {
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
       gameItems.push(this.players[i].ship.pewBay[j].snapshot())
     }
+    for(var k=0;k < this.players[i].ship.shrapnel.length;k++){
+      gameItems.push(this.players[i].ship.shrapnel[k].snapshot())
+    }
   }
   return gameItems;
 }
@@ -55,7 +58,10 @@ Game.prototype.makeTheWorldMove = function() {
     this.players[i].ship.move(this.width, this.height);
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
       this.players[i].ship.pewBay[j].move(this.width, this.height)
-    }
+    };
+    for(var k=0;k < this.players[i].ship.shrapnel.length; k++){
+      this.players[i].ship.shrapnel[k].move(this.width,this.height)
+    };
   }
 }
 
@@ -76,6 +82,7 @@ Game.prototype.checkers = function() {
     this.players[i].ship.removePew()
   };
   this.ouch()
+  this.removeShrapnel()
   //add other checkers
 };
 
@@ -91,8 +98,15 @@ Game.prototype.ouch = function () {
         var anotherShip  = this.players[l].ship
 
         if (currentPew.x > anotherShip.x -10 && currentPew.x < anotherShip.x + anotherShip.width + 10 && currentPew.y > anotherShip.y - 10 && currentPew.y < anotherShip.y +this.players[l].ship.height + 10){
-          console.log("OUCHHHH!");
-          debugger
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+          currentShip.shrapnel.push(new Shrapnel(currentPew.x, currentPew.y))
+
         }
       }
 
@@ -111,7 +125,21 @@ Game.prototype.updateEntity = function(package){
     this.players[0].ship.keys.right = package.keys.right;
   }
   if(package.fire){
-    console.log("PEWED");
     this.players[0].ship.sayPew()
+  }
+};
+
+
+Game.prototype.removeShrapnel = function() {
+  var self = this;
+  for(var i=0; i < this.players.length; i++){
+    var currentShip = this.players[i].ship;
+    
+    for(var j=0; j < currentShip.shrapnel.length; j++){
+      var currentShrapnel = currentShip.shrapnel[j];
+      if(currentShrapnel.isExpired === true){
+        currentShip.shrapnel.splice(j,1) 
+      }
+    }
   }
 };

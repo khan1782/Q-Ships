@@ -105,15 +105,10 @@
     for (var i = 0; i < this.players.length; i++) {
       // collect all the pews that exploded...
       var explodingPews = this.players[i].ship.removePew();
-
-      if (explodingPews){
-        for (var j = 0; j < explodingPews.length; j++) {
-          // invoke explodePew() to create shrapnels...
-
-          this.explodePew(explodingPews[i]);
-        }
+      for (var j = 0; j < explodingPews.length; j++) {
+        // invoke explodePew() to create shrapnels...
+        this.explodePew(explodingPews[j]);
       }
-
       if (this.players[i].ship.hp < 1) {
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
         // delete this.players[i].ship;
@@ -152,8 +147,8 @@
       for (var j = i + 1; j < allCollidableObjects.length; j++) {
         var ufo2 = allCollidableObjects[j];
         if (this.isColliding(ufo1, ufo2)) {
-          ufo1.hp -= 1;
-          ufo2.hp -= 1;
+          ufo1.hp -= 5;
+          ufo2.hp -= 5;
         }
       }
     }

@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();
-app.use('/css', express.static('css'));
+// app.use('/css', express.static('css'));
 app.use('/js', express.static('src'));
 app.use((req, res) => res.sendFile(INDEX));
 

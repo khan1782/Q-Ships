@@ -107,7 +107,7 @@
     if (this.y > height) {
       this.y = this.y - height;
     } else if (this.y < 0) {
-      this.y = this.y + height;
+      this.y = this.y + height;   
     }
   }
 
@@ -129,21 +129,19 @@
   // Return array of objects with coordinates of exploding pews.
   Ship.prototype.removePew = function() {
     var explodingPews = [];
+    var alivePews = [];
     for (var i = 0; i < this.pewBay.length; i++) {
-      if (this.pewBay[i].hp < 1 ) {
-        this.pewBay[i].isExpired = true;
-
-        explodingPew = {
+      if (this.pewBay[i].hp < 1) {
+        var explodingPew = {
           x: this.pewBay[i].x,
           y: this.pewBay[i].y
         }
         explodingPews.push(explodingPew);
-
-      }
-      if (this.pewBay[i].isExpired === true ){
-        this.pewBay.splice(i,1);
+      } else if (!this.pewBay[i].isExpired) {
+        alivePews.push(this.pewBay[i]);
       }
     }
+    this.pewBay = alivePews;
     return explodingPews;
   };
 

@@ -1,0 +1,6 @@
+{
+  "name": "q-ship",
+  "description": "Shoot the ship with friends",
+  "repository": "https://github.com/khan1782/q-ships",
+  "keywords": ["node", "websocket"]
+}

@@ -1,4 +1,4 @@
-describe("a ship", function() {
+describe("Ship Model", function() {
 
   describe("Can't go over top speed", function() {
     it("true", function() {

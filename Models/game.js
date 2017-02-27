@@ -16,7 +16,7 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
-    for(var k=0;k < this.shrapnel.length;k++){
+    for(var k = 0;k < this.shrapnel.length; k++){
       gameItems.push(this.shrapnel[k].snapshot())
     }
   }
@@ -31,7 +31,6 @@ Game.prototype.snapshot = function() {
     state: this.state,
     items: this.items()
   })
-
   return JSON.stringify(gameAssets[0]);
 }
 
@@ -61,11 +60,13 @@ Game.prototype.makeTheWorldMove = function() {
   for (var i = 0; i < this.players.length; i++) {
     this.players[i].ship.navigateTheStars();
     this.players[i].ship.move(this.width, this.height);
+
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
       this.players[i].ship.pewBay[j].move(this.width, this.height)
     };
   }
-  for(var k=0;k < this.shrapnel.length; k++){
+
+  for(var k = 0;k < this.shrapnel.length; k++){
     this.shrapnel[k].move(this.width,this.height)
   };
 }
@@ -136,7 +137,6 @@ Game.prototype.shrapnelMaker = function(amount, x, y) {
 Game.prototype.ouch = function() {
   allCollidableObjects = this.collidableObjects();
 
-  console.log(allCollidableObjects);
   for (var i = 0; i < allCollidableObjects.length; i++) {
     var ufo1 = allCollidableObjects[i];
     for (var j = i + 1; j < allCollidableObjects.length; j++) {

@@ -51,7 +51,20 @@ Ship.prototype.navigateTheStars = function() {
       this.dy = this.maxSpeed * Math.sin(newRad);
     }
   }
+
+//Down to apply brakes
   if (this.keys.down === true) {
+    if (this.dx < 0) {
+      this.dx += .5;
+    } else if (this.dx > 0) {
+      this.dx -= .5;
+    }
+    if (this.dy < 0) {
+      this.dy += .5;
+    } else if (this.dy > 0) {
+      this.dy -= .5;
+    }
+  }
 
 //Logic for 1/2 speed reverse acceleration
     // if (this.speed() < this.maxSpeed) {
@@ -65,25 +78,18 @@ Ship.prototype.navigateTheStars = function() {
       // this.dy = this.maxSpeed * Math.sin(newRad);
     // }
 
-//Down to apply brakes
-    if (this.dx < 0) {
-      this.dx += .5;
-    } else if (this.dx > 0) {
-      this.dx -= .5;
-    }
-    if (this.dy < 0) {
-      this.dy += .5;
-    } else if (this.dy > 0) {
-      this.dy -= .5;
-    }
-  }
+
   if (this.keys.left === true) {
     this.rad -= this.rotate;
   }
+
   if (this.keys.right === true) {
     this.rad += this.rotate;
   }
 };
+
+
+
 
 //Passive movement of ship based on dx and dy. Function called for each unit of time (frame).
 Ship.prototype.move = function(width, height) {

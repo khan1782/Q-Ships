@@ -16,7 +16,7 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
-    for(var k=0;k < this.shrapnel.length;k++){
+    for(var k = 0;k < this.shrapnel.length; k++){
       gameItems.push(this.shrapnel[k].snapshot())
     }
   }

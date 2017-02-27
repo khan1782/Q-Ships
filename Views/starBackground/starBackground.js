@@ -20,15 +20,15 @@ Starfield.prototype.initialize = function(div) {
   this.width = window.innerWidth;
   this.height = window.innerHeight;
 
-  //save starfield scope as self
-  var self = this;
+  //save starfield scope as that
+  var that = this;
   //create listener for the resize
   window.addEventListener('resize', function(event){
-    self.width = window.innerWidth;
-    self.height = window.innerHeight;
-    self.canvas.width = self.width;
-    self.canvas.height = self.height;
-    self.draw();
+    that.width = window.innerWidth;
+    that.height = window.innerHeight;
+    that.canvas.width = that.width;
+    that.canvas.height = that.height;
+    that.draw();
   });
 
   // set canvas dimension to div dimensions
@@ -49,13 +49,13 @@ Starfield.prototype.start = function() {
   //reset stars attribute to same number of initialized stars.
   this.stars = starsArray;
 
-  //save starfield scope as self
-  var self = this;
+  //save starfield scope as that
+  var that = this;
 //start a timer
 
   this.intervalId = setInterval(function() {
-    self.update();
-    self.draw();
+    that.update();
+    that.draw();
   }, 1000 / this.fps);
 };
 

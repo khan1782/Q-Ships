@@ -1,4 +1,7 @@
 (function() {
+    if (typeof require !== "undefined") {
+    var Pew = require("./pew.js")
+  }
   function Ship(uuid) {
     this.x = Ship.defaults.x;
     this.y = Ship.defaults.y;

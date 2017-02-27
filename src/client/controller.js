@@ -26,7 +26,7 @@ var canvas = document.getElementById("gameCanvas")
         // console.log(JSON.parse(event.data))
         var snapshot = JSON.parse(event.data);
         render.objectsArray = snapshot.items;
-        
+          
         render.id = snapshot.id;
         
       };
@@ -35,7 +35,6 @@ var canvas = document.getElementById("gameCanvas")
 
 //----------------------------------------------
 function sendMessage(msg) {
-  console.log("sent")
   ws.send(JSON.stringify(msg))
 };
 

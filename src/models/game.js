@@ -2,6 +2,9 @@
   if (typeof require !== "undefined") {
     var Player = require("./player.js")
   }
+  if (typeof require !== "undefined") {
+    var Shrapnel = require("./shrapnel.js")
+  }
 
   //Game Class and associated functions
   function Game() {
@@ -106,6 +109,7 @@
       if (explodingPews){
         for (var j = 0; j < explodingPews.length; j++) {
           // invoke explodePew() to create shrapnels...
+
           this.explodePew(explodingPews[i]);
         }
       }
@@ -147,7 +151,6 @@
       var ufo1 = allCollidableObjects[i];
       for (var j = i + 1; j < allCollidableObjects.length; j++) {
         var ufo2 = allCollidableObjects[j];
-        console.log(this.isColliding(ufo1,ufo2))
         if (this.isColliding(ufo1, ufo2)) {
           ufo1.hp -= 1;
           ufo2.hp -= 1;

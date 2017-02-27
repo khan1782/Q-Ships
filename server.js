@@ -34,10 +34,11 @@ wss.on('connection', (ws) => {
     var playerKeyStrokes =  ws;
     game.updateEntity(playerKeyStrokes)
   });
-  ws.on('close', () => {
+  ws.on('close', (client) => {
     //loop through clients and find the client that quit and remove them
+    CLIENTS.splice(CLIENTS.indexOf(client),1);
     console.log('Client disconnected');
-}
+})
 });
 
 setInterval(() => {

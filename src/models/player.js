@@ -1,4 +1,8 @@
 (function() {
+  if (typeof require !== "undefined") {
+    var Ship = require("./ship.js")
+  }
+
   var PLAYER_STATE = {
     start: 0,
     alive: 1,
@@ -16,5 +20,4 @@
   } else {
     window.Player = Player;
   }
-
 })()

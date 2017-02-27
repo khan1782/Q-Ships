@@ -1,4 +1,8 @@
 (function() {
+  if (typeof require !== "undefined") {
+    var Player = require("./player.js")
+  }
+
   //Game Class and associated functions
   function Game() {
    this.width = 1000;

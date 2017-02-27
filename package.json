@@ -5,7 +5,7 @@
     "node": "6.2.0"
   },
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js"
   },

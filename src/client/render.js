@@ -22,7 +22,7 @@
 
       //iterate through all the objects set in controller from on message WS
       for(var i = 0; i < this.objectsArray.length; i++){
-
+        
         //run draw function for each individual object
         this.draw(this.objectsArray[i]);
       }
@@ -31,7 +31,7 @@
 
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.draw = function(object){
-
+    console.log(object)
     //get dimensions from earlier function
     var dims = this.dimensions(object)
 

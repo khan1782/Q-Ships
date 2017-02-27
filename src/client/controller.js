@@ -1,6 +1,8 @@
 var HOST = location.origin.replace(/^http/, 'ws')
 var ws = new WebSocket(HOST);   
 
+
+
 var background = document.getElementById('background');
 
 //initialize new starfield beep beep boop

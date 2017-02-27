@@ -3,6 +3,8 @@ function Pew(uuid, x, y, dx, dy, rad) {
   var pewThrust = 10;
   this.x = x;
   this.y = y;
+  this.width = 4;
+  this.height = 10;
   this.dx = dx + pewThrust * Math.cos(rad);
   this.dy = dy + pewThrust * Math.sin(rad);
   this.rad = rad;
@@ -10,7 +12,7 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.isExpired = false;
   this.destructionTimer();
   this.hp = 1;
-  this.hitBuffer = 50;
+  this.hitBuffer = 5;
 }
 
 Pew.prototype.move = function(width, height) {

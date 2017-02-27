@@ -6,6 +6,7 @@ function Game() {
  this.shrapnel =[];
 }
 
+//Create collection of snapshots of all objects in game packaged for renderer.
 Game.prototype.items = function() {
   var gameItems = [];
   for (var i = 0; i < this.players.length; i++) {
@@ -55,6 +56,7 @@ Game.prototype.removePlayer = function(uuid) {
   this.players.splice(quitter, 1);
 }
 
+//Master function to make all objects move (active and passive).
 Game.prototype.makeTheWorldMove = function() {
   for (var i = 0; i < this.players.length; i++) {
     this.players[i].ship.navigateTheStars();
@@ -103,8 +105,12 @@ Game.prototype.checkers = function() {
 
     if (this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
-      delete this.players[i].ship;
-      console.log(this.player[i])
+      // delete this.players[i].ship;
+      this.players[i].ship.x = 500 * Math.random();
+      this.players[i].ship.y = 500 * Math.random();
+      this.players[i].ship.dx = 0;
+      this.players[i].ship.dy = 0;
+      this.players[i].ship.hp = 10;
       // TODO: change this to update gamestate for player
     }
   };
@@ -117,7 +123,7 @@ Game.prototype.explodePew = function(coordinates) {
 }
 
 Game.prototype.explodeShip = function(x, y) {
-  this.shrapnelMaker(20, x, y);
+  this.shrapnelMaker(40, x, y);
 }
 
 Game.prototype.shrapnelMaker = function(amount, x, y) {
@@ -139,7 +145,6 @@ Game.prototype.ouch = function() {
       if (this.isColliding(ufo1, ufo2)) {
         ufo1.hp -= 1;
         ufo2.hp -= 1;
-        console.log(ufo1);
       }
     }
   }

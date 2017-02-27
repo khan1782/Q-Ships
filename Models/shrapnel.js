@@ -1,14 +1,13 @@
 function Shrapnel(x,y){
-	this.x = x;
-	this.y = y;
+	this.x = x + (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
+	this.y = y + (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
 	this.dx = (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1)
-	this.dy = (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1)
+	this.dy = (Math.floor(Math.random()*7)) * (Math.round(Math.random()) * 2 - 1)
 	this.isExpired = false;
 	this.persistenceFactor = (Math.floor(Math.random()*3))
 	this.destructionTimer();
 	this.rad = 0;
 };
-
 
 Shrapnel.prototype.destructionTimer = function() {
   var self = this
@@ -16,7 +15,6 @@ Shrapnel.prototype.destructionTimer = function() {
     self.isExpired = true
   }, 500*this.persistenceFactor);
 }
-
 
 Shrapnel.prototype.move = function(width, height) {
   this.x += this.dx;
@@ -32,7 +30,6 @@ Shrapnel.prototype.move = function(width, height) {
     this.y = this.y + height;
   }
 }
-
 
 Shrapnel.prototype.snapshot = function() {
   return {

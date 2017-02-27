@@ -18,7 +18,8 @@ function Ship(uuid) {
   this.maxSpeed = Ship.defaults.maxSpeed;
   this.pewBay = [];
   this.uuid = uuid;
-  this.shrapnel =[]
+  this.hp = Ship.defaults.hp;
+  this.hitBuffer = Ship.defaults.hitBuffer;
 };
 
 Ship.defaults = {
@@ -31,23 +32,27 @@ Ship.defaults = {
   initialDy: 0,
   thrust: .25,
   rotate: (Math.PI/45),
-  maxSpeed: 10
+  maxSpeed: 10,
+  hp: 5,
+  hitBuffer: 20
 }
 
+//function responds to booleans set by player keystrokes. Controls thrust, brake, and rotation of ship.
 Ship.prototype.navigateTheStars = function() {
   if (this.keys.up === true) {
     if (this.speed() < this.maxSpeed) {
       this.dx += this.thrust * Math.cos(this.rad);
       this.dy += this.thrust * Math.sin(this.rad);
     } else {
-      newdx = this.dx + this.thrust * Math.cos(this.rad);
-      newdy = this.dy + this.thrust * Math.sin(this.rad);
-      newRad = Math.atan2(newdy, newdx);
+      var newdx = this.dx + this.thrust * Math.cos(this.rad);
+      var newdy = this.dy + this.thrust * Math.sin(this.rad);
+      var newRad = Math.atan2(newdy, newdx);
       this.dx = this.maxSpeed * Math.cos(newRad);
       this.dy = this.maxSpeed * Math.sin(newRad);
     }
   }
   if (this.keys.down === true) {
+
 //Logic for 1/2 speed reverse acceleration
     // if (this.speed() < this.maxSpeed) {
     //   this.dx -= this.thrust / 2 * Math.cos(this.rad);
@@ -59,16 +64,17 @@ Ship.prototype.navigateTheStars = function() {
       // this.dx = this.maxSpeed * Math.cos(newRad);
       // this.dy = this.maxSpeed * Math.sin(newRad);
     // }
+
 //Down to apply brakes
     if (this.dx < 0) {
-      this.dx += .2;
+      this.dx += .5;
     } else if (this.dx > 0) {
-      this.dx -= .2;
+      this.dx -= .5;
     }
     if (this.dy < 0) {
-      this.dy += .2;
+      this.dy += .5;
     } else if (this.dy > 0) {
-      this.dy -= .2;
+      this.dy -= .5;
     }
   }
   if (this.keys.left === true) {
@@ -79,6 +85,7 @@ Ship.prototype.navigateTheStars = function() {
   }
 };
 
+//Passive movement of ship based on dx and dy. Function called for each unit of time (frame).
 Ship.prototype.move = function(width, height) {
   this.x += this.dx;
   this.y += this.dy;
@@ -95,23 +102,40 @@ Ship.prototype.move = function(width, height) {
 }
 
 Ship.prototype.speed = function() {
-  return (Math.sqrt(this.dx**2 + this.dy**2));
+  return (Math.sqrt(this.dx * this.dx + this.dy * this.dy));
 }
 
+//Fire a missle. creates new missle(pew) in ship's array.
+//TODO review initial position of pew. should be outside of hit boxes infront of center of ship.
 Ship.prototype.sayPew = function() {
-  // console.log("ASD")
   var recoil = 2.5;
-  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));  this.x -= recoil * Math.cos(this.rad);
+  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (2.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (2.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));
+  this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
 }
 
+// Find all pews without hp and set them to expired and queue them for explosion.
+// Remove all expired pews from ship's pewBay (missile array)
+// Return array of objects with coordinates of exploding pews.
 Ship.prototype.removePew = function() {
   var self = this;
-  for(var i=0; i < this.pewBay.length; i++){
-    if(this.pewBay[i].isExpired === true){
-      self.pewBay.splice(i,1)
+  var explodingPews = [];
+  for (var i = 0; i < this.pewBay.length; i++) {
+    if (this.pewBay[i].hp < 1 ) {
+      this.pewBay[i].isExpired = true;
+
+      explodingPew = {
+        x: this.pewBay[i].x,
+        y: this.pewBay[i].y
+      }
+      explodingPews.push(explodingPew);
+
+    }
+    if (this.pewBay[i].isExpired === true ){
+      self.pewBay.splice(i,1);
     }
   }
+  return explodingPews;
 };
 
 Ship.prototype.snapshot = function() {

@@ -35,13 +35,21 @@ function uuid() {
   }
   return s4() + s4() + 'pew' + s4() + 'pew' + s4() + 'pew' + s4() + 'pew' + s4() + s4() + s4();
 }
-var playerId = 12345;
+
+
+document.addEventListener('keyup', function(event){
+  if (event.keyCode === 13) {
+    var uniqueID = uuid();
+  }
+});
+
   //run game loop
   //*** Don't forget to render.objectsArray = msg.data.items ws.onMessage ***
   render.tickTock();
-
+  // debugger
+  var uniqueID = 12345
   //add listeners for key strokes for initialized game
-  keyStrokeListeners(playerId)
+  keyStrokeListeners(uniqueID)
 })
 
 // connecToServer Function({

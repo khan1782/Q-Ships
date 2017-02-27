@@ -9,6 +9,8 @@ function Pew(uuid, x, y, dx, dy, rad) {
   this.uuid = uuid;
   this.isExpired = false;
   this.destructionTimer();
+  this.hp = 1;
+  this.hitBuffer = 50;
 }
 
 Pew.prototype.move = function(width, height) {

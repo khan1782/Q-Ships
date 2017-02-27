@@ -18,7 +18,8 @@ function Ship(uuid) {
   this.maxSpeed = Ship.defaults.maxSpeed;
   this.pewBay = [];
   this.uuid = uuid;
-  this.shrapnel =[]
+  this.hp = Ship.defaults.hp;
+  this.hitBuffer = Ship.defaults.hitBuffer;
 };
 
 Ship.defaults = {
@@ -31,7 +32,9 @@ Ship.defaults = {
   initialDy: 0,
   thrust: .25,
   rotate: (Math.PI/45),
-  maxSpeed: 10
+  maxSpeed: 10,
+  hp: 5,
+  hitBuffer: 25
 }
 
 Ship.prototype.navigateTheStars = function() {
@@ -99,7 +102,6 @@ Ship.prototype.speed = function() {
 }
 
 Ship.prototype.sayPew = function() {
-  // console.log("ASD")
   var recoil = 2.5;
   this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));  this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
@@ -107,11 +109,22 @@ Ship.prototype.sayPew = function() {
 
 Ship.prototype.removePew = function() {
   var self = this;
-  for(var i=0; i < this.pewBay.length; i++){
-    if(this.pewBay[i].isExpired === true){
-      self.pewBay.splice(i,1)
+  var explodingPews;
+  for (var i = 0; i < this.pewBay.length; i++) {
+    if (this.pewBay[i].hp < 1 ) {
+      this.pewBay[i].isExpired = true;
+
+      explodingPew = {
+        x: this.pewBay[i].x,
+        y: this.pewBay[i].y
+      }
+      explodingPews.push(explodingPew);
+
+    } else if (this.pewBay[i].isExpired === true ){
+      self.pewBay.splice(i,1);
     }
   }
+  return explodingPews;
 };
 
 Ship.prototype.snapshot = function() {

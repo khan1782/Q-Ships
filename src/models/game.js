@@ -116,11 +116,11 @@
         this.players[i].state = 3;
         this.players[i].ship = new Ship(this.players[i].uuid);
 
-        this.players[i].ship.x = 500 * Math.random();
-        this.players[i].ship.y = 500 * Math.random();
-        this.players[i].ship.dx = 0;
-        this.players[i].ship.dy = 0;
-        this.players[i].ship.hp = 10;
+        // this.players[i].ship.x = 500 * Math.random();
+        // this.players[i].ship.y = 500 * Math.random();
+        // this.players[i].ship.dx = 0;
+        // this.players[i].ship.dy = 0;
+        // this.players[i].ship.hp = 10;
         // TODO: change this to update gamestate for player
       }
     };

@@ -27,8 +27,8 @@
   };
 
   Ship.defaults = {
-    x: 100,
-    y: 100,
+    x: Math.random() * 800 + 100,
+    y: Math.random() * 800 + 100,
     height: 40,
     width: 20,
     rad: -(Math.PI/2),

@@ -17,8 +17,10 @@
 
   Player.prototype.spawn = function() {
     var spawner = this
+    spawner.ship.type = "spawnship"
     setTimeout(function() {
       spawner.state = PLAYER_STATE.alive;
+      spawner.ship.type = "ship"
     }, 5000);
   }
 

@@ -5,6 +5,12 @@
   if (typeof require !== "undefined") {
     var Shrapnel = require("./shrapnel.js")
   }
+  if (typeof require !== "undefined") {
+    var Asteroid = require("./asteroid.js")
+  }
+  if (typeof require !== "undefined") {
+    var Debris = require("./debris.js")
+  }
 
   //Game Class and associated functions
   function Game() {
@@ -12,6 +18,13 @@
    this.height = 1000;
    this.players = [];
    this.shrapnel =[];
+   this.asteroids = [];
+   this.debris = [];
+
+   for (var i = 0; i < 7; i++){
+      var rock = new Asteroid();
+      this.asteroids.push(rock);
+   }
   }
 
   //Create collection of snapshots of all objects in game packaged for renderer.
@@ -24,9 +37,18 @@
           gameItems.push(this.players[i].ship.pewBay[j].snapshot())
         }
       }
-      for(var k = 0; k < this.shrapnel.length; k++){
+
+      for (var k = 0; k < this.shrapnel.length; k++) {
         gameItems.push(this.shrapnel[k].snapshot())
       }
+    }
+
+    for (var l = 0; l < this.asteroids.length; l++) {
+      gameItems.push(this.asteroids[l].snapshot())
+    }
+
+    for (var m = 0; m < this.debris.length; m++) {
+      gameItems.push(this.debris[m].snapshot())
     }
     return gameItems;
   }
@@ -72,16 +94,24 @@
 
       for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
         this.players[i].ship.pewBay[j].move(this.width, this.height)
+        console.log(this.players[i].ship.hp)
       };
     }
 
-    for(var k = 0;k < this.shrapnel.length; k++){
-      this.shrapnel[k].move(this.width,this.height)
+    for(var k = 0; k < this.shrapnel.length; k++){
+      this.shrapnel[k].move(this.width, this.height)
+    };
+
+    for(var l = 0; l < this.asteroids.length; l++){
+      this.asteroids[l].move(this.width, this.height)
+    };
+
+    for(var l = 0; l < this.debris.length; l++){
+      this.debris[l].move(this.width, this.height)
     };
   }
 
   //game loop will run 50 fps and run new frame and checkers
-
   Game.prototype.gameLoop = function() {
     var that = this;
     setInterval(function(){
@@ -96,10 +126,11 @@
   Game.prototype.checkers = function() {
 
     // invoke ouch() to check for collisions and update objects
-    this.ouch()
+    this.ouch();
 
-    //  remove all shrapnels
-    this.removeShrapnel()
+    //  remove all shrapnels & debris
+    this.removeShrapnel();
+    this.removeDebris();
 
     // go through each player...
     for (var i = 0; i < this.players.length; i++) {
@@ -109,17 +140,25 @@
         // invoke explodePew() to create shrapnels...
         this.explodePew(explodingPews[j]);
       }
+
       if (this.players[i].ship.hp < 1) {
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
         // delete this.players[i].ship;
-        this.players[i].ship.x = 500 * Math.random();
-        this.players[i].ship.y = 500 * Math.random();
+        this.players[i].ship.x = 500;
+        this.players[i].ship.y = 500;
         this.players[i].ship.dx = 0;
         this.players[i].ship.dy = 0;
         this.players[i].ship.hp = 10;
         // TODO: change this to update gamestate for player
       }
-    };
+    }
+
+    for (var i = 0; i < this.asteroids.length; i++){
+        if (this.asteroids[i].hp < 1) {
+        this.explodeRock(this.asteroids[i].x, this.asteroids[i].y);
+        this.asteroids[i].hp = 20;
+      }
+    }
   };
 
   Game.prototype.explodePew = function(coordinates) {
@@ -132,9 +171,20 @@
     this.shrapnelMaker(40, x, y);
   }
 
+
   Game.prototype.shrapnelMaker = function(amount, x, y) {
     for (var i = 0; i < amount; i++) {
       this.shrapnel.push(new Shrapnel(x, y));
+    }
+  }
+
+  Game.prototype.explodeRock = function(x, y) {
+    this.debrisMaker(15, x, y);
+  }
+
+  Game.prototype.debrisMaker = function(amount, x, y) {
+    for (var i = 0; i < amount; i++) {
+      this.debris.push(new Debris(x, y));
     }
   }
 
@@ -144,15 +194,18 @@
 
     for (var i = 0; i < allCollidableObjects.length; i++) {
       var ufo1 = allCollidableObjects[i];
+
       for (var j = i + 1; j < allCollidableObjects.length; j++) {
         var ufo2 = allCollidableObjects[j];
         if (this.isColliding(ufo1, ufo2)) {
           ufo1.hp -= 1;
           ufo2.hp -= 1;
-          ufo1.dx *= (1/10);
-          ufo1.dy *= (1/10);
-          ufo2.dx *= (1/10);
-          ufo2.dy *= (1/10);
+
+          ufo1.dx *= (1/2);
+          ufo1.dy *= (1/2);
+
+          ufo2.dx *= (1/2);
+          ufo2.dy *= (1/2);
         }
       }
     }
@@ -161,6 +214,13 @@
   // collect every existing object with hp
   Game.prototype.collidableObjects = function() {
     var collidableObjects = [];
+
+    // collect all the astroids
+    for (var k = 0; k < this.asteroids.length; k++) {
+      collidableObjects.push(this.asteroids[k]);
+    }
+
+    // collect all the spaceships and pews
     for (var i = 0; i < this.players.length; i++) {
       collidableObjects.push(this.players[i].ship);
       for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
@@ -212,6 +272,14 @@
     for(var j = 0; j < this.shrapnel.length; j++){
       if(this.shrapnel[j].isExpired === true){
         this.shrapnel.splice(j,1);
+      }
+    }
+  };
+
+  Game.prototype.removeDebris = function() {
+    for(var j = 0; j < this.debris.length; j++){
+      if(this.debris[j].isExpired === true){
+        this.debris.splice(j,1);
       }
     }
   };

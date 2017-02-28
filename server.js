@@ -5,7 +5,7 @@ const SocketServer = require('ws').Server;
 const path = require('path');
 const Game = require('./src/models/game.js')
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3009;
 const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();
@@ -18,19 +18,20 @@ const server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 const wss = new SocketServer({ server });
 
 var game = new Game()
+console.log(game);
 
 game.gameLoop()
 
 
 
-var CLIENTS = []; 
+var CLIENTS = [];
 //in some situation, receive on close, and trying to remove form client, set interval and interupts it.
 wss.on('connection', (ws) => {
   console.log('Client connected');
   CLIENTS.push(ws)
   var playerID = CLIENTS.indexOf(ws)
   game.addPlayer(playerID);
-  
+
   //example incoming message: {uuid: uuid, keys: {up: false, down: false, left: false, right: false}
   ws.on('message', (ws) => {
     game.updateEntity(ws)
@@ -41,7 +42,7 @@ wss.on('connection', (ws) => {
 
 setInterval(() => {
   for(var i=0;i<CLIENTS.length;i++){
-    //calling readyState on client returns 0 1 2 3 
+    //calling readyState on client returns 0 1 2 3
       //0 means connection is not established
       //1 is connection established
       //2 is in closing handshake

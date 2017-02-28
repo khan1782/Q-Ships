@@ -1,1 +1,0 @@
-//enemy ship class, inherits from ship class

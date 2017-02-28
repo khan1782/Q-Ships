@@ -1,5 +1,5 @@
 var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);   
+var ws = new WebSocket(HOST);
 
 
 
@@ -28,7 +28,7 @@ var canvas = document.getElementById("gameCanvas")
         var snapshot = JSON.parse(event.data);
         render.objectsArray = snapshot.items;
         render.id = snapshot.id;
-        
+
       };
 
       render.tickTock();

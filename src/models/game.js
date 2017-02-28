@@ -112,15 +112,8 @@
       }
       if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
-        // delete this.players[i].ship;
+        // reseting player state
         this.players[i].state = 0;
-
-        // this.players[i].ship.x = 500 * Math.random();
-        // this.players[i].ship.y = 500 * Math.random();
-        // this.players[i].ship.dx = 0;
-        // this.players[i].ship.dy = 0;
-        // this.players[i].ship.hp = 10;
-        // TODO: change this to update gamestate for player
       }
     };
   };
@@ -207,7 +200,7 @@
       }
     }
     // update that specific player's pew's movements
-    if (this.players[index].state === 2) { 
+    if (this.players[index].state === 2) {
       if (package.fire) {
         this.players[index].ship.sayPew();
       }

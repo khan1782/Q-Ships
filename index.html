@@ -4,52 +4,74 @@
       <title>Q-Ships</title>
       <style >
         body, html {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
 
-#container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
- #starfield {
-    width:100%;
-    height:100%;
-    z-index: -1;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-}
+        #container {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+         #starfield {
+            width:100%;
+            height:100%;
+            z-index: -1;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
 
-#background-container,
-#game-container {
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+        #background-container,
+        #game-container {
+          z-index: 10;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
 
-#gameCanvas {
-  display: inherit;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5%;
-}
+        #gameCanvas {
+          display: inherit;
+          margin-left: auto;
+          margin-right: auto;
+          margin-top: 5%;
+        }
+
+        #welcome {
+          z-index: 15;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          color: chartreuse;
+        }
+
+        .hidden {
+          display: none;
+        }
 
       </style>
-      <link rel="stylesheet" href="application.css">
-      
+      <!-- <link rel="stylesheet" href="application.css"> -->
+
 
     </head>
 
     <body>
       <div id='container'>
+
+        <center><div id="welcome">
+          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <h1>PEW SHIPS</h1>
+          <h2>Shoot the ship with friends!</h2>
+          <br><br><br><br><br><br>
+          <h2>Press enter to begin!</h2>
+        </div><center>
 
         <div id="background-container">
           <canvas id="starField"></canvas>

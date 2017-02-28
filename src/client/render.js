@@ -67,10 +67,20 @@
     execute();
   }
 
+  Renderer.prototype.showState = function(state) {
+    var welcome = document.getElementById("welcome");
+    if (state !== 0) {
+      welcome.setAttribute("class", "hidden");
+    } else {
+      welcome.removeAttribute("class")
+    }
+  }
+
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
     ship:     {width: 20, height: 40},
+    spawnship: {width: 10, height: 20},
     pew:      {width: 4, height: 10},
     astroid:  {width: 40, height: 40},
     debris:  {width: 10, height: 10},

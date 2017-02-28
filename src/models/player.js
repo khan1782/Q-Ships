@@ -11,10 +11,19 @@
 
   var PLAYER_STATE = {
     start: 0,
-    alive: 1,
-    dead: 2
+    spawn: 1,
+    alive: 2
   }
 
+
+  Player.prototype.spawn = function() {
+    var spawner = this
+    spawner.ship = new Ship(spawner.uuid)  
+    setTimeout(function() {
+      spawner.state = PLAYER_STATE.alive;
+      spawner.ship.type = "ship"
+    }, 5000);
+  }
 
   if (typeof module !== "undefined") {
     module.exports = Player;

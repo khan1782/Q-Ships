@@ -37,8 +37,7 @@
     gameAssets = []
     gameAssets.push({
       id: clientID,
-      width: this.width,
-      height: this.height,
+      state: this.players[this.findPlayerIndex(clientID)].state,
       items: this.items()
     })
     return JSON.stringify(gameAssets[0]);
@@ -115,6 +114,8 @@
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
         // delete this.players[i].ship;
         this.players[i].state = 3;
+        this.players[i].ship = new Ship(this.players[i].uuid);
+
         this.players[i].ship.x = 500 * Math.random();
         this.players[i].ship.y = 500 * Math.random();
         this.players[i].ship.dx = 0;
@@ -196,7 +197,7 @@
 
     // find the index of the player
     var index = this.findPlayerIndex(package.uuid);
-    if (this.players[index].state === 1 || this.players[i].state === 2) {
+    if (this.players[index].state === 1 || this.players[index].state === 2) {
     // update that specific player's ship's movements
       if(package.keys){
         //TODO update w/ find by id
@@ -207,9 +208,15 @@
       }
     }
     // update that specific player's pew's movements
-    if (this.players[i].state === 2) { 
-      if(package.fire){
+    if (this.players[index].state === 2) { 
+      if (package.fire) {
         this.players[index].ship.sayPew();
+      }
+    }
+    if (this.players[index].state === 0) {
+      if (package.start) {
+        this.players[index].state = 1;
+        this.players[index].spawn();
       }
     }
   };

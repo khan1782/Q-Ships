@@ -67,6 +67,15 @@
     execute();
   }
 
+  Renderer.prototype.showState = function(state) {
+    var welcome = document.getElementById("welcome");
+    if (state !== 0) {
+      welcome.setAttribute("class", "hidden");
+    } else {
+      welcome.removeAttribute("class")
+    }
+  }
+
 
   // ----------------------KEYS-----------------------------
   var itemKey = {

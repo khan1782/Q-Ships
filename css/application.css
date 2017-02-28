@@ -36,3 +36,17 @@ body, html {
   margin-right: auto;
   margin-top: 5%;
 }
+
+#welcome {
+  z-index: 15;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0; 
+  color: chartreuse;
+}
+
+.hidden {
+  display: none;
+}

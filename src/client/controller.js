@@ -22,11 +22,11 @@ var canvas = document.getElementById("gameCanvas")
   render = new Renderer(canvas);
 
       ws.onmessage = function (event) {
+        console.log(event.data)
         // console.log("received")
         // console.log(JSON.parse(event.data))
         var snapshot = JSON.parse(event.data);
         render.objectsArray = snapshot.items;
-          
         render.id = snapshot.id;
         
       };

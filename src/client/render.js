@@ -83,7 +83,7 @@
     spawnship: {width: 10, height: 20},
     pew:      {width: 4, height: 10},
     astroid:  {width: 40, height: 40},
-    debris:  {width: 10, height: 10},
+    debris:  {width: 7, height: 7},
     shrapnel: {width: 3, height: 3}
   }
 

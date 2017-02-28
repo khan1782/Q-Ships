@@ -7,8 +7,8 @@
     this.isExpired = false;
     this.persistenceFactor = (Math.floor(Math.random()*3))
     this.destructionTimer();
-    this.height = 10;
-    this.width = 10;
+    this.height = 7;
+    this.width = 7;
     this.rad = 0;
   };
 
@@ -16,7 +16,7 @@
     var that = this
     setTimeout(function() {
       that.isExpired = true
-    }, 1500*this.persistenceFactor);
+    }, 500*this.persistenceFactor);
   }
 
   Debris.prototype.move = function(width, height) {

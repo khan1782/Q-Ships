@@ -1,7 +1,7 @@
 (function(){
   function Asteroid(){
-    this.x = (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
-    this.y = (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
+    this.x = Math.random() * 1000;
+    this.y = Math.random() * 1000;
     this.dx = (Math.floor(Math.random()*7)) * (Math.round(Math.random()) * 2 - 1);
     this.dy = (Math.floor(Math.random()*7)) * (Math.round(Math.random()) * 2 - 1);
     this.originalDx = this.dx;

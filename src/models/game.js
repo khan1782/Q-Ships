@@ -20,10 +20,8 @@
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
-
-   for (var i = 0; i < 7; i++){
-      var rock = new Asteroid();
-      this.asteroids.push(rock);
+   for (var i = 0; i < 3; i++){
+      this.spawnAsteroid();
    }
   }
 
@@ -95,7 +93,6 @@
       }
       for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
         this.players[i].ship.pewBay[j].move(this.width, this.height)
-        console.log(this.players[i].ship.hp)
       };
     }
 
@@ -149,12 +146,17 @@
     }
 
     for (var i = 0; i < this.asteroids.length; i++){
-        if (this.asteroids[i].hp < 1) {
+      if (this.asteroids[i].hp < 1) {
         this.explodeRock(this.asteroids[i].x, this.asteroids[i].y);
-        this.asteroids[i].hp = 20;
+        this.asteroids.splice(i, 1);
+        this.spawnAsteroid();
       }
     }
   };
+
+  Game.prototype.spawnAsteroid = function() {
+    this.asteroids.push(new Asteroid());
+  }
 
   Game.prototype.explodePew = function(coordinates) {
     var x = coordinates.x;
@@ -166,7 +168,6 @@
     this.shrapnelMaker(40, x, y);
   }
 
-
   Game.prototype.shrapnelMaker = function(amount, x, y) {
     for (var i = 0; i < amount; i++) {
       this.shrapnel.push(new Shrapnel(x, y));
@@ -174,7 +175,7 @@
   }
 
   Game.prototype.explodeRock = function(x, y) {
-    this.debrisMaker(15, x, y);
+    this.debrisMaker(28, x, y);
   }
 
   Game.prototype.debrisMaker = function(amount, x, y) {
@@ -271,7 +272,6 @@
       }
     }
   };
-
 
   Game.prototype.removeShrapnel = function() {
     for(var j = 0; j < this.shrapnel.length; j++){

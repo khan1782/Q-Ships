@@ -5,6 +5,12 @@
   if (typeof require !== "undefined") {
     var Shrapnel = require("./shrapnel.js")
   }
+  if (typeof require !== "undefined") {
+    var Asteroid = require("./asteroid.js")
+  }
+  if (typeof require !== "undefined") {
+    var Debris = require("./debris.js")
+  }
 
   //Game Class and associated functions
   function Game() {
@@ -12,6 +18,11 @@
    this.height = 1000;
    this.players = [];
    this.shrapnel =[];
+   this.asteroids = [];
+   this.debris = [];
+   for (var i = 0; i < 3; i++){
+      this.spawnAsteroid();
+   }
   }
 
   //Create collection of snapshots of all objects in game packaged for renderer.
@@ -26,9 +37,18 @@
           gameItems.push(this.players[i].ship.pewBay[j].snapshot())
         }
       }
-      for(var k = 0; k < this.shrapnel.length; k++){
+
+      for (var k = 0; k < this.shrapnel.length; k++) {
         gameItems.push(this.shrapnel[k].snapshot())
       }
+    }
+
+    for (var l = 0; l < this.asteroids.length; l++) {
+      gameItems.push(this.asteroids[l].snapshot())
+    }
+
+    for (var m = 0; m < this.debris.length; m++) {
+      gameItems.push(this.debris[m].snapshot())
     }
     return gameItems;
   }
@@ -76,13 +96,20 @@
       };
     }
 
-    for(var k = 0;k < this.shrapnel.length; k++){
-      this.shrapnel[k].move(this.width,this.height)
+    for(var k = 0; k < this.shrapnel.length; k++){
+      this.shrapnel[k].move(this.width, this.height)
+    };
+
+    for(var l = 0; l < this.asteroids.length; l++){
+      this.asteroids[l].move(this.width, this.height)
+    };
+
+    for(var l = 0; l < this.debris.length; l++){
+      this.debris[l].move(this.width, this.height)
     };
   }
 
   //game loop will run 50 fps and run new frame and checkers
-
   Game.prototype.gameLoop = function() {
     var that = this;
     setInterval(function(){
@@ -97,10 +124,11 @@
   Game.prototype.checkers = function() {
 
     // invoke ouch() to check for collisions and update objects
-    this.ouch()
+    this.ouch();
 
-    //  remove all shrapnels
-    this.removeShrapnel()
+    //  remove all shrapnels & debris
+    this.removeShrapnel();
+    this.removeDebris();
 
     // go through each player...
     for (var i = 0; i < this.players.length; i++) {
@@ -115,8 +143,20 @@
         // reseting player state
         this.players[i].state = 0;
       }
-    };
+    }
+
+    for (var i = 0; i < this.asteroids.length; i++){
+      if (this.asteroids[i].hp < 1) {
+        this.explodeRock(this.asteroids[i].x, this.asteroids[i].y);
+        this.asteroids.splice(i, 1);
+        this.spawnAsteroid();
+      }
+    }
   };
+
+  Game.prototype.spawnAsteroid = function() {
+    this.asteroids.push(new Asteroid());
+  }
 
   Game.prototype.explodePew = function(coordinates) {
     var x = coordinates.x;
@@ -134,21 +174,34 @@
     }
   }
 
+  Game.prototype.explodeRock = function(x, y) {
+    this.debrisMaker(28, x, y);
+  }
+
+  Game.prototype.debrisMaker = function(amount, x, y) {
+    for (var i = 0; i < amount; i++) {
+      this.debris.push(new Debris(x, y));
+    }
+  }
+
   // collision detection for all objects
   Game.prototype.ouch = function() {
     allCollidableObjects = this.collidableObjects();
 
     for (var i = 0; i < allCollidableObjects.length; i++) {
       var ufo1 = allCollidableObjects[i];
+
       for (var j = i + 1; j < allCollidableObjects.length; j++) {
         var ufo2 = allCollidableObjects[j];
         if (this.isColliding(ufo1, ufo2)) {
           ufo1.hp -= 1;
           ufo2.hp -= 1;
-          ufo1.dx *= (1/10);
-          ufo1.dy *= (1/10);
-          ufo2.dx *= (1/10);
-          ufo2.dy *= (1/10);
+
+          ufo1.dx *= (1/2);
+          ufo1.dy *= (1/2);
+
+          ufo2.dx *= (1/2);
+          ufo2.dy *= (1/2);
         }
       }
     }
@@ -157,6 +210,13 @@
   // collect every existing object with hp
   Game.prototype.collidableObjects = function() {
     var collidableObjects = [];
+
+    // collect all the astroids
+    for (var k = 0; k < this.asteroids.length; k++) {
+      collidableObjects.push(this.asteroids[k]);
+    }
+
+    // collect all the spaceships and pews
     for (var i = 0; i < this.players.length; i++) {
       if (this.players[i].state === 2) {
         collidableObjects.push(this.players[i].ship);
@@ -213,11 +273,18 @@
     }
   };
 
-
   Game.prototype.removeShrapnel = function() {
     for(var j = 0; j < this.shrapnel.length; j++){
       if(this.shrapnel[j].isExpired === true){
         this.shrapnel.splice(j,1);
+      }
+    }
+  };
+
+  Game.prototype.removeDebris = function() {
+    for(var j = 0; j < this.debris.length; j++){
+      if(this.debris[j].isExpired === true){
+        this.debris.splice(j,1);
       }
     }
   };

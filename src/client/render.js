@@ -79,11 +79,12 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:      {width: 20, height: 40},
+    ship:     {width: 20, height: 40},
     spawnship: {width: 10, height: 20},
-    merg:      {width: 15, height: 25},
-    pew:       {width:4, height: 10},
-    shrapnel:  {width:3, height:3}
+    pew:      {width: 4, height: 10},
+    astroid:  {width: 40, height: 40},
+    debris:  {width: 7, height: 7},
+    shrapnel: {width: 3, height: 3}
   }
 
   if (typeof module !== "undefined") {

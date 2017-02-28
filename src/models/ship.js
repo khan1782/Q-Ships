@@ -49,7 +49,7 @@
         var newdx = this.dx + this.thrust * Math.cos(this.rad);
         var newdy = this.dy + this.thrust * Math.sin(this.rad);
         var newRad = Math.atan2(newdy, newdx);
-        
+
         this.dx = this.maxSpeed * Math.cos(newRad);
         this.dy = this.maxSpeed * Math.sin(newRad);
       }
@@ -106,7 +106,7 @@
     if (this.y > height) {
       this.y = this.y - height;
     } else if (this.y < 0) {
-      this.y = this.y + height;   
+      this.y = this.y + height;
     }
   }
 

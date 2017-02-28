@@ -3,17 +3,18 @@
     var Ship = require("./ship.js")
   }
 
+  function Player(uuid) {
+    this.state = PLAYER_STATE.start;
+    this.uuid = uuid;
+    this.ship = new Ship(uuid);
+  }
+
   var PLAYER_STATE = {
     start: 0,
     spawn: 1,
     alive: 2
   }
 
-  function Player(uuid) {
-    this.state = PLAYER_STATE.start;
-    this.uuid = uuid;
-    this.ship = new Ship(uuid);
-  }
 
   Player.prototype.spawn = function() {
     var spawner = this

@@ -1,5 +1,5 @@
 var HOST = location.origin.replace(/^http/, 'ws')
-var ws = new WebSocket(HOST);   
+var ws = new WebSocket(HOST);
 
 
 
@@ -22,10 +22,10 @@ var canvas = document.getElementById("gameCanvas")
   render = new Renderer(canvas);
 
       ws.onmessage = function (event) {
-        console.log(event)
         var snapshot = JSON.parse(event.data);
         render.objectsArray = snapshot.items;
         render.id = snapshot.id;
+
         state = JSON.parse(event.data).state;
         render.showState(state);
       };

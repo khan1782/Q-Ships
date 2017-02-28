@@ -147,8 +147,12 @@
       for (var j = i + 1; j < allCollidableObjects.length; j++) {
         var ufo2 = allCollidableObjects[j];
         if (this.isColliding(ufo1, ufo2)) {
-          ufo1.hp -= 5;
-          ufo2.hp -= 5;
+          ufo1.hp -= 1;
+          ufo2.hp -= 1;
+          ufo1.dx *= (1/10);
+          ufo1.dy *= (1/10);
+          ufo2.dx *= (1/10);
+          ufo2.dy *= (1/10);
         }
       }
     }

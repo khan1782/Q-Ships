@@ -44,13 +44,14 @@
   //function responds to booleans set by player keystrokes. Controls thrust, brake, and rotation of ship.
   Ship.prototype.navigateTheStars = function() {
     if (this.keys.up === true) {
-      if (this.speed() < this.maxSpeed) {
-        this.dx += this.thrust * Math.cos(this.rad);
-        this.dy += this.thrust * Math.sin(this.rad);
-      } else {
+      this.dx += this.thrust * Math.cos(this.rad);
+      this.dy += this.thrust * Math.sin(this.rad);
+
+      if (this.speed() > this.maxSpeed) {
         var newdx = this.dx + this.thrust * Math.cos(this.rad);
         var newdy = this.dy + this.thrust * Math.sin(this.rad);
         var newRad = Math.atan2(newdy, newdx);
+        
         this.dx = this.maxSpeed * Math.cos(newRad);
         this.dy = this.maxSpeed * Math.sin(newRad);
       }

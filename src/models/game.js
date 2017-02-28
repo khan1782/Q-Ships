@@ -19,7 +19,9 @@
     var gameItems = [];
     for (var i = 0; i < this.players.length; i++) {
       if (this.players[i].ship){
-        gameItems.push(this.players[i].ship.snapshot());
+        if (this.players[i].state === 1 || this.players[i].state === 2) {
+          gameItems.push(this.players[i].ship.snapshot());
+        }
         for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
           gameItems.push(this.players[i].ship.pewBay[j].snapshot())
         }
@@ -37,7 +39,6 @@
       id: clientID,
       width: this.width,
       height: this.height,
-      state: this.state,
       items: this.items()
     })
     return JSON.stringify(gameAssets[0]);
@@ -67,9 +68,10 @@
   //Master function to make all objects move (active and passive).
   Game.prototype.makeTheWorldMove = function() {
     for (var i = 0; i < this.players.length; i++) {
-      this.players[i].ship.navigateTheStars();
-      this.players[i].ship.move(this.width, this.height);
-
+      if (this.players[i].state === 1 || this.players[i].state === 2) {
+        this.players[i].ship.navigateTheStars();
+        this.players[i].ship.move(this.width, this.height);
+      }
       for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
         this.players[i].ship.pewBay[j].move(this.width, this.height)
       };
@@ -109,9 +111,10 @@
         // invoke explodePew() to create shrapnels...
         this.explodePew(explodingPews[j]);
       }
-      if (this.players[i].ship.hp < 1) {
+      if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
         // delete this.players[i].ship;
+        this.players[i].state = 3;
         this.players[i].ship.x = 500 * Math.random();
         this.players[i].ship.y = 500 * Math.random();
         this.players[i].ship.dx = 0;
@@ -162,9 +165,11 @@
   Game.prototype.collidableObjects = function() {
     var collidableObjects = [];
     for (var i = 0; i < this.players.length; i++) {
-      collidableObjects.push(this.players[i].ship);
-      for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
-      collidableObjects.push(this.players[i].ship.pewBay[j]);
+      if (this.players[i].state === 2) {
+        collidableObjects.push(this.players[i].ship);
+        for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
+          collidableObjects.push(this.players[i].ship.pewBay[j]);
+        }
       }
     }
     return collidableObjects;
@@ -191,19 +196,21 @@
 
     // find the index of the player
     var index = this.findPlayerIndex(package.uuid);
-
+    if (this.players[index].state === 1 || this.players[i].state === 2) {
     // update that specific player's ship's movements
-    if(package.keys){
-      //TODO update w/ find by id
-      this.players[index].ship.keys.up = package.keys.up;
-      this.players[index].ship.keys.down = package.keys.down;
-      this.players[index].ship.keys.left = package.keys.left;
-      this.players[index].ship.keys.right = package.keys.right;
+      if(package.keys){
+        //TODO update w/ find by id
+        this.players[index].ship.keys.up = package.keys.up;
+        this.players[index].ship.keys.down = package.keys.down;
+        this.players[index].ship.keys.left = package.keys.left;
+        this.players[index].ship.keys.right = package.keys.right;
+      }
     }
-
     // update that specific player's pew's movements
-    if(package.fire){
-      this.players[index].ship.sayPew();
+    if (this.players[i].state === 2) { 
+      if(package.fire){
+        this.players[index].ship.sayPew();
+      }
     }
   };
 

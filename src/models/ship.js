@@ -151,7 +151,7 @@
       x: this.x,
       y: this.y,
       rad: this.rad,
-      type: "ship"
+      type: this.type
     }
   }
 

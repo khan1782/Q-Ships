@@ -5,8 +5,9 @@
 
   var PLAYER_STATE = {
     start: 0,
-    alive: 1,
-    dead: 2
+    spawn: 1,
+    alive: 2,
+    dead: 3
   }
 
   function Player(uuid) {

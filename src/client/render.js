@@ -87,10 +87,5 @@
     shrapnel: {width: 3, height: 3}
   }
 
-  if (typeof module !== "undefined") {
-    module.exports = Renderer;
-  } else {
-    window.Renderer = Renderer;
-  }
-
+  window.Renderer = Renderer;
 })()

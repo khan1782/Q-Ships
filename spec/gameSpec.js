@@ -6,14 +6,11 @@ describe("Game Model", function() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   }
 
-  var game;
-  var uniqueID = uuid();
 
+  var game;
   beforeEach(function() {
-    // instantiate a new game...
     game = new Game();
-    // instantiate a new player with an unique ID...
-    game.addPlayer(uniqueID);
+    game.addPlayer(uuid());
   });
 
   it("can add a player with an unique ID.", function() {

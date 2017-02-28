@@ -3,12 +3,12 @@
     var Pew = require("./pew.js")
   }
   function Ship(uuid) {
-    this.x = Ship.defaults.x;
-    this.y = Ship.defaults.y;
+    this.x = Math.random() * 800 + 100;
+    this.y = Math.random() * 800 + 100;
     this.height = Ship.defaults.height;
     this.width = Ship.defaults.width;
     this.rad = Ship.defaults.rad;
-    this.type = "ship";
+    this.type = "spawnship";
     this.keys = {
       up: false,
       down: false,
@@ -27,8 +27,6 @@
   };
 
   Ship.defaults = {
-    x: Math.random() * 800 + 100,
-    y: Math.random() * 800 + 100,
     height: 40,
     width: 20,
     rad: -(Math.PI/2),

@@ -113,8 +113,7 @@
       if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
         this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
         // delete this.players[i].ship;
-        this.players[i].state = 3;
-        this.players[i].ship = new Ship(this.players[i].uuid);
+        this.players[i].state = 0;
 
         // this.players[i].ship.x = 500 * Math.random();
         // this.players[i].ship.y = 500 * Math.random();

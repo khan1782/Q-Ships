@@ -22,28 +22,40 @@ var game = new Game()
 game.gameLoop()
 
 
-var CLIENTS = [];
 
+var CLIENTS = []; 
 //in some situation, receive on close, and trying to remove form client, set interval and interupts it.
 wss.on('connection', (ws) => {
-  CLIENTS.push(ws);
-  var playerIndex = CLIENTS.indexOf(ws);
   console.log('Client connected');
-  game.addPlayer(playerIndex)
+  CLIENTS.push(ws)
+  var playerID = CLIENTS.indexOf(ws)
+  game.addPlayer(playerID);
+  
+  //example incoming message: {uuid: uuid, keys: {up: false, down: false, left: false, right: false}
   ws.on('message', (ws) => {
-    var playerKeyStrokes =  ws;
-    game.updateEntity(playerKeyStrokes)
+    game.updateEntity(ws)
   });
-  ws.on('close', (client) => {
-    //loop through clients and find the client that quit and remove them
-    CLIENTS.splice(CLIENTS.indexOf(client),1);
-    console.log('Client disconnected');
-})
 });
 
+//outgoing snapshots of game loop
+
 setInterval(() => {
-  //what if this contains a disconnected client
-  for (var j = 0; j < CLIENTS.length; j++) {
-    CLIENTS[j].send(game.snapshot(j))
+  for(var i=0;i<CLIENTS.length;i++){
+    //calling readyState on client returns 0 1 2 3 
+      //0 means connection is not established
+      //1 is connection established
+      //2 is in closing handshake
+      //3 connection closed or could not open
+    if(CLIENTS[i] !== undefined && CLIENTS[i].readyState === 1){
+      CLIENTS[i].send(game.snapshot(i))
+    } else if(CLIENTS[i] !== undefined && CLIENTS[i].readyState === 3){
+      game.removePlayer(i)
+      delete CLIENTS[i]
+      //when all players leave, reset the array of clients
+      if(CLIENTS.join("").length === 0){
+        CLIENTS = []
+      }
+    }
+    // }
   }
-}, 1000/60);
+}, 1000/50);

@@ -169,7 +169,7 @@ Game.prototype.checkers = function() {
   }
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
-      if (this.asteroids[i].hitby) {
+      if (this.asteroids[i].hitby !== "undefined") {
         var killer = this.players[this.findPlayerIndex(this.asteroids[i].hitby)];
         if (killer && killer.ship) {
           this.bounty(killer, "asteroid");

@@ -17,7 +17,6 @@
 
   //iterate through all of the snapshot assets and run draw and each one
   Renderer.prototype.populateUniverse = function(){
-    console.log("ASD")
     //clear the canvas before very frame
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
     //check if there is any input from WS

@@ -12,7 +12,6 @@
     //start lawn mower
     this.ctx = this.canvas.getContext("2d");
 
-    this.colors = ["tomato","teal","red","white","violet","green","blue","yellow","tomato","grey","brown","orange","purple","palevioletred","palegreen","paleturquoise","darksalmon"]
     this.ticker = 0
   }
 
@@ -49,35 +48,35 @@
         ][ticker]
     } else if (type === "upLeftShip") {
       image.src = [
-      "http://i.imgur.com/HB35u91.png",
-      "http://i.imgur.com/YigBqAN.png",
-      "http://i.imgur.com/utjjT1j.png",
-      "http://i.imgur.com/jIrky4d.png",
-      "http://i.imgur.com/jIrky4d.png"
+        "http://i.imgur.com/HB35u91.png",
+        "http://i.imgur.com/YigBqAN.png",
+        "http://i.imgur.com/utjjT1j.png",
+        "http://i.imgur.com/jIrky4d.png",
+        "http://i.imgur.com/jIrky4d.png"
       ][ticker]
     } else if (type === "upRightShip") {
       image.src = [
-      "http://i.imgur.com/dIf6OBS.png",
-      "http://i.imgur.com/8CuW90w.png",
-      "http://i.imgur.com/2LHj4HA.png",
-      "http://i.imgur.com/6GdvCm6.png",
-      "http://i.imgur.com/6GdvCm6.png"
+        "http://i.imgur.com/dIf6OBS.png",
+        "http://i.imgur.com/8CuW90w.png",
+        "http://i.imgur.com/2LHj4HA.png",
+        "http://i.imgur.com/6GdvCm6.png",
+        "http://i.imgur.com/6GdvCm6.png"
       ][ticker]
     } else if (type === "leftShip") {
       image.src = [
-      "http://i.imgur.com/dPVBJQf.png",
-      "http://i.imgur.com/xEy0DFC.png",
-      "http://i.imgur.com/asyEDMw.png",
-      "http://i.imgur.com/Ji7Y4sk.png",
-      "http://i.imgur.com/wDOXFjK.png"
+        "http://i.imgur.com/dPVBJQf.png",
+        "http://i.imgur.com/xEy0DFC.png",
+        "http://i.imgur.com/asyEDMw.png",
+        "http://i.imgur.com/Ji7Y4sk.png",
+        "http://i.imgur.com/wDOXFjK.png"
       ][ticker]
     } else if (type === "rightShip") {
       image.src = [
-      "http://i.imgur.com/7LUcTQ9.png",
-      "http://i.imgur.com/R17dabw.png",
-      "http://i.imgur.com/F9ZJVCJ.png",
-      "http://i.imgur.com/5s52V4w.png",
-      "http://i.imgur.com/IuQkhWJ.png"
+        "http://i.imgur.com/7LUcTQ9.png",
+        "http://i.imgur.com/R17dabw.png",
+        "http://i.imgur.com/F9ZJVCJ.png",
+        "http://i.imgur.com/5s52V4w.png",
+        "http://i.imgur.com/IuQkhWJ.png"
       ][ticker]
     } else if (type === "pumpYourBrakes") {
       image.src = "http://i.imgur.com/h6kWQjf.png";
@@ -118,6 +117,8 @@
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
         this.ctx.globalAlpha = 1.0
       } else{
+
+      this.ctx.fillStyle = "RBG"
       // draw the image at its own center point
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
       }

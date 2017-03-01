@@ -37,10 +37,17 @@
 
     if(type === "ship" || type === "spawnship"){
       // image.src = "http://i.imgur.com/2JndZdm.png";
-      image.src = "http://i.imgur.com/wgbq0fh.png";
+      image.src = "http://i.imgur.com/JDMrHaJ.png";
 
     } else if (type === "upShip") {
-       image.src = ["http://i.imgur.com/VnPR2Dq.png", "http://i.imgur.com/ZYowoUc.png","http://i.imgur.com/R64ZG2I.png"][ticker]
+       image.src = [
+        "http://i.imgur.com/OjQL9nk.png",
+        "http://i.imgur.com/Ice0ahG.png",
+        "http://i.imgur.com/LPSjtUm.png",
+        "http://i.imgur.com/2LoRrxL.png",
+        "http://i.imgur.com/dDo84hf.png",
+        "http://i.imgur.com/xeSWbGW.png"
+        ][ticker]
     } else if (type === "upLeftShip") {
       image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "upRightShip") {
@@ -91,7 +98,7 @@
       }
 
       // roll through ticker to reset its value ... 0, 1, 2
-      this.ticker === 2 ? this.ticker = 0 : this.ticker += 1
+      this.ticker === 5 ? this.ticker = 0 : this.ticker += 1
     }
 
 

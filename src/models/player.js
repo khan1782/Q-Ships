@@ -5,6 +5,7 @@ function Player(uuid) {
   this.uuid = uuid;
   this.ship = new Ship(uuid);
   this.score = 0;
+  this.name = "Player" + uuid;
 }
 
 var PLAYER_STATE = {

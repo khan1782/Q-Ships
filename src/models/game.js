@@ -5,20 +5,22 @@ var Debris = require("./debris.js")
 
   //Game Class and associated functions
   function Game() {
-   this.width = 2500;
-   this.height = 2500;
-   this.players = [];
-   this.shrapnel =[];
-   this.asteroids = [];
-   this.debris = [];
-   for (var i = 0; i < 8; i++){
-      this.spawnAsteroid();
-   }
+     this.width = 2500;
+     this.height = 2500;
+     this.players = [];
+     this.shrapnel =[];
+     this.asteroids = [];
+     this.debris = [];
+     for (var i = 0; i < 8; i++){
+        this.spawnAsteroid();
+     }
+     this.scores = {};
   }
 
 //Create collection of snapshots of all objects in game packaged for renderer.
 Game.prototype.items = function() {
   var gameItems = [];
+  var currentScores = [];
   for (var i = 0; i < this.players.length; i++) {
     if (this.players[i].ship){
       if (this.players[i].state === 1 || this.players[i].state === 2) {
@@ -28,6 +30,12 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
+    // build scores object
+    currentScores.push({
+      id: this.players[i].uuid,
+      name: this.players[i].name,
+      score: this.players[i].score
+    })  
   }
   for (var k = 0; k < this.shrapnel.length; k++) {
     gameItems.push(this.shrapnel[k].snapshot())
@@ -38,6 +46,7 @@ Game.prototype.items = function() {
   for (var m = 0; m < this.debris.length; m++) {
     gameItems.push(this.debris[m].snapshot())
   }
+  this.scores = currentScores;
   return gameItems;
 }
 
@@ -45,6 +54,7 @@ Game.prototype.snapshot = function(clientID) {
   thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
+    score: this.scores,
     player: {
       id: clientID,
       state: thisPlayer.state,
@@ -56,6 +66,9 @@ Game.prototype.snapshot = function(clientID) {
   return JSON.stringify(gameAssets[0]);
 }
 
+Game.prototype.scoreSnapshot = function() {
+
+}
 Game.prototype.findPlayerIndex = function(uuid) {
   for (var i = 0; i < this.players.length; i++) {
     if (this.players[i].uuid === uuid) {
@@ -124,7 +137,6 @@ Game.prototype.checkers = function() {
 
   // go through each player...
   for (var i = 0; i < this.players.length; i++) {
-    console.log(this.players[i]);
     // collect all the pews that exploded...
     var explodingPews = this.players[i].ship.removePew();
     for (var j = 0; j < explodingPews.length; j++) {

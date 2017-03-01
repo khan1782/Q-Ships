@@ -12,7 +12,7 @@
     //start lawn mower
     this.ctx = this.canvas.getContext("2d");
 
-    this.colors = ["red","white","violet","green","blue","yellow","tomato","grey","brown","orange","purple"]
+    this.colors = ["tomato","teal","red","white","violet","green","blue","yellow","tomato","grey","brown","orange","purple","palevioletred","palegreen","paleturquoise","darksalmon"]
   }
 
   //iterate through all of the snapshot assets and run draw and each one
@@ -35,7 +35,7 @@
     var dims = this.dimensions(object)
     // paste object accounting for it's angle using canvas rotate function
     if(object.type === "ship" || object.type === "spawnship"){
-      this.ctx.fillStyle = this.colors[this.player.id]
+      this.ctx.fillStyle = this.colors[object.id % this.colors.length]
     } else {
       this.ctx.fillStyle ="white";
     }

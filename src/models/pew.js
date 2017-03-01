@@ -1,6 +1,6 @@
 //pew class (missiles) and associated functions
 function Pew(uuid, x, y, dx, dy, rad) {
-  var pewThrust = 10;
+  var pewThrust = 15;
   this.x = x;
   this.y = y;
   this.width = 4;
@@ -34,7 +34,7 @@ Pew.prototype.destructionTimer = function() {
   var that = this
   setTimeout(function() {
     that.isExpired = true
-  }, 900);
+  }, 1300);
 };
 
 Pew.prototype.snapshot = function() {

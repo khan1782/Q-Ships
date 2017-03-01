@@ -24,36 +24,34 @@ function Ship(uuid) {
   this.hitBuffer = Ship.defaults.hitBuffer;
 };
 
-  Ship.defaults = {
-    height: 40,
-    width: 20,
-    rad: -(Math.PI/2),
-    initialDx: 0,
-    initialDy: 0,
-    thrust: .25,
-    rotate: (Math.PI/30),
-    maxSpeed: 10,
-    hp: 5,
-    hitBuffer: 20
-  }
+Ship.defaults = {
+  height: 40,
+  width: 20,
+  rad: -(Math.PI/2),
+  initialDx: 0,
+  initialDy: 0,
+  thrust: .25,
+  rotate: (Math.PI/30),
+  maxSpeed: 10,
+  hp: 5,
+  hitBuffer: 20
+}
 
-  //function responds to booleans set by player keystrokes. Controls thrust, brake, and rotation of ship.
-  Ship.prototype.navigateTheStars = function() {
-    if (this.keys.up === true) {
-      this.dx += this.thrust * Math.cos(this.rad);
-      this.dy += this.thrust * Math.sin(this.rad);
+//function responds to booleans set by player keystrokes. Controls thrust, brake, and rotation of ship.
+Ship.prototype.navigateTheStars = function() {
+  if (this.keys.up === true) {
+    this.dx += this.thrust * Math.cos(this.rad);
+    this.dy += this.thrust * Math.sin(this.rad);
 
-      if (this.speed() > this.maxSpeed) {
-        var newdx = this.dx + this.thrust * Math.cos(this.rad);
-        var newdy = this.dy + this.thrust * Math.sin(this.rad);
-        var newRad = Math.atan2(newdy, newdx);
+    if (this.speed() > this.maxSpeed) {
+      var newdx = this.dx + this.thrust * Math.cos(this.rad);
+      var newdy = this.dy + this.thrust * Math.sin(this.rad);
+      var newRad = Math.atan2(newdy, newdx);
 
-        this.dx = this.maxSpeed * Math.cos(newRad);
-        this.dy = this.maxSpeed * Math.sin(newRad);
-      }
+      this.dx = this.maxSpeed * Math.cos(newRad);
+      this.dy = this.maxSpeed * Math.sin(newRad);
     }
   }
-
 //Down to apply brakes
   if (this.keys.down === true) {
     if (this.dx < 0) {
@@ -67,24 +65,20 @@ function Ship(uuid) {
       this.dy -= .5;
     }
   }
-
 //Logic for 1/2 speed reverse acceleration
-    // if (this.speed() < this.maxSpeed) {
-    //   this.dx -= this.thrust / 2 * Math.cos(this.rad);
-    //   this.dy -= this.thrust / 2 * Math.sin(this.rad);
-    // } else {
-      // newdx = this.dx + this.thrust / 2 * Math.cos(this.rad);
-      // newdy = this.dy + this.thrust / 2 * Math.sin(this.rad);
-      // newRad = Math.atan2(newdy, newdx);
-      // this.dx = this.maxSpeed * Math.cos(newRad);
-      // this.dy = this.maxSpeed * Math.sin(newRad);
+  // if (this.speed() < this.maxSpeed) {
+  //   this.dx -= this.thrust / 2 * Math.cos(this.rad);
+  //   this.dy -= this.thrust / 2 * Math.sin(this.rad);
+  // } else {
+    // newdx = this.dx + this.thrust / 2 * Math.cos(this.rad);
+    // newdy = this.dy + this.thrust / 2 * Math.sin(this.rad);
+    // newRad = Math.atan2(newdy, newdx);
+    // this.dx = this.maxSpeed * Math.cos(newRad);
+    // this.dy = this.maxSpeed * Math.sin(newRad);
     // }
-
-
   if (this.keys.left === true) {
     this.rad -= this.rotate;
   }
-
   if (this.keys.right === true) {
     this.rad += this.rotate;
   }

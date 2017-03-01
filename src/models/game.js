@@ -11,7 +11,7 @@ var Debris = require("./debris.js")
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
-   for (var i = 0; i < 15; i++){
+   for (var i = 0; i < 8; i++){
       this.spawnAsteroid();
    }
   }
@@ -48,8 +48,8 @@ Game.prototype.snapshot = function(clientID) {
     player: {
       id: clientID,
       state: thisPlayer.state,
-      x: thisPlayer.x,
-      y: thisPlayer.y
+      x: thisPlayer.ship.x,
+      y: thisPlayer.ship.y
     },
     items: this.items()
   })

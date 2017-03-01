@@ -22,26 +22,32 @@ var canvas = document.getElementById("gameCanvas")
 
 //build array of local object
 var itemsNearby = function(snapshot) {
-  var x = snapshot.player.x || 500;
-  var y = snapshot.player.y || 500;
+  var x = snapshot.player.x;
+  var y = snapshot.player.y;
+  var xtoEdge = window.innerWidth / 2;
+  var ytoEdge = window.innerHeight / 2;
+  var xoffset = xtoEdge - x;
+  var yoffset = ytoEdge - y;
   var width = 2500;
   var height = 2500;
   var items = snapshot.items;
   var neighbors = [];
-  for (i = 0; i < items.length; i++) {
-    if (x < 500 && (width - items[i].x + x) < 500) {
+  for (var i = 0; i < items.length; i++) {
+    if (x < xtoEdge && (width - items[i].x + x) < xtoEdge) {
       items[i].x -= width;
     }
-    if (x > 2000 && (width + items[i].x - x ) < 500) {
+    if (x > width - xtoEdge && (width + items[i].x - x ) < xtoEdge) {
       items[i].x += width;
     }
-    if(y < 500 && (height - items[i].y + y) < 500){
+    if(y < ytoEdge && (height - items[i].y + y) < ytoEdge){
       items[i].y -= height
     }
-    if (y > 2000 && (height + items[i].y - y ) < 500) {
+    if (y > width - ytoEdge && (height + items[i].y - y ) < ytoEdge) {
       items[i].y += height;
     }
-    if (Math.abs(items[i].x-x) < 500 && Math.abs(items[i].y-y) < 500) {
+    if (Math.abs(items[i].x-x) < xtoEdge && Math.abs(items[i].y-y) < ytoEdge) {
+      items[i].x += xoffset;
+      items[i].y += yoffset;
       neighbors.push(items[i]);
     }
   }
@@ -52,12 +58,11 @@ var itemsNearby = function(snapshot) {
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
-  render.objectsArray = itemsNearby(JSON.parse(event.data));
-  render.id = snapshot.id;
-  state = JSON.parse(event.data).player.state;
-  render.showState(state);
+  var snapshot = JSON.parse(event.data);
+  render.objectsArray = itemsNearby(snapshot);
+  render.player = snapshot.player;
+  render.showState(snapshot.player.state);
 };
-
 render.tickTock();
 
 //----------------------------------------------
@@ -128,5 +133,5 @@ function keyStrokeListeners(uuid) {
 
 //TODO: fix this hack
 setTimeout(function(){
-  keyStrokeListeners(render.id)
+  keyStrokeListeners(render.player.id)
 }, 1000)

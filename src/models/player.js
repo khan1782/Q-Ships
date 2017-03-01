@@ -19,7 +19,7 @@ Player.prototype.spawn = function() {
   setTimeout(function() {
     spawner.state = PLAYER_STATE.alive;
     spawner.ship.type = "ship"
-  }, 5000);
+  }, 3210); //GO! :D
 }
 
 module.exports = Player;

@@ -43,7 +43,7 @@ Pew.prototype.snapshot = function() {
     y: this.y,
     rad: this.rad,
     type: "pew",
-    id: uuid
+    id: this.uuid
   }
 }
 

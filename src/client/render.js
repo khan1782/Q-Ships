@@ -44,22 +44,47 @@
         "http://i.imgur.com/OjQL9nk.png",
         "http://i.imgur.com/Ice0ahG.png",
         "http://i.imgur.com/LPSjtUm.png",
-        "http://i.imgur.com/2LoRrxL.png",
         "http://i.imgur.com/dDo84hf.png",
         "http://i.imgur.com/xeSWbGW.png"
         ][ticker]
     } else if (type === "upLeftShip") {
-      image.src = "http://i.imgur.com/TpdKiZ3.png";
+      image.src = [
+      "http://i.imgur.com/HB35u91.png",
+      "http://i.imgur.com/YigBqAN.png",
+      "http://i.imgur.com/utjjT1j.png",
+      "http://i.imgur.com/jIrky4d.png",
+      "http://i.imgur.com/jIrky4d.png"
+      ][ticker]
     } else if (type === "upRightShip") {
-      image.src = "http://i.imgur.com/TpdKiZ3.png";
+      image.src = [
+      "http://i.imgur.com/dIf6OBS.png",
+      "http://i.imgur.com/8CuW90w.png",
+      "http://i.imgur.com/2LHj4HA.png",
+      "http://i.imgur.com/6GdvCm6.png",
+      "http://i.imgur.com/6GdvCm6.png"
+      ][ticker]
     } else if (type === "leftShip") {
-      image.src = "http://i.imgur.com/TpdKiZ3.png";
+      image.src = [
+      "http://i.imgur.com/dPVBJQf.png",
+      "http://i.imgur.com/xEy0DFC.png",
+      "http://i.imgur.com/asyEDMw.png",
+      "http://i.imgur.com/Ji7Y4sk.png",
+      "http://i.imgur.com/wDOXFjK.png"
+      ][ticker]
     } else if (type === "rightShip") {
-      image.src = "http://i.imgur.com/TpdKiZ3.png";
+      image.src = [
+      "http://i.imgur.com/7LUcTQ9.png",
+      "http://i.imgur.com/R17dabw.png",
+      "http://i.imgur.com/F9ZJVCJ.png",
+      "http://i.imgur.com/5s52V4w.png",
+      "http://i.imgur.com/IuQkhWJ.png"
+      ][ticker]
     } else if (type === "pumpYourBrakes") {
-      image.src = "http://i.imgur.com/TpdKiZ3.png";
+      image.src = "http://i.imgur.com/h6kWQjf.png";
     } else if (type === "astroid") {
       image.src = "http://i.imgur.com/8i5gG51.png";
+    } else if(type === "pew") {
+      image.src = "http://i.imgur.com/VioerDV.png"; 
     }
 
     return image;
@@ -82,7 +107,7 @@
 
 
 
-    if ( object.type === "debris" || object.type === "shrapnel" || object.type === "pew"){
+    if ( object.type === "debris" || object.type === "shrapnel"){
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
       // get the correct image tag based off the type
@@ -98,7 +123,7 @@
       }
 
       // roll through ticker to reset its value ... 0, 1, 2
-      this.ticker === 5 ? this.ticker = 0 : this.ticker += 1
+      this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
     }
 
 
@@ -145,14 +170,14 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:     {width: 60, height: 54},
-    spawnship: {width: 60, height: 54},
-    upShip:     {width: 60, height: 54},
-    upLeftShip:     {width: 60, height: 54},
-    upRightShip:     {width: 60, height: 54},
-    leftShip:     {width: 60, height: 54},
-    rightShip:     {width: 60, height: 54},
-    pumpYourBrakes:     {width: 45, height: 33},
+    ship:     {width: 65, height: 59},
+    spawnship: {width: 65, height: 59},
+    upShip:     {width: 65, height: 59},
+    upLeftShip:     {width: 65, height: 59},
+    upRightShip:     {width: 65, height: 59},
+    leftShip:     {width: 65, height: 59},
+    rightShip:     {width: 65, height: 59},
+    pumpYourBrakes:     {width: 65, height: 59},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},

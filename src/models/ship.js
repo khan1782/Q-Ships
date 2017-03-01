@@ -137,12 +137,20 @@ Ship.prototype.removePew = function() {
   return explodingPews;
 };
 
+
+//in this section based on the ships current truthful key strokes, we will dictate which type to send
 Ship.prototype.snapshot = function() {
+  var type;
+  if (this.keys.up === true){
+    type = "thrust"
+  } else {
+    type = this.type;
+  }
   return {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: this.type,
+    type: type,
     id: this.uuid
   }
 }

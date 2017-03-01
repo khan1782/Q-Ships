@@ -13,6 +13,7 @@
     this.ctx = this.canvas.getContext("2d");
 
     this.colors = ["tomato","teal","red","white","violet","green","blue","yellow","tomato","grey","brown","orange","purple","palevioletred","palegreen","paleturquoise","darksalmon"]
+    this.ticker = 0
   }
 
   //iterate through all of the snapshot assets and run draw and each one
@@ -29,19 +30,50 @@
     }
   };
 
+
+  Renderer.prototype.images = function(type,ticker){
+    var image = new Image()
+    ticker ||= 0
+    if(type === "ship"){
+      image.src = ["image.png"][ticker]
+    } else if(type === "thrust"){
+      image.src = ["image1.png","image2.png", "image3.png"][ticker]
+    }
+  };
+
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.draw = function(object){
-    //get dimensions from earlier function
     var dims = this.dimensions(object)
-    // paste object accounting for it's angle using canvas rotate function
-    if(object.type === "ship" || object.type === "spawnship"){
-      this.ctx.fillStyle = this.colors[object.id % this.colors.length]
-    } else {
-      this.ctx.fillStyle ="white";
-    }
+    // // paste object accounting for it's angle using canvas rotate function
+    // if(object.type === "ship" || object.type === "spawnship"){
+    //   this.ctx.fillStyle = this.colors[object.id % this.colors.length]f th
+    // } else if(object.type === "thrust") {
+
+    // }
+    // } else {
+    //   this.ctx.fillStyle ="white";
+    // }
+
+    //sample objects is {x, y, rad, uuid}
     this.ctx.translate(dims.midpointX, dims.midpointY);
     this.ctx.rotate(dims.rad-(Math.PI/2));
-    this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+
+    if(object.type === "thrust"){
+
+      this.ctx.drawImage(this.images(object.type,this.ticker), dims.width/(-2), dims.height/(-2))
+      
+      //roll through ticker 0, 1, 2
+      if(this.ticker === 2){
+        this.ticker = 0
+      } else{
+        this.ticker += 1
+      }
+
+    } else {
+    this.ctx.drawImage(Renderer.images(object.type), dims.width/(-2), dims.height/(-2))
+    // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+    }
+
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
     this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
   }

@@ -20,7 +20,8 @@ Player.prototype.spawn = function() {
   spawner.ship = new Ship(spawner.uuid)
   setTimeout(function() {
     spawner.state = PLAYER_STATE.alive;
-    spawner.ship.type = "ship"
+    spawner.ship.type = "ship";
+    spawner.ship.state = "inPlay";
   }, 3210); //GO! :D
 }
 

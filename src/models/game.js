@@ -5,13 +5,14 @@ var Debris = require("./debris.js")
 
   //Game Class and associated functions
   function Game() {
+
      this.width = 2500;
      this.height = 2500;
      this.players = [];
      this.shrapnel =[];
      this.asteroids = [];
      this.debris = [];
-     for (var i = 0; i < 8; i++){
+     for (var i = 0; i < 4; i++){
         this.spawnAsteroid();
      }
      this.scores = [];

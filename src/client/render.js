@@ -12,7 +12,7 @@
     //start lawn mower
     this.ctx = this.canvas.getContext("2d");
 
-    this.colors = ["tomato","teal","red","white","violet","green","blue","yellow","tomato","grey","brown","orange","purple","palevioletred","palegreen","paleturquoise","darksalmon"]
+    this.ticker = 0
   }
 
   //iterate through all of the snapshot assets and run draw and each one
@@ -29,20 +29,110 @@
     }
   };
 
+
+  Renderer.prototype.images = function(type,ticker){
+    var image = new Image();
+    var ticker = ticker || 0;
+
+    if(type === "ship" || type === "spawnship"){
+      // image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/JDMrHaJ.png";
+
+    } else if (type === "upShip") {
+       image.src = [
+        "http://i.imgur.com/OjQL9nk.png",
+        "http://i.imgur.com/Ice0ahG.png",
+        "http://i.imgur.com/LPSjtUm.png",
+        "http://i.imgur.com/dDo84hf.png",
+        "http://i.imgur.com/xeSWbGW.png"
+        ][ticker]
+    } else if (type === "upLeftShip") {
+      image.src = [
+        "http://i.imgur.com/HB35u91.png",
+        "http://i.imgur.com/YigBqAN.png",
+        "http://i.imgur.com/utjjT1j.png",
+        "http://i.imgur.com/jIrky4d.png",
+        "http://i.imgur.com/jIrky4d.png"
+      ][ticker]
+    } else if (type === "upRightShip") {
+      image.src = [
+        "http://i.imgur.com/dIf6OBS.png",
+        "http://i.imgur.com/8CuW90w.png",
+        "http://i.imgur.com/2LHj4HA.png",
+        "http://i.imgur.com/6GdvCm6.png",
+        "http://i.imgur.com/6GdvCm6.png"
+      ][ticker]
+    } else if (type === "leftShip") {
+      image.src = [
+        "http://i.imgur.com/dPVBJQf.png",
+        "http://i.imgur.com/xEy0DFC.png",
+        "http://i.imgur.com/asyEDMw.png",
+        "http://i.imgur.com/Ji7Y4sk.png",
+        "http://i.imgur.com/wDOXFjK.png"
+      ][ticker]
+    } else if (type === "rightShip") {
+      image.src = [
+        "http://i.imgur.com/7LUcTQ9.png",
+        "http://i.imgur.com/R17dabw.png",
+        "http://i.imgur.com/F9ZJVCJ.png",
+        "http://i.imgur.com/5s52V4w.png",
+        "http://i.imgur.com/IuQkhWJ.png"
+      ][ticker]
+    } else if (type === "pumpYourBrakes") {
+      image.src = "http://i.imgur.com/h6kWQjf.png";
+    } else if (type === "astroid") {
+      image.src = "http://i.imgur.com/8i5gG51.png";
+    } else if(type === "pew") {
+      image.src = "http://i.imgur.com/VioerDV.png"; 
+    }
+
+    return image;
+  };
+
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.draw = function(object){
-    //get dimensions from earlier function
-    var dims = this.dimensions(object)
-    // paste object accounting for it's angle using canvas rotate function
-    if(object.type === "ship" || object.type === "spawnship"){
-      this.ctx.fillStyle = this.colors[object.id % this.colors.length]
-    } else {
-      this.ctx.fillStyle ="white";
-    }
+    // get the dimensions of the object
+    var dims = this.dimensions(object);
+
+    // for testing purpose only
+    this.ctx.fillStyle = "white";
+
+    // translate the object center point
     this.ctx.translate(dims.midpointX, dims.midpointY);
-    this.ctx.rotate(dims.rad-(Math.PI/2));
-    this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+
+    // rotate at the object's center point
+    this.ctx.rotate(dims.rad - (Math.PI/2));
+
+
+
+
+    if ( object.type === "debris" || object.type === "shrapnel"){
+        this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+    } else {
+      // get the correct image tag based off the type
+      var img = this.images(object.type, this.ticker);
+
+      if(object.state === "spawning"){
+        this.ctx.globalAlpha = 0.3
+        this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
+        this.ctx.globalAlpha = 1.0
+      } else{
+
+      this.ctx.fillStyle = "RBG"
+
+      // draw the image at its own center point
+      this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
+      }
+
+      // roll through ticker to reset its value ... 0, 1, 2
+      this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
+    }
+
+
+    // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
+
+    // translate the canvas back to where the img is center is the center of the canvas
     this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
   }
 
@@ -100,10 +190,16 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:     {width: 20, height: 40},
-    spawnship: {width: 10, height: 20},
+    ship:     {width: 65, height: 59},
+    spawnship: {width: 65, height: 59},
+    upShip:     {width: 65, height: 59},
+    upLeftShip:     {width: 65, height: 59},
+    upRightShip:     {width: 65, height: 59},
+    leftShip:     {width: 65, height: 59},
+    rightShip:     {width: 65, height: 59},
+    pumpYourBrakes:     {width: 65, height: 59},
     pew:      {width: 4, height: 10},
-    astroid:  {width: 40, height: 40},
+    astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
     shrapnel: {width: 3, height: 3}
   }

@@ -7,6 +7,7 @@ function Ship(uuid) {
   this.width = Ship.defaults.width;
   this.rad = Ship.defaults.rad;
   this.type = "spawnship";
+  this.state = "spawning"
   this.keys = {
     up: false,
     down: false,
@@ -137,14 +138,52 @@ Ship.prototype.removePew = function() {
   return explodingPews;
 };
 
+
+
+//in this section based on the ships current truthful key strokes, we will dictate which type to send
 Ship.prototype.snapshot = function() {
+  var type = this.thrustStatus();
   return {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: this.type,
-    id: this.uuid
+    type: type,
+    id: this.uuid,
+    state:this.state
   }
+}
+
+Ship.prototype.thrustStatus = function(){
+    var type;
+  // up
+  if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === false){
+    type = "upShip";
+  }
+  //  up & left
+  else if (this.keys.up === true  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
+    type = "upLeftShip";
+    }
+  // up & right
+  else if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
+    type = "upRightShip";
+  }
+  //  left
+  else if (this.keys.up === false  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
+    type = "leftShip";
+  }
+  //  right
+  else if (this.keys.up === false  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
+    type = "rightShip";
+  }
+  // down
+  else if (this.keys.up === false  && this.keys.down === true && this.keys.left === false &&  this.keys.right === false){
+    type = "pumpYourBrakes";
+  }
+  // stationary
+  else {
+    type = this.type;
+  }
+  return type;
 }
 
 module.exports = Ship;

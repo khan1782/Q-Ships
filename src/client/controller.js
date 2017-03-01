@@ -62,7 +62,7 @@ ws.onmessage = function (event) {
   render.objectsArray = itemsNearby(snapshot);
   render.player = snapshot.player;
   render.showState(snapshot.player.state);
-  render.scores = snapshot.scores;
+  render.showScores(snapshot.scores);
 };
 render.tickTock();
 

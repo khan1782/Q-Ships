@@ -66,9 +66,6 @@ Game.prototype.snapshot = function(clientID) {
   return JSON.stringify(gameAssets[0]);
 }
 
-Game.prototype.scoreSnapshot = function() {
-
-}
 Game.prototype.findPlayerIndex = function(uuid) {
   for (var i = 0; i < this.players.length; i++) {
     if (this.players[i].uuid === uuid) {

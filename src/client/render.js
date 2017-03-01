@@ -79,6 +79,18 @@
     }
   }
 
+  Renderer.prototype.showScores = function(scoresArray) {
+    var scoreDiv = document.getElementById("highscores");
+    scoreDiv.innerHTML = '';
+    var scoresDisplay = document.createElement('ol');
+    var newHTML = '';
+    for (i = 0; i < scoresArray.length; i++){
+      newHTML += "<li>" + scoresArray.name + " - " + scoresArray.score + "</li>";
+    }
+    scoresDisplay.innerHTML = newHTML;
+    scoreDiv.appendChild(scoresDisplay);
+  }
+
 
   // ----------------------KEYS-----------------------------
   var itemKey = {

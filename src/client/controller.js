@@ -1,3 +1,6 @@
+//Figure out what's going on here, what part needs to be in a doc onReady
+
+
 var HOST = location.origin.replace(/^http/, 'ws')
 var ws = new WebSocket(HOST);
 
@@ -17,27 +20,24 @@ starfield.start();
 //identify game canvas
 var canvas = document.getElementById("gameCanvas")
 
+//initialize renderer machinery *wa wa wa wa*
+render = new Renderer(canvas);
 
-  //initialize renderer machinery *wa wa wa wa*
-  render = new Renderer(canvas);
+ws.onmessage = function (event) {
+  var snapshot = JSON.parse(event.data);
+  render.objectsArray = snapshot.items;
+  render.id = snapshot.id;
 
-      ws.onmessage = function (event) {
-        var snapshot = JSON.parse(event.data);
-        render.objectsArray = snapshot.items;
-        render.id = snapshot.id;
+  state = JSON.parse(event.data).state;
+  render.showState(state);
+};
 
-        state = JSON.parse(event.data).state;
-        render.showState(state);
-
-      };
-
-      render.tickTock();
+render.tickTock();
 
 //----------------------------------------------
 function sendMessage(msg) {
   ws.send(JSON.stringify(msg))
 };
-
 
 function keyStrokeListeners(uuid) {
   //json package ready for editing
@@ -100,6 +100,7 @@ function keyStrokeListeners(uuid) {
   });
 }
 
+//TODO: fix this hack
 setTimeout(function(){
   keyStrokeListeners(render.id)
 }, 1000)

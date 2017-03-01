@@ -5,14 +5,17 @@ var Debris = require("./debris.js")
 
   //Game Class and associated functions
   function Game() {
-   this.width = 2500;
-   this.height = 2500;
+    this.width = 1000;
+   this.height = 1000;
+   
+   // this.width = 2500;
+   // this.height = 2500;
    this.players = [];
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
    for (var i = 0; i < 8; i++){
-      this.spawnAsteroid();
+      // this.spawnAsteroid();
    }
   }
 
@@ -115,7 +118,9 @@ Game.prototype.gameLoop = function() {
 //will check for any pews that need to be removed
 //will eventually check for any collisions
 Game.prototype.checkers = function() {
-
+  var bounty = function(killer) {
+    killer.ship.hp += 5;
+  }
   // invoke ouch() to check for collisions and update objects
   this.ouch();
 
@@ -133,6 +138,11 @@ Game.prototype.checkers = function() {
     }
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
+      if (this.players[i].hitby !== "undefined") {
+        var killer = this.players[this.findPlayerIndex(this.players[i].ship.hitby)];
+        killer.score += 1;
+        bounty(killer);
+      }
       // reseting player state
       this.players[i].state = 0;
     }
@@ -189,6 +199,8 @@ Game.prototype.ouch = function() {
       if (this.isColliding(ufo1, ufo2)) {
         ufo1.hp -= 1;
         ufo2.hp -= 1;
+        ufo1.hitby = ufo2.uuid;
+        ufo2.hitby = ufo1.uuid;
 
         ufo1.dx *= (1/2);
         ufo1.dy *= (1/2);

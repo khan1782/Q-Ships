@@ -32,51 +32,78 @@
 
 
   Renderer.prototype.images = function(type,ticker){
-    var image = new Image()
-    ticker ||= 0
-    if(type === "ship"){
-      image.src = ["image.png", "image2.png", "image3.png","image4.png"][ticker]
-    } else if(type === "thrust"){
-      image.src = ["image1.png","image2.png", "image3.png"][ticker]
+    var image = new Image();
+    var ticker = ticker || 0;
+
+    if(type === "ship" || type === "spawnship"){
+      // image.src = ["http://i.imgur.com/2JndZdm.png", "image2.png", "image3.png","image4.png"][ticker]
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "upShip") {
+       image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "upLeftShip") {
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "upRightShip") {
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "leftShip") {
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "rightShip") {
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "pumpYourBrakes") {
+      image.src = "http://i.imgur.com/2JndZdm.png";
+    } else if (type === "astroid") {
+      image.src = "http://i.imgur.com/8i5gG51.png";
     }
+
+    return image;
   };
 
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.draw = function(object){
-    var dims = this.dimensions(object)
-    // // paste object accounting for it's angle using canvas rotate function
-    //   this.ctx.fillStyle = this.colors[object.id % this.colors.length]f th
-    // } else if(object.type === "thrust") {
+    // get the dimensions of the object
+    var dims = this.dimensions(object);
 
-    // }
-    // } else {
-    //   this.ctx.fillStyle ="white";
-    // }
+    // for testing purpose only
+    this.ctx.fillStyle = "white";
 
-    //sample objects is {x, y, rad, uuid}
+    // translate the object center point
     this.ctx.translate(dims.midpointX, dims.midpointY);
-    this.ctx.rotate(dims.rad-(Math.PI/2));
 
-    if(object.type === "ship" || object.type === "spawnship"){
-      this.ctx.drawImage(this.images(object.type,this.object.id))
+    // rotate at the object's center point
+    this.ctx.rotate(dims.rad - (Math.PI/2));
 
-    } else if(object.type === "thrust"){
-      this.ctx.drawImage(this.images(object.type,this.ticker), dims.width/(-2), dims.height/(-2))
-      
-      //roll through ticker 0, 1, 2
-      this.ticker === 2 ? this.ticker = 0 : this.ticker += 1
-      
+
+
+
+    if ( object.type === "debris" || object.type === "shrapnel" || object.type === "pew"){
+        this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
-      this.ctx.drawImage(Renderer.images(object.type), dims.width/(-2), dims.height/(-2))
-      // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+      // get the correct image tag based off the type
+      var img = this.images(object.type, this.ticker);
+
+      if(object.state === "spawning"){
+        this.ctx.globalAlpha = 0.5
+        this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
+        this.ctx.globalAlpha = 1.0
+      } else{
+      // draw the image at its own center point
+      this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
+      }
+
+      // roll through ticker to reset its value ... 0, 1, 2
+      this.ticker === 3 ? this.ticker = 0 : this.ticker += 1
     }
 
+
+    // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
+
+    // translate the canvas back to where the img is center is the center of the canvas
     this.ctx.translate(dims.midpointX/-1, dims.midpointY/-1);
   }
 
   // takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
   Renderer.prototype.dimensions = function(currentAsset){
+    console.log(currentAsset)
     return {
       width: itemKey[currentAsset.type].width,
       height: itemKey[currentAsset.type].height,
@@ -111,10 +138,16 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:     {width: 20, height: 40},
-    spawnship: {width: 10, height: 20},
+    ship:     {width: 45, height: 33},
+    spawnship: {width: 45, height: 33},
+    upShip:     {width: 45, height: 33},
+    upLeftShip:     {width: 45, height: 33},
+    upRightShip:     {width: 45, height: 33},
+    leftShip:     {width: 45, height: 33},
+    rightShip:     {width: 45, height: 33},
+    pumpYourBrakes:     {width: 45, height: 33},
     pew:      {width: 4, height: 10},
-    astroid:  {width: 40, height: 40},
+    astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
     shrapnel: {width: 3, height: 3}
   }

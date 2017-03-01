@@ -5,17 +5,14 @@ var Debris = require("./debris.js")
 
   //Game Class and associated functions
   function Game() {
-    this.width = 1000;
-   this.height = 1000;
-   
-   // this.width = 2500;
-   // this.height = 2500;
+   this.width = 2500;
+   this.height = 2500;
    this.players = [];
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
    for (var i = 0; i < 8; i++){
-      // this.spawnAsteroid();
+      this.spawnAsteroid();
    }
   }
 
@@ -118,9 +115,6 @@ Game.prototype.gameLoop = function() {
 //will check for any pews that need to be removed
 //will eventually check for any collisions
 Game.prototype.checkers = function() {
-  var bounty = function(killer) {
-    killer.ship.hp += 5;
-  }
   // invoke ouch() to check for collisions and update objects
   this.ouch();
 
@@ -130,6 +124,7 @@ Game.prototype.checkers = function() {
 
   // go through each player...
   for (var i = 0; i < this.players.length; i++) {
+    console.log(this.players[i]);
     // collect all the pews that exploded...
     var explodingPews = this.players[i].ship.removePew();
     for (var j = 0; j < explodingPews.length; j++) {
@@ -138,24 +133,42 @@ Game.prototype.checkers = function() {
     }
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
-      if (this.players[i].hitby !== "undefined") {
+      if (this.players[i].hitby) {
         var killer = this.players[this.findPlayerIndex(this.players[i].ship.hitby)];
-        killer.score += 1;
-        bounty(killer);
+        if (killer) {
+          this.bounty(killer, "ship");
+        }
       }
       // reseting player state
       this.players[i].state = 0;
     }
   }
-
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
+      if (this.asteroids[i].hitby) {
+        var killer = this.players[this.findPlayerIndex(this.asteroids[i].hitby)];
+        if (killer && killer.ship) {
+          this.bounty(killer, "asteroid");
+        }
+      }
       this.explodeRock(this.asteroids[i].x, this.asteroids[i].y);
       this.asteroids.splice(i, 1);
       this.spawnAsteroid();
     }
   }
 };
+
+Game.prototype.bounty = function(hunter, target) {
+  switch (target) {
+    case "ship":
+      hunter.ship.hp += 5;
+      hunter.score += 1;
+      break;
+    case "asteroid":
+      hunter.ship.hp += 3;
+      break;
+  }
+}
 
 Game.prototype.spawnAsteroid = function() {
   this.asteroids.push(new Asteroid());

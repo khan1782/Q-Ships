@@ -28,6 +28,7 @@ var canvas = document.getElementById("gameCanvas")
 
         state = JSON.parse(event.data).state;
         render.showState(state);
+
       };
 
       render.tickTock();

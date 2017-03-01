@@ -33,7 +33,7 @@
     initialDx: 0,
     initialDy: 0,
     thrust: .25,
-    rotate: (Math.PI/45),
+    rotate: (Math.PI/30),
     maxSpeed: 10,
     hp: 5,
     hitBuffer: 20

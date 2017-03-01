@@ -54,7 +54,7 @@ Game.prototype.snapshot = function(clientID) {
   thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
-    score: this.scores,
+    scores: this.scores,
     player: {
       id: clientID,
       state: thisPlayer.state,

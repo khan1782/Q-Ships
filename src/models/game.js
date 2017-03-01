@@ -14,7 +14,7 @@ var Debris = require("./debris.js")
      for (var i = 0; i < 8; i++){
         this.spawnAsteroid();
      }
-     this.scores = {};
+     this.scores = [];
   }
 
 //Create collection of snapshots of all objects in game packaged for renderer.
@@ -50,11 +50,25 @@ Game.prototype.items = function() {
   return gameItems;
 }
 
+Game.prototype.sortScores = function() {
+  if (this.scores.length > 0) {
+    return this.scores.sort(function (a, b) {
+      return b.score - a.score;
+    });
+  } else {
+    return [{
+      id: 420,
+      name: "Joe Pewski",
+      score: 99999999
+    }]
+  }
+}
+
 Game.prototype.snapshot = function(clientID) {
   thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
-    scores: this.scores,
+    scores: this.sortScores(),
     player: {
       id: clientID,
       state: thisPlayer.state,
@@ -142,7 +156,8 @@ Game.prototype.checkers = function() {
     }
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
-      if (this.players[i].hitby) {
+      this.players[i].score = 0;
+      if (this.players[i].hitby !== 'undefined') {
         var killer = this.players[this.findPlayerIndex(this.players[i].ship.hitby)];
         if (killer) {
           this.bounty(killer, "ship");

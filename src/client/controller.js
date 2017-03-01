@@ -17,21 +17,46 @@ starfield.start();
 //identify game canvas
 var canvas = document.getElementById("gameCanvas")
 
+//build array of local object
+var itemsNearby = function(snapshot) {
+  var x = snapshot.player.x || 500;
+  var y = snapshot.player.y || 500;
+  var width = 2500;
+  var height = 2500;
+  var items = snapshot.items;
+  var neighbors = [];
+  for (i = 0; i < items.length; i++) {
+    if (x < 500 && (width - items[i].x + x) < 500) {
+      items[i].x -= width;
+    }
+    if (x > 2000 && (width + items[i].x - x ) < 500) {
+      items[i].x += width;
+    }
+    if(y < 500 && (height - items[i].y + y) < 500){
+      items[i].y -= height
+    }
+    if (y > 2000 && (height + items[i].y - y ) < 500) {
+      items[i].y += height;
+    }
+    if (Math.abs(items[i].x-x) < 500 && Math.abs(items[i].y-y) < 500) {
+      neighbors.push(items[i]);
+    }
+  }
+  return neighbors;
+}
 
-  //initialize renderer machinery *wa wa wa wa*
-  render = new Renderer(canvas);
+//initialize renderer machinery *wa wa wa wa*
+render = new Renderer(canvas);
 
-      ws.onmessage = function (event) {
-        var snapshot = JSON.parse(event.data);
-        render.objectsArray = snapshot.items;
-        render.id = snapshot.id;
+ws.onmessage = function (event) {
+  render.objectsArray = itemsNearby(event.data)
+  render.id = snapshot.id;
 
-        state = JSON.parse(event.data).state;
-        render.showState(state);
+  state = JSON.parse(event.data).state;
+  render.showState(state);
+};
 
-      };
-
-      render.tickTock();
+render.tickTock();
 
 //----------------------------------------------
 function sendMessage(msg) {

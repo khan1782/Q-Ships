@@ -37,7 +37,7 @@
     var dims = this.dimensions(object)
 
     // paste object accounting for it's angle using canvas rotate function
-    if(object.type === "ship"){
+    if(object.type === "ship" || object.type === "spawnship"){
       this.ctx.fillStyle = this.colors[this.id]
     } else {
       this.ctx.fillStyle ="white";

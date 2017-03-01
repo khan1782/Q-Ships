@@ -14,13 +14,13 @@
 
   //Game Class and associated functions
   function Game() {
-   this.width = 1000;
-   this.height = 1000;
+   this.width = 2500;
+   this.height = 2500;
    this.players = [];
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
-   for (var i = 0; i < 3; i++){
+   for (var i = 0; i < 15; i++){
       this.spawnAsteroid();
    }
   }
@@ -245,8 +245,8 @@
   }
 
   Game.prototype.updateEntity = function(package){
-    var package = JSON.parse(package)
-
+    var package = JSON.parse(package);
+    debugger
     // find the index of the player
     var index = this.findPlayerIndex(package.uuid);
     if (this.players[index].state === 1 || this.players[index].state === 2) {

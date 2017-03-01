@@ -35,7 +35,7 @@
     var image = new Image()
     ticker ||= 0
     if(type === "ship"){
-      image.src = ["image.png"][ticker]
+      image.src = ["image.png", "image2.png", "image3.png","image4.png"][ticker]
     } else if(type === "thrust"){
       image.src = ["image1.png","image2.png", "image3.png"][ticker]
     }
@@ -45,7 +45,6 @@
   Renderer.prototype.draw = function(object){
     var dims = this.dimensions(object)
     // // paste object accounting for it's angle using canvas rotate function
-    // if(object.type === "ship" || object.type === "spawnship"){
     //   this.ctx.fillStyle = this.colors[object.id % this.colors.length]f th
     // } else if(object.type === "thrust") {
 
@@ -58,16 +57,18 @@
     this.ctx.translate(dims.midpointX, dims.midpointY);
     this.ctx.rotate(dims.rad-(Math.PI/2));
 
-    if(object.type === "thrust"){
+    if(object.type === "ship" || object.type === "spawnship"){
+      this.ctx.drawImage(this.images(object.type,this.object.id))
 
+    } else if(object.type === "thrust"){
       this.ctx.drawImage(this.images(object.type,this.ticker), dims.width/(-2), dims.height/(-2))
       
       //roll through ticker 0, 1, 2
       this.ticker === 2 ? this.ticker = 0 : this.ticker += 1
       
     } else {
-    this.ctx.drawImage(Renderer.images(object.type), dims.width/(-2), dims.height/(-2))
-    // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+      this.ctx.drawImage(Renderer.images(object.type), dims.width/(-2), dims.height/(-2))
+      // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     }
 
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);

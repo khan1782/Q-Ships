@@ -119,6 +119,7 @@
       } else{
 
       this.ctx.fillStyle = "RBG"
+
       // draw the image at its own center point
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
       }

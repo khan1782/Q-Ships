@@ -63,12 +63,8 @@
       this.ctx.drawImage(this.images(object.type,this.ticker), dims.width/(-2), dims.height/(-2))
       
       //roll through ticker 0, 1, 2
-      if(this.ticker === 2){
-        this.ticker = 0
-      } else{
-        this.ticker += 1
-      }
-
+      this.ticker === 2 ? this.ticker = 0 : this.ticker += 1
+      
     } else {
     this.ctx.drawImage(Renderer.images(object.type), dims.width/(-2), dims.height/(-2))
     // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);

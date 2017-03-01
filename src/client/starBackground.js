@@ -5,7 +5,7 @@ function Starfield() {
   this.width = 0
   this.height = 0
   this.minVelocity = 15;
-  this.maxVelocity = 85;
+  this.maxVelocity = 55;
   this.intervalId = 0;
   this.stars = 100;
   this.warpFactor = 1;

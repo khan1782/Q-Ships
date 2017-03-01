@@ -36,20 +36,21 @@
     var ticker = ticker || 0;
 
     if(type === "ship" || type === "spawnship"){
-      // image.src = ["http://i.imgur.com/2JndZdm.png", "image2.png", "image3.png","image4.png"][ticker]
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      // image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/wgbq0fh.png";
+
     } else if (type === "upShip") {
-       image.src = "http://i.imgur.com/2JndZdm.png";
+       image.src = ["http://i.imgur.com/VnPR2Dq.png", "http://i.imgur.com/ZYowoUc.png","http://i.imgur.com/R64ZG2I.png"][ticker]
     } else if (type === "upLeftShip") {
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "upRightShip") {
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "leftShip") {
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "rightShip") {
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "pumpYourBrakes") {
-      image.src = "http://i.imgur.com/2JndZdm.png";
+      image.src = "http://i.imgur.com/TpdKiZ3.png";
     } else if (type === "astroid") {
       image.src = "http://i.imgur.com/8i5gG51.png";
     }
@@ -81,7 +82,7 @@
       var img = this.images(object.type, this.ticker);
 
       if(object.state === "spawning"){
-        this.ctx.globalAlpha = 0.5
+        this.ctx.globalAlpha = 0.3
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
         this.ctx.globalAlpha = 1.0
       } else{
@@ -90,7 +91,7 @@
       }
 
       // roll through ticker to reset its value ... 0, 1, 2
-      this.ticker === 3 ? this.ticker = 0 : this.ticker += 1
+      this.ticker === 2 ? this.ticker = 0 : this.ticker += 1
     }
 
 
@@ -103,7 +104,6 @@
 
   // takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
   Renderer.prototype.dimensions = function(currentAsset){
-    console.log(currentAsset)
     return {
       width: itemKey[currentAsset.type].width,
       height: itemKey[currentAsset.type].height,
@@ -138,13 +138,13 @@
 
   // ----------------------KEYS-----------------------------
   var itemKey = {
-    ship:     {width: 45, height: 33},
-    spawnship: {width: 45, height: 33},
-    upShip:     {width: 45, height: 33},
-    upLeftShip:     {width: 45, height: 33},
-    upRightShip:     {width: 45, height: 33},
-    leftShip:     {width: 45, height: 33},
-    rightShip:     {width: 45, height: 33},
+    ship:     {width: 60, height: 54},
+    spawnship: {width: 60, height: 54},
+    upShip:     {width: 60, height: 54},
+    upLeftShip:     {width: 60, height: 54},
+    upRightShip:     {width: 60, height: 54},
+    leftShip:     {width: 60, height: 54},
+    rightShip:     {width: 60, height: 54},
     pumpYourBrakes:     {width: 45, height: 33},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},

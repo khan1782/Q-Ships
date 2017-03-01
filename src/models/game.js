@@ -11,7 +11,7 @@ var Debris = require("./debris.js")
    this.shrapnel =[];
    this.asteroids = [];
    this.debris = [];
-   for (var i = 0; i < 8; i++){
+   for (var i = 0; i < 30; i++){
       this.spawnAsteroid();
    }
   }

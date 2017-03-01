@@ -5,20 +5,23 @@ var Debris = require("./debris.js")
 
   //Game Class and associated functions
   function Game() {
-   this.width = 2500;
-   this.height = 2500;
-   this.players = [];
-   this.shrapnel =[];
-   this.asteroids = [];
-   this.debris = [];
-   for (var i = 0; i < 10; i++){
-      this.spawnAsteroid();
-   }
+
+     this.width = 2500;
+     this.height = 2500;
+     this.players = [];
+     this.shrapnel =[];
+     this.asteroids = [];
+     this.debris = [];
+     for (var i = 0; i < 4; i++){
+        this.spawnAsteroid();
+     }
+     this.scores = [];
   }
 
 //Create collection of snapshots of all objects in game packaged for renderer.
 Game.prototype.items = function() {
   var gameItems = [];
+  var currentScores = [];
   for (var i = 0; i < this.players.length; i++) {
     if (this.players[i].ship){
       if (this.players[i].state === 1 || this.players[i].state === 2) {
@@ -28,6 +31,12 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
+    // build scores object
+    currentScores.push({
+      id: this.players[i].uuid,
+      name: this.players[i].name,
+      score: this.players[i].score
+    })  
   }
   for (var k = 0; k < this.shrapnel.length; k++) {
     gameItems.push(this.shrapnel[k].snapshot())
@@ -38,13 +47,29 @@ Game.prototype.items = function() {
   for (var m = 0; m < this.debris.length; m++) {
     gameItems.push(this.debris[m].snapshot())
   }
+  this.scores = currentScores;
   return gameItems;
+}
+
+Game.prototype.sortScores = function() {
+  if (this.scores.length > 0) {
+    return this.scores.sort(function (a, b) {
+      return b.score - a.score;
+    });
+  } else {
+    return [{
+      id: 420,
+      name: "Joe Pewski",
+      score: 99999999
+    }]
+  }
 }
 
 Game.prototype.snapshot = function(clientID) {
   thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
+    scores: this.sortScores(),
     player: {
       id: clientID,
       state: thisPlayer.state,
@@ -115,7 +140,6 @@ Game.prototype.gameLoop = function() {
 //will check for any pews that need to be removed
 //will eventually check for any collisions
 Game.prototype.checkers = function() {
-
   // invoke ouch() to check for collisions and update objects
   this.ouch();
 
@@ -133,19 +157,43 @@ Game.prototype.checkers = function() {
     }
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
+      this.players[i].score = 0;
+      if (this.players[i].hitby !== 'undefined') {
+        var killer = this.players[this.findPlayerIndex(this.players[i].ship.hitby)];
+        if (killer) {
+          this.bounty(killer, "ship");
+        }
+      }
       // reseting player state
       this.players[i].state = 0;
     }
   }
-
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
+      if (this.asteroids[i].hitby !== "undefined") {
+        var killer = this.players[this.findPlayerIndex(this.asteroids[i].hitby)];
+        if (killer && killer.ship) {
+          this.bounty(killer, "asteroid");
+        }
+      }
       this.explodeRock(this.asteroids[i].x, this.asteroids[i].y);
       this.asteroids.splice(i, 1);
       this.spawnAsteroid();
     }
   }
 };
+
+Game.prototype.bounty = function(hunter, target) {
+  switch (target) {
+    case "ship":
+      hunter.ship.hp += 5;
+      hunter.score += 1;
+      break;
+    case "asteroid":
+      hunter.ship.hp += 3;
+      break;
+  }
+}
 
 Game.prototype.spawnAsteroid = function() {
   this.asteroids.push(new Asteroid());
@@ -189,6 +237,8 @@ Game.prototype.ouch = function() {
       if (this.isColliding(ufo1, ufo2)) {
         ufo1.hp -= 1;
         ufo2.hp -= 1;
+        ufo1.hitby = ufo2.uuid;
+        ufo2.hitby = ufo1.uuid;
 
         ufo1.dx *= (1/2);
         ufo1.dy *= (1/2);

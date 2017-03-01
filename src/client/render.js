@@ -169,6 +169,24 @@
     }
   }
 
+  Renderer.prototype.showScores = function(scoresArray) {
+    var scoreDiv = document.getElementById("highscores");
+    scoreDiv.innerHTML = '';
+    var scoresDisplay = document.createElement('ol');
+    var newHTML = '';
+    for (var i = 0; i < scoresArray.length; i++){
+      var score = scoresArray[i].score
+      var dots = 40 - (scoresArray[i].name.length + score.toString().length)
+      var dotString = '';
+      for (var j = 0; j < dots; j++) {
+        dotString += "."
+      }
+      newHTML += "<li>" + scoresArray[i].name + dotString + scoresArray[i].score + "</li>";
+    }
+    scoresDisplay.innerHTML = newHTML;
+    scoreDiv.appendChild(scoresDisplay);
+  }
+
 
   // ----------------------KEYS-----------------------------
   var itemKey = {

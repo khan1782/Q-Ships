@@ -12,9 +12,11 @@
         }
 
         #container {
-          width: 100%;
+          display: flex;
+          justify-content: center;
+          /*width: 100%;
           height: 100%;
-          position: relative;
+          position: relative;*/
         }
          #starfield {
             width:100%;
@@ -44,18 +46,29 @@
 
         #welcome {
           z-index: 15;
-          width: 100%;
+          /*align-self: center;*/
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+
+          /*width: 100%;
           height: 100%;
           position: absolute;
           top: 0;
           left: 0;
-          color: chartreuse;
+          color: chartreuse;*/*/
         }
 
         .hidden {
           display: none;
         }
 
+        img{
+          display: block;
+          margin-top: 5px;
+          margin-left: auto;
+          margin-right: auto;
+        }
       </style>
       <!-- <link rel="stylesheet" href="application.css"> -->
 
@@ -65,12 +78,9 @@
     <body>
       <div id='container'>
 
-        <center><div id="welcome">
-          <br><br><br><br><br><br><br><br><br><br><br><br>
-          <h1>PEW SHIPS</h1>
-          <h2>Shoot the Ship with Friends!</h2>
-          <br><br><br><br><br><br>
-          <h2>Press Enter to Begin!</h2>
+      <div id="welcome">
+          <img src="http://i.imgur.com/hzKX3yM.png" alt="pew pew pew" width="500">
+          <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250">
         </div><center>
 
         <div id="background-container">

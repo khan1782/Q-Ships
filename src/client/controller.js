@@ -1,3 +1,6 @@
+//Figure out what's going on here, what part needs to be in a doc onReady
+
+
 var HOST = location.origin.replace(/^http/, 'ws')
 var ws = new WebSocket(HOST);
 
@@ -49,10 +52,9 @@ var itemsNearby = function(snapshot) {
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
-  render.objectsArray = itemsNearby(event.data)
+  render.objectsArray = itemsNearby(JSON.parse(event.data));
   render.id = snapshot.id;
-
-  state = JSON.parse(event.data).state;
+  state = JSON.parse(event.data).player.state;
   render.showState(state);
 };
 
@@ -62,7 +64,6 @@ render.tickTock();
 function sendMessage(msg) {
   ws.send(JSON.stringify(msg))
 };
-
 
 function keyStrokeListeners(uuid) {
   //json package ready for editing
@@ -125,6 +126,7 @@ function keyStrokeListeners(uuid) {
   });
 }
 
+//TODO: fix this hack
 setTimeout(function(){
   keyStrokeListeners(render.id)
 }, 1000)

@@ -6,6 +6,8 @@
 
     //grab given html canvas object
     this.canvas = canvas;
+    this.canvas.height = window.innerHeight
+    this.canvas.width = window.innerWidth
 
     //start lawn mower
     this.ctx = this.canvas.getContext("2d");
@@ -15,16 +17,12 @@
 
   //iterate through all of the snapshot assets and run draw and each one
   Renderer.prototype.populateUniverse = function(){
-
     //clear the canvas before very frame
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
-
     //check if there is any input from WS
     if(this.objectsArray){
-
       //iterate through all the objects set in controller from on message WS
       for(var i = 0; i < this.objectsArray.length; i++){
-
         //run draw function for each individual object
         this.draw(this.objectsArray[i]);
       }
@@ -35,10 +33,9 @@
   Renderer.prototype.draw = function(object){
     //get dimensions from earlier function
     var dims = this.dimensions(object)
-
     // paste object accounting for it's angle using canvas rotate function
-    if(object.type === "ship"){
-      this.ctx.fillStyle = this.colors[this.id]
+    if(object.type === "ship" || object.type === "spawnship"){
+      this.ctx.fillStyle = this.colors[this.player.id]
     } else {
       this.ctx.fillStyle ="white";
     }
@@ -67,7 +64,7 @@
   Renderer.prototype.tickTock = function(){
     var that = this;
     function execute(){
-    window.requestAnimationFrame(execute);
+      window.requestAnimationFrame(execute);
       that.populateUniverse();
     }
     execute();

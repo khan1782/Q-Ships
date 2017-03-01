@@ -3,19 +3,18 @@ var Shrapnel = require("./shrapnel.js")
 var Asteroid = require("./asteroid.js")
 var Debris = require("./debris.js")
 
-//Game Class and associated functions
-function Game() {
-  this.width = 1000;
-  this.height = 1000;
-  this.players = [];
-  this.shrapnel =[];
-  this.asteroids = [];
-  this.debris = [];
-  for (var i = 0; i < 3; i++) {
-    console.log(Asteroid)
-    this.spawnAsteroid();
+  //Game Class and associated functions
+  function Game() {
+   this.width = 2500;
+   this.height = 2500;
+   this.players = [];
+   this.shrapnel =[];
+   this.asteroids = [];
+   this.debris = [];
+   for (var i = 0; i < 8; i++){
+      this.spawnAsteroid();
+   }
   }
-}
 
 //Create collection of snapshots of all objects in game packaged for renderer.
 Game.prototype.items = function() {
@@ -29,16 +28,13 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
-
-    for (var k = 0; k < this.shrapnel.length; k++) {
-      gameItems.push(this.shrapnel[k].snapshot())
-    }
   }
-
+  for (var k = 0; k < this.shrapnel.length; k++) {
+    gameItems.push(this.shrapnel[k].snapshot())
+  }
   for (var l = 0; l < this.asteroids.length; l++) {
     gameItems.push(this.asteroids[l].snapshot())
   }
-
   for (var m = 0; m < this.debris.length; m++) {
     gameItems.push(this.debris[m].snapshot())
   }
@@ -46,10 +42,15 @@ Game.prototype.items = function() {
 }
 
 Game.prototype.snapshot = function(clientID) {
+  thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
-    id: clientID,
-    state: this.players[this.findPlayerIndex(clientID)].state,
+    player: {
+      id: clientID,
+      state: thisPlayer.state,
+      x: thisPlayer.ship.x,
+      y: thisPlayer.ship.y
+    },
     items: this.items()
   })
   return JSON.stringify(gameAssets[0]);
@@ -237,21 +238,19 @@ Game.prototype.isColliding = function(ufo1, ufo2){
 }
 
 Game.prototype.updateEntity = function(package){
-  var package = JSON.parse(package)
-
+  var package = JSON.parse(package);
   // find the index of the player
   var index = this.findPlayerIndex(package.uuid);
   if (this.players[index].state === 1 || this.players[index].state === 2) {
   // update that specific player's ship's movements
     if(package.keys){
-      //TODO update w/ find by id
       this.players[index].ship.keys.up = package.keys.up;
       this.players[index].ship.keys.down = package.keys.down;
       this.players[index].ship.keys.left = package.keys.left;
       this.players[index].ship.keys.right = package.keys.right;
     }
   }
-  // update that specific player's pew's movements
+    // update that specific player's pew's movements
   if (this.players[index].state === 2) {
     if (package.fire) {
       this.players[index].ship.sayPew();

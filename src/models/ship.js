@@ -142,7 +142,8 @@ Ship.prototype.snapshot = function() {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: this.type
+    type: this.type,
+    id: this.uuid
   }
 }
 

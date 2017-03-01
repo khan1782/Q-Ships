@@ -266,12 +266,15 @@ Game.prototype.updateEntity = function(package){
 };
 
 Game.prototype.removeShrapnel = function() {
+  var aliveShrapnel = [];
   for(var j = 0; j < this.shrapnel.length; j++){
-    if(this.shrapnel[j].isExpired === true){
-      this.shrapnel.splice(j,1);
+    if(this.shrapnel[j].isExpired === false){
+      aliveShrapnel.push(this.shrapnel[j]);
     }
   }
+  this.shrapnel = aliveShrapnel;
 };
+
 
 Game.prototype.removeDebris = function() {
   for(var j = 0; j < this.debris.length; j++){

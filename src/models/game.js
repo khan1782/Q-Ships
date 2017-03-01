@@ -28,16 +28,13 @@ Game.prototype.items = function() {
         gameItems.push(this.players[i].ship.pewBay[j].snapshot())
       }
     }
-
-    for (var k = 0; k < this.shrapnel.length; k++) {
-      gameItems.push(this.shrapnel[k].snapshot())
-    }
   }
-
+  for (var k = 0; k < this.shrapnel.length; k++) {
+    gameItems.push(this.shrapnel[k].snapshot())
+  }
   for (var l = 0; l < this.asteroids.length; l++) {
     gameItems.push(this.asteroids[l].snapshot())
   }
-
   for (var m = 0; m < this.debris.length; m++) {
     gameItems.push(this.debris[m].snapshot())
   }
@@ -45,10 +42,15 @@ Game.prototype.items = function() {
 }
 
 Game.prototype.snapshot = function(clientID) {
+  thisPlayer = this.players[this.findPlayerIndex(clientID)]
   gameAssets = []
   gameAssets.push({
-    id: clientID,
-    state: this.players[this.findPlayerIndex(clientID)].state,
+    player: {
+      id: clientID,
+      state: thisPlayer.state,
+      x: thisPlayer.x,
+      y: thisPlayer.y
+    },
     items: this.items()
   })
   return JSON.stringify(gameAssets[0]);

@@ -38,7 +38,7 @@
 
     // paste object accounting for it's angle using canvas rotate function
     if(object.type === "ship" || object.type === "spawnship"){
-      this.ctx.fillStyle = this.colors[this.id]
+      this.ctx.fillStyle = this.colors[this.player.id]
     } else {
       this.ctx.fillStyle ="white";
     }

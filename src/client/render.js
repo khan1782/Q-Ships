@@ -155,16 +155,19 @@
   // welcome the users
   Renderer.prototype.showState = function(state) {
     var welcome = document.getElementById("welcome");
+    var score = document.getElementById("score");
     if (state !== 0) {
       welcome.setAttribute("class", "hidden");
+      score.setAttribute("style", "opacity: 0.4");
     } else {
-      welcome.removeAttribute("class")
+      welcome.removeAttribute("class");
+      // score.removeAttribute("class");
     }
   }
 
   // rendering the scores to the screen
   Renderer.prototype.showScores = function(scoresArray) {
-    var scoreDiv = document.getElementById("highscores");
+    var scoreDiv = document.getElementById("score");
     scoreDiv.innerHTML = '';
     var scoresDisplay = document.createElement('ol');
     var newHTML = '';

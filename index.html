@@ -2,7 +2,18 @@
   <html>
     <head>
       <title>Q-Ships</title>
+<<<<<<< HEAD
       <style>
+=======
+      <style >
+      @font-face {
+        font-family: 'MyWebFont';
+        src: local('fonts/ARCADECLASSIC.ttf'),
+          url('fonts/ARCADECLASSIC.ttf') format('ttf');/* Modern
+         Browsers */
+      }
+
+>>>>>>> master
         body, html {
           width: 100%;
           height: 100%;
@@ -48,11 +59,15 @@
           transform: translateY(-50%);
         }
 
-        #highscores {
+        #score {
+          font-size: 20px;
+          font-family: 'MyWebFont', ArcadeClassic, Arial;
+          color: 	#48D1CC;
+          position:absolute;
+          top: 0;
+          right: 0;
+          padding-right: 20px;
           z-index: 15;
-          position: absolute;
-          top: 10%;
-          color: tomato;
         }
 
         .hidden {
@@ -70,13 +85,13 @@
 
     <body>
       <div id='container'>
-
         <div id="welcome">
           <img src="http://i.imgur.com/hzKX3yM.png" alt="pew pew pew" width="500">
           <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250">
         </div><center>
 
-        <div id="highscores">
+        <div id="score">
+          <h1>High Scores</h1>
         </div>
 
         <div id="background-container">

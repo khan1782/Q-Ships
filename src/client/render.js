@@ -35,7 +35,6 @@
     if(state === "spawning" || state === "full"){
       image.src = Renderer.images.full[thrustStatus][ticker]
     } else if(state === "medium"){
-      debugger
       image.src = Renderer.images.medium[thrustStatus][ticker]
     } else if(state === "low"){
       image.src = Renderer.images.low[thrustStatus][ticker]

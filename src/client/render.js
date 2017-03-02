@@ -1,7 +1,5 @@
 (function(){
-  // ----------------------MODELS-----------------------------
-
-  //constructor definition
+  //constructor definition - Client side render model
   function Renderer(canvas){
 
     //grab given html canvas object
@@ -29,8 +27,8 @@
     }
   };
 
-
   Renderer.prototype.shipImages = function(thrustStatus,state,ticker){
+
     var image = new Image();
     var ticker = ticker || 0;
 
@@ -56,8 +54,8 @@
   }
 
   // for an individual asset, run canvas methods to place on canvas
-  // {x:1000,y:1200,rad:0,type:"ship", state:"spawning" - "full medium low", thrustStatus: "upship upleft ship"}
-  //{x:1000,y:1200,rad:0, type:"astroid"}
+
+
   Renderer.prototype.draw = function(object){
     // get the dimensions of the object
     var dims = this.dimensions(object);
@@ -74,6 +72,7 @@
     var img = new Image()
     if(object.type === "ship"){
 
+
       //run ship images if its a ship to get appropriate frames
       if(object.thrustStatus === "pumpYourBrakes" || object.thrustStatus === "stationary"){
         img = this.shipImages(object.thrustStatus, object.state)  
@@ -84,6 +83,7 @@
       if(object.state === "spawning") {
         //make opaque
         this.ctx.globalAlpha = 0.3
+
       }
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
       this.ctx.globalAlpha = 1.0
@@ -95,6 +95,10 @@
     } else {
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     }
+
+
+
+
     // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
 
@@ -126,6 +130,7 @@
     execute();
   }
 
+  // welcome the users
   Renderer.prototype.showState = function(state) {
     var welcome = document.getElementById("welcome");
     var score = document.getElementById("score");
@@ -138,6 +143,7 @@
     }
   }
 
+  // rendering the scores to the screen
   Renderer.prototype.showScores = function(scoresArray) {
     var scoreDiv = document.getElementById("score");
     scoreDiv.innerHTML = '';
@@ -157,20 +163,17 @@
   }
 
 
-  // ----------------------KEYS-----------------------------
+  // item keys to identify their dimensions
   var itemKey = {
+
     ship:     {width: 65, height: 59},
-    // spawnship: {width: 65, height: 59},
-    // upShip:     {width: 65, height: 59},
-    // upLeftShip:     {width: 65, height: 59},
-    // upRightShip:     {width: 65, height: 59},
-    // leftShip:     {width: 65, height: 59},
-    // rightShip:     {width: 65, height: 59},
-    // pumpYourBrakes:     {width: 65, height: 59},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
-    shrapnel: {width: 3, height: 3}
+    shrapnel: {width: 3, height: 3},
+    star_one: {width: 2, height: 2},
+    star_two: {width: 4, height: 4},
+    star_three: {width: 6, height: 6}
   }
 //---------------------images----------------------------
 
@@ -205,7 +208,6 @@
     astroid: "http://i.imgur.com/8i5gG51.png",
     pew: "http://i.imgur.com/VioerDV.png"
   }
-
 
   window.Renderer = Renderer;
 })()

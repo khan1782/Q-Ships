@@ -291,6 +291,9 @@ Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package);
   // find the index of the player
   var index = this.findPlayerIndex(package.uuid);
+  if (package.name) {
+    this.players[index].name = package.name;
+  }
   if (this.players[index].state === 1 || this.players[index].state === 2) {
   // update that specific player's ship's movements
     if(package.keys){

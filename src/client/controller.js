@@ -1,10 +1,5 @@
-//Figure out what's going on here, what part needs to be in a doc onReady
-
-
 var HOST = location.origin.replace(/^http/, 'ws')
 var ws = new WebSocket(HOST);
-
-
 
 var background = document.getElementById('background');
 
@@ -58,12 +53,29 @@ var itemsNearby = function(snapshot) {
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
+  // parse the package from the server
   var snapshot = JSON.parse(event.data);
+
+  // get all the stars from starfield
+  var stars = starfield.stars;
+
+  var starObjects = [];
+  for(var i = 0 ;i < stars.length; i++){
+    var starObject = {
+      x: stars[i].x,
+      y: stars[i].y,
+      rad: 0,
+      type: stars[i].type
+    }
+    snapshot.items.push(starObject);
+  }
+
   render.objectsArray = itemsNearby(snapshot);
   render.player = snapshot.player;
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);
 };
+
 render.tickTock();
 
 //----------------------------------------------
@@ -127,9 +139,19 @@ function keyStrokeListeners(uuid) {
       sendMessage({uuid: uuid, fire: true})
     }
     if(event.keyCode === 13) {
-      sendMessage({uuid: uuid, start: true})
+      updateName()
     }
   });
+}
+
+var updateName = function() {
+  var nameForm = document.getElementById('player-name')
+  var clientName = nameForm.value
+  if (clientName) {
+    sendMessage({uuid: render.player.id, start: true, name: clientName})
+    var playerNameDiv = document.getElementById('player-name-div')
+    playerNameDiv.setAttribute("class", "hidden");
+  }
 }
 
 //TODO: fix this hack

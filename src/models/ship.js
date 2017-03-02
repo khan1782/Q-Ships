@@ -6,7 +6,7 @@ function Ship(uuid) {
   this.height = Ship.defaults.height;
   this.width = Ship.defaults.width;
   this.rad = Ship.defaults.rad;
-  this.type = "spawnship";
+  this.type = "ship";
   this.state = "spawning"
   this.keys = {
     up: false,
@@ -142,48 +142,62 @@ Ship.prototype.removePew = function() {
 
 //in this section based on the ships current truthful key strokes, we will dictate which type to send
 Ship.prototype.snapshot = function() {
-  var type = this.thrustStatus();
   return {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: type,
+    type: this.type,
     id: this.uuid,
-    state:this.state
+    state:this.health(),
+    thrustStatus: this.thrustStatus();
   }
 }
 
+Ship.prototype.health = function() {
+  var healthStatus;
+  if(this.state === "spawning"){
+    healthStatus = "spawning"
+  } else if(this.hp === 5){
+    healthStatus = "full"
+  } else if(this.hp > 2) {
+    healthStatus = "medium"
+  } else {
+    healthStatus = "low"
+  }
+  return healthStatus;
+};
+
 Ship.prototype.thrustStatus = function(){
-    var type;
+    var status;
   // up
   if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === false){
-    type = "upShip";
+    status = "upShip";
   }
   //  up & left
   else if (this.keys.up === true  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
-    type = "upLeftShip";
+    status = "upLeftShip";
     }
   // up & right
   else if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
-    type = "upRightShip";
+    status = "upRightShip";
   }
   //  left
   else if (this.keys.up === false  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
-    type = "leftShip";
+    status = "leftShip";
   }
   //  right
   else if (this.keys.up === false  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
-    type = "rightShip";
+    status = "rightShip";
   }
   // down
   else if (this.keys.up === false  && this.keys.down === true && this.keys.left === false &&  this.keys.right === false){
-    type = "pumpYourBrakes";
+    status = "pumpYourBrakes";
   }
   // stationary
   else {
-    type = this.type;
+    status = "stationary";
   }
-  return type;
+  return status;
 }
 
 module.exports = Ship;

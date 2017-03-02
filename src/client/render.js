@@ -1,7 +1,5 @@
 (function(){
-  // ----------------------MODELS-----------------------------
-
-  //constructor definition
+  //constructor definition - Client side render model
   function Renderer(canvas){
 
     //grab given html canvas object
@@ -28,7 +26,6 @@
       }
     }
   };
-
 
   Renderer.prototype.images = function(type,ticker){
     var image = new Image();
@@ -85,7 +82,6 @@
     } else if(type === "pew") {
       image.src = "http://i.imgur.com/VioerDV.png";
     }
-
     return image;
   };
 
@@ -104,9 +100,7 @@
     this.ctx.rotate(dims.rad - (Math.PI/2));
 
 
-
-
-    if ( object.type === "debris" || object.type === "shrapnel"){
+    if ( object.type === "debris" || object.type === "shrapnel" || object.type === "star_one"|| object.type === "star_two" || object.type === "star_three"){
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
       // get the correct image tag based off the type
@@ -118,7 +112,6 @@
         this.ctx.globalAlpha = 1.0
       } else{
 
-      this.ctx.fillStyle = "RBG"
 
       // draw the image at its own center point
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
@@ -127,7 +120,6 @@
       // roll through ticker to reset its value ... 0, 1, 2
       this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
     }
-
 
     // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
@@ -160,6 +152,7 @@
     execute();
   }
 
+  // welcome the users
   Renderer.prototype.showState = function(state) {
     var welcome = document.getElementById("welcome");
     var score = document.getElementById("score");
@@ -172,6 +165,7 @@
     }
   }
 
+  // rendering the scores to the screen
   Renderer.prototype.showScores = function(scoresArray) {
     var scoreDiv = document.getElementById("score");
     scoreDiv.innerHTML = '';
@@ -191,21 +185,23 @@
   }
 
 
-  // ----------------------KEYS-----------------------------
+  // item keys to identify their dimensions
   var itemKey = {
-    ship:     {width: 65, height: 59},
+    ship: {width: 65, height: 59},
     spawnship: {width: 65, height: 59},
-    upShip:     {width: 65, height: 59},
-    upLeftShip:     {width: 65, height: 59},
-    upRightShip:     {width: 65, height: 59},
-    leftShip:     {width: 65, height: 59},
-    rightShip:     {width: 65, height: 59},
-    pumpYourBrakes:     {width: 65, height: 59},
-    pew:      {width: 4, height: 10},
-    astroid:  {width: 45, height: 49},
-    debris:  {width: 7, height: 7},
-    shrapnel: {width: 3, height: 3}
+    upShip: {width: 65, height: 59},
+    upLeftShip: {width: 65, height: 59},
+    upRightShip: {width: 65, height: 59},
+    leftShip: {width: 65, height: 59},
+    rightShip: {width: 65, height: 59},
+    pumpYourBrakes: {width: 65, height: 59},
+    pew: {width: 4, height: 10},
+    astroid: {width: 45, height: 49},
+    debris: {width: 7, height: 7},
+    shrapnel: {width: 3, height: 3},
+    star_one: {width: 2, height: 2},
+    star_two: {width: 4, height: 4},
+    star_three: {width: 6, height: 6}
   }
-
   window.Renderer = Renderer;
 })()

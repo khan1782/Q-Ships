@@ -27,6 +27,7 @@ var itemsNearby = function(snapshot) {
   var height = 2500;
   var items = snapshot.items;
   var neighbors = [];
+
   for (var i = 0; i < items.length; i++) {
     if (x < xtoEdge && (width - items[i].x + x) < xtoEdge) {
       items[i].x -= width;
@@ -60,7 +61,7 @@ ws.onmessage = function (event) {
   var stars = starfield.stars;
 
   var starObjects = [];
-  for(var i = 0 ;i < stars.length; i++){
+  for(var i = 0; i < stars.length; i++){
     var starObject = {
       x: stars[i].x,
       y: stars[i].y,
@@ -72,6 +73,9 @@ ws.onmessage = function (event) {
 
   render.objectsArray = itemsNearby(snapshot);
   render.player = snapshot.player;
+  if (render.player.canNuke) {
+    render.announceNuke();
+  }
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);
 };
@@ -138,6 +142,9 @@ function keyStrokeListeners(uuid) {
     if(event.keyCode === 32) {
       sendMessage({uuid: uuid, fire: true})
     }
+    if(event.keyCode === 78 && render.player.canNuke) {
+      sendMessage({uuid: uuid, nuke: true})
+    }
     if(event.keyCode === 13) {
       updateName()
     }
@@ -146,12 +153,14 @@ function keyStrokeListeners(uuid) {
 
 var updateName = function() {
   var nameForm = document.getElementById('player-name')
-  var clientName = nameForm.value
-  if (clientName) {
-    sendMessage({uuid: render.player.id, start: true, name: clientName})
-    var playerNameDiv = document.getElementById('player-name-div')
+  var clientName = nameForm.value;
+
+  // commented out for testing purposes
+  // if (clientName) {
+    sendMessage({uuid: render.player.id, start: true, name: clientName});
+    var playerNameDiv = document.getElementById('player-name-div');
     playerNameDiv.setAttribute("class", "hidden");
-  }
+  // }
 }
 
 //TODO: fix this hack

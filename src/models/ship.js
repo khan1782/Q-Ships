@@ -1,4 +1,5 @@
 var Pew = require("./pew.js")
+var Nuke = require("./nuke.js")
 
 function Ship(uuid) {
   this.x = Math.random() * 800 + 100;
@@ -23,6 +24,8 @@ function Ship(uuid) {
   this.uuid = uuid;
   this.hp = Ship.defaults.hp;
   this.hitBuffer = Ship.defaults.hitBuffer;
+  this.nuke = [];
+  this.nuked = false;
 };
 
 Ship.defaults = {
@@ -66,17 +69,7 @@ Ship.prototype.navigateTheStars = function() {
       this.dy -= .5;
     }
   }
-//Logic for 1/2 speed reverse acceleration
-  // if (this.speed() < this.maxSpeed) {
-  //   this.dx -= this.thrust / 2 * Math.cos(this.rad);
-  //   this.dy -= this.thrust / 2 * Math.sin(this.rad);
-  // } else {
-    // newdx = this.dx + this.thrust / 2 * Math.cos(this.rad);
-    // newdy = this.dy + this.thrust / 2 * Math.sin(this.rad);
-    // newRad = Math.atan2(newdy, newdx);
-    // this.dx = this.maxSpeed * Math.cos(newRad);
-    // this.dy = this.maxSpeed * Math.sin(newRad);
-    // }
+
   if (this.keys.left === true) {
     this.rad -= this.rotate;
   }
@@ -84,9 +77,6 @@ Ship.prototype.navigateTheStars = function() {
     this.rad += this.rotate;
   }
 };
-
-
-
 
 //Passive movement of ship based on dx and dy. Function called for each unit of time (frame).
 Ship.prototype.move = function(width, height) {
@@ -117,6 +107,15 @@ Ship.prototype.sayPew = function() {
   this.y -= recoil * Math.sin(this.rad);
 }
 
+Ship.prototype.dropNuke = function() {
+  this.nuke.push(new Nuke(this.uuid, this.x, this.y, this.dx, this.dy, this.rad));
+  this.nuked = true;
+  var nuke = this.nuke[0];
+  setTimeout(function(){
+    nuke.hitBuffer = 40;
+  }, 2000)
+}
+
 // Find all pews without hp and set them to expired and queue them for explosion.
 // Remove all expired pews from ship's pewBay (missile array)
 // Return array of objects with coordinates of exploding pews.
@@ -137,7 +136,6 @@ Ship.prototype.removePew = function() {
   this.pewBay = alivePews;
   return explodingPews;
 };
-
 
 
 //in this section based on the ships current truthful key strokes, we will dictate which type to send

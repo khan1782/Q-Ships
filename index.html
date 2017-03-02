@@ -73,6 +73,17 @@
           transform: translateY(-50%);
         }
 
+        #nuke-div {
+          z-index: 15;
+          position: absolute;
+          top: 10%;
+          right: 50%;
+          transform: translateY(-50%);
+          font-size: 20px;
+          font-family: 'MyWebFont', ArcadeClassic, Arial;
+          color: tomato;
+        }
+
         .hidden {
           display: none;
         }
@@ -92,6 +103,10 @@
           <img src="http://i.imgur.com/hzKX3yM.png" alt="pew pew pew" width="500">
           <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250">
         </div><center>
+
+        <div id="nuke-div" class="hidden">
+          <h1>You have the nuke! Press 'N' to deploy</h1>
+        </div>
 
         <div id="score">
           <h1>High Scores</h1>

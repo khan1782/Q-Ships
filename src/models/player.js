@@ -4,7 +4,7 @@ function Player(uuid) {
   this.state = PLAYER_STATE.start;
   this.uuid = uuid;
   this.ship = new Ship(uuid);
-  this.score = 0;
+  this.score = 10;
   this.name = "Player " + (uuid + 1);
 }
 
@@ -22,7 +22,7 @@ Player.prototype.spawn = function() {
     spawner.state = PLAYER_STATE.alive;
     spawner.ship.type = "ship";
     spawner.ship.state = "inPlay";
-  }, 3210); //GO! :D
+  }, 3.210); //GO! :D
 }
 
 module.exports = Player;

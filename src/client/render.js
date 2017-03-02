@@ -100,7 +100,7 @@
     this.ctx.rotate(dims.rad - (Math.PI/2));
 
 
-    if ( object.type === "debris" || object.type === "shrapnel" || object.type === "star_one"|| object.type === "star_two" || object.type === "star_three"){
+    if (  object.type === "nuke" || object.type === "debris" || object.type === "shrapnel" || object.type === "star_one"|| object.type === "star_two" || object.type === "star_three"){
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
       // get the correct image tag based off the type
@@ -184,6 +184,19 @@
     scoreDiv.appendChild(scoresDisplay);
   }
 
+Renderer.prototype.announceNuke = function(){
+  var nukeDiv = document.getElementById("nuke-div")
+  nukeDiv.removeAttribute('class')
+  setTimeout(function() {
+    nukeDiv.setAttribute("class", "hidden")
+  }, 3000);
+}
+
+// Renderer.prototype.findNuke = function(scores) {
+//   var nukers = [];
+//   for (var i = 0; i < scores.length; i++) {
+//   }
+// }
 
   // item keys to identify their dimensions
   var itemKey = {
@@ -196,6 +209,7 @@
     rightShip: {width: 65, height: 59},
     pumpYourBrakes: {width: 65, height: 59},
     pew: {width: 4, height: 10},
+    nuke: {width: 80, height: 80},
     astroid: {width: 45, height: 49},
     debris: {width: 7, height: 7},
     shrapnel: {width: 3, height: 3},

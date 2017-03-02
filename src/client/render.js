@@ -25,6 +25,7 @@
       for(var i = 0; i < this.objectsArray.length; i++){
         //run draw function for each individual object
         this.draw(this.objectsArray[i]);
+        // debugger
       }
     }
   };
@@ -83,7 +84,7 @@
     } else if (type === "astroid") {
       image.src = "http://i.imgur.com/8i5gG51.png";
     } else if(type === "pew") {
-      image.src = "http://i.imgur.com/VioerDV.png"; 
+      image.src = "http://i.imgur.com/VioerDV.png";
     }
 
     return image;
@@ -106,7 +107,7 @@
 
 
 
-    if ( object.type === "debris" || object.type === "shrapnel"){
+    if ( object.type === "debris" || object.type === "shrapnel" || object.type === "star"){
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
       // get the correct image tag based off the type
@@ -118,7 +119,6 @@
         this.ctx.globalAlpha = 1.0
       } else{
 
-      this.ctx.fillStyle = "RBG"
 
       // draw the image at its own center point
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
@@ -201,7 +201,8 @@
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
-    shrapnel: {width: 3, height: 3}
+    shrapnel: {width: 3, height: 3},
+    star: {width:8, height:8}
   }
 
   window.Renderer = Renderer;

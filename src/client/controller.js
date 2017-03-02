@@ -53,35 +53,29 @@ var itemsNearby = function(snapshot) {
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
+  // parse the package from the server
   var snapshot = JSON.parse(event.data);
 
+  // get all the stars from starfield
   var stars = starfield.stars;
-  // var new_snapshot = {player:{x: snapshot.player.x, y:snapshot.player.y}, items: stars};
-  var starObjects = []
-  for(var i=0;i < stars.length; i++){
+
+  var starObjects = [];
+  for(var i = 0 ;i < stars.length; i++){
     var starObject = {
       x: stars[i].x,
       y: stars[i].y,
       rad: 0,
-      type: "star"
+      type: stars[i].type
     }
-    starObjects.push(starObject)
+    snapshot.items.push(starObject);
   }
-  var pack = {
-    player: {
-      x: snapshot.player.x,
-      y: snapshot.player.y,
-    },
-    items: starObjects
-  }
-  var new_stars = itemsNearby(pack);
 
-  render.objectsArray = itemsNearby(snapshot).concat(new_stars);
-
+  render.objectsArray = itemsNearby(snapshot);
   render.player = snapshot.player;
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);
 };
+
 render.tickTock();
 
 //----------------------------------------------

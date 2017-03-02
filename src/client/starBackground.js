@@ -9,7 +9,6 @@ function Starfield() {
 //take in div#stars-background and set div to window size
 //add canvas underneath div. set canvas width and height
 Starfield.prototype.initialize = function(div) {
-
   //store the div
   this.containerDiv = div;
   this.width = 2500;
@@ -25,26 +24,24 @@ Starfield.prototype.initialize = function(div) {
 Starfield.prototype.start = function() {
   //Initiate starsArray, shovel given amount of initialized stars into starsarray
   var starsArray = [];
-  for(var i=0; i<this.stars; i++) {
+  for(var i=0; i < this.stars; i++) {
     starsArray[i] = new Star(Math.random()*this.width, Math.random()*this.height, 8, 8);
   };
-  //reset stars attribute to same number of initialized stars.
+  // create all the stars in the universe
   this.stars = starsArray;
 
   var ctx = this.canvas.getContext("2d");
-  //draw the background black
+  //draw the black background
   ctx.fillStyle = "#000000";
   ctx.fillRect(0, 0, this.width, this.height);
 };
 
 //create star constructor
-function Star(x,y,width,height) {
+function Star(x, y, width, height) {
+  this.starType = ["star_one", "star_two", "star_three"];
   this.x = x;
   this.y = y;
-  this.width = width;
-  this.height = height;
-  this.type = "star";
-  this.rad = 0;
+  this.type = this.starType[Math.floor(Math.random()*3)];
 };
 
 

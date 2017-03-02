@@ -2,7 +2,7 @@
   <html>
     <head>
       <title>Q-Ships</title>
-      <style >
+      <style>
         body, html {
           width: 100%;
           height: 100%;
@@ -14,9 +14,6 @@
         #container {
           display: flex;
           justify-content: center;
-          /*width: 100%;
-          height: 100%;
-          position: relative;*/
         }
          #starfield {
             width:100%;
@@ -68,11 +65,7 @@
           margin-left: auto;
           margin-right: auto;
         }
-
       </style>
-      <!-- <link rel="stylesheet" href="application.css"> -->
-
-
     </head>
 
     <body>
@@ -84,27 +77,18 @@
         </div><center>
 
         <div id="highscores">
-          <h1>High Scores</h1>
         </div>
 
         <div id="background-container">
-          <canvas id="starField" width="1000px" height="1000px"></canvas>
+          <canvas id="starField"></canvas>
         </div>
 
         <div id="game-container" >
-          <canvas id="gameCanvas" width="1000px" height="1000px"></canvas>
+          <canvas id="gameCanvas"></canvas>
         </div>
 
       <script src="/js/client/starBackground.js"></script>
       <script src="/js/client/render.js"></script>
       <script src="/js/client/controller.js"></script>
-
-   <!--    <script src="/js/models/game.js"></script>
-      <script src="/js/models/player.js"></script>
-      <script src="/js/models/flyingObject.js"></script>
-      <script src="/js/models/ship.js"></script>
-      <script src="/js/models/pew.js"></script>
-      <script src="/js/models/shrapnel.js"></script>
- -->
     </body>
 </html>

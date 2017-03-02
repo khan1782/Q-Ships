@@ -5,7 +5,7 @@ const SocketServer = require('ws').Server;
 const path = require('path');
 const Game = require('./src/models/game.js')
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();
@@ -15,7 +15,7 @@ app.use((req, res) => res.sendFile(INDEX));
 
 const server = app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-const wss = new SocketServer({ server });
+const wss = new SocketServer({ port: 80 });
 
 var game = new Game()
 

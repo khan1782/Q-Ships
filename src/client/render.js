@@ -35,23 +35,22 @@
     var ticker = ticker || 0;
 
     if(state === "spawning" || state === "full"){
-      debugger
-      image.src = Renderer.images.full[thrustStatus]
+      image.src = Renderer.images.full[thrustStatus][ticker]
     } else if(state === "medium"){
-      image.src = "medium ship url with regard to thrustStatus"
+      debugger
+      image.src = Renderer.images.medium[thrustStatus][ticker]
     } else if(state === "low"){
-      image.src = "low ship url with regard to thrustStatus"
+      image.src = Renderer.images.low[thrustStatus][ticker]
     }
-
     return image;
   };
 
   Renderer.prototype.extraImages = function(type){
     var image = new Image();
     if(type === "astroid"){
-      image.src = "astroid url"
+      image.src = Renderer.images.astroid
     } else if(type === "pew"){
-      image.src = "pew url`"
+      image.src = Renderer.images.pew
     }
     return image
   }
@@ -72,37 +71,30 @@
     // rotate at the object's center point
     this.ctx.rotate(dims.rad - (Math.PI/2));
 
-
-    if(object.type === "stationary"){
+    var img = new Image()
+    if(object.type === "ship"){
 
       //run ship images if its a ship to get appropriate frames
-      if(object.thrustStatus === "brake" || object.thrustStatus === "stationary"){
-        var img = this.shipImages(object.thrustStatus, object.state)  
+      if(object.thrustStatus === "pumpYourBrakes" || object.thrustStatus === "stationary"){
+        img = this.shipImages(object.thrustStatus, object.state)  
       } else {
-        var img = this.shipImages(object.thrustStatus, object.state, this.ticker)
+        img = this.shipImages(object.thrustStatus, object.state, this.ticker)
       }
       
       if(object.state === "spawning") {
         //make opaque
         this.ctx.globalAlpha = 0.3
       }
-        this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
-        this.ctx.globalAlpha = 1.0
-        this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
-
-    } else if (object.type === "astroid" || object.type === "pew"){
-
-      //run extra images to get astroid or pew
-      var img = this.extraImages(object.type)
-      //
       this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
-
+      this.ctx.globalAlpha = 1.0
+      this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
+    
+    } else if (object.type === "astroid" || object.type === "pew"){
+        img = this.extraImages(object.type)
+        this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
     } else {
-
-      this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
-
+        this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     }
-
     // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
 
@@ -168,13 +160,13 @@
   // ----------------------KEYS-----------------------------
   var itemKey = {
     ship:     {width: 65, height: 59},
-    spawnship: {width: 65, height: 59},
-    upShip:     {width: 65, height: 59},
-    upLeftShip:     {width: 65, height: 59},
-    upRightShip:     {width: 65, height: 59},
-    leftShip:     {width: 65, height: 59},
-    rightShip:     {width: 65, height: 59},
-    pumpYourBrakes:     {width: 65, height: 59},
+    // spawnship: {width: 65, height: 59},
+    // upShip:     {width: 65, height: 59},
+    // upLeftShip:     {width: 65, height: 59},
+    // upRightShip:     {width: 65, height: 59},
+    // leftShip:     {width: 65, height: 59},
+    // rightShip:     {width: 65, height: 59},
+    // pumpYourBrakes:     {width: 65, height: 59},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
@@ -189,7 +181,7 @@
       upRightShip: ["http://i.imgur.com/dIf6OBS.png","http://i.imgur.com/8CuW90w.png","http://i.imgur.com/2LHj4HA.png","http://i.imgur.com/6GdvCm6.png","http://i.imgur.com/6GdvCm6.png"],
       leftShip: ["http://i.imgur.com/dPVBJQf.png","http://i.imgur.com/xEy0DFC.png","http://i.imgur.com/asyEDMw.png","http://i.imgur.com/Ji7Y4sk.png","http://i.imgur.com/wDOXFjK.png"],
       rightShip: ["http://i.imgur.com/7LUcTQ9.png","http://i.imgur.com/R17dabw.png","http://i.imgur.com/F9ZJVCJ.png","http://i.imgur.com/5s52V4w.png","http://i.imgur.com/IuQkhWJ.png"],
-      brake: ["http://i.imgur.com/h6kWQjf.png"],
+      pumpYourBrakes: ["http://i.imgur.com/h6kWQjf.png"],
       stationary:["http://i.imgur.com/JDMrHaJ.png"]
     },
     medium:{
@@ -198,18 +190,20 @@
       upRightShip:["http://i.imgur.com/htCN2oH.png","http://i.imgur.com/PaXxsvX.png","http://i.imgur.com/mW00pvw.png","http://i.imgur.com/9k4vXS4.png","http://i.imgur.com/SwQRPTD.png"],
       leftShip:["http://i.imgur.com/NdErAPq.png","http://i.imgur.com/45tSJYz.png","http://i.imgur.com/PNlJEqV.png","http://i.imgur.com/rrfeH7Y.png","http://i.imgur.com/uoYvUzd.png"],
       rightShip:["http://i.imgur.com/AttlUbL.png","http://i.imgur.com/sXga3WL.png","http://i.imgur.com/Qsrv7yK.png","http://i.imgur.com/B12oya6.png","http://i.imgur.com/ozVmgPt.png"],
-      brake:["http://i.imgur.com/TiEaDqK.png"],
+      pumpYourBrakes:["http://i.imgur.com/TiEaDqK.png"],
       stationary:["http://i.imgur.com/PQsXuAG.png"]
-    }
+    },
     low:{
       upShip:["http://i.imgur.com/lPNJFJJ.png","http://i.imgur.com/2t0KFG7.png","http://i.imgur.com/ZDGNdXv.png","http://i.imgur.com/xhf4Ye2.png","http://i.imgur.com/pPIY2dX.png"],
       upLeftShip:["http://i.imgur.com/Zj88mgl.png","http://i.imgur.com/Yvmv5Kx.png","http://i.imgur.com/h2MrYAL.png","http://i.imgur.com/FpZQCPY.png","http://i.imgur.com/dupbe2I.png"],
       upRightShip:["http://i.imgur.com/NasSsEW.png","http://i.imgur.com/UxTeSJh.png","http://i.imgur.com/mjGubGk.png","http://i.imgur.com/dIwjqhW.png","http://i.imgur.com/7zDJCl5.png"],
       leftShip:["http://i.imgur.com/PzeqDqO.png","http://i.imgur.com/Cvc5xd8.png","http://i.imgur.com/KGNss2f.png","http://i.imgur.com/hvjuMr3.png","http://i.imgur.com/UQlXhbs.png"],
       rightShip:["http://i.imgur.com/o35Ofpx.png","http://i.imgur.com/9HujO7e.png","http://i.imgur.com/QKmRLRw.png","http://i.imgur.com/Uqwcu8p.png","http://i.imgur.com/KoJtlDu.png"],
-      brake:["http://i.imgur.com/O6JWmEo.png"],
+      pumpYourBrakes:["http://i.imgur.com/O6JWmEo.png"],
       stationary:["http://i.imgur.com/UQlXhbs.png"]
-    }
+    },
+    astroid: "http://i.imgur.com/8i5gG51.png",
+    pew: "http://i.imgur.com/VioerDV.png"
   }
 
 

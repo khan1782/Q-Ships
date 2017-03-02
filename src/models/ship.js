@@ -142,6 +142,7 @@ Ship.prototype.removePew = function() {
 
 //in this section based on the ships current truthful key strokes, we will dictate which type to send
 Ship.prototype.snapshot = function() {
+
   return {
     x: this.x,
     y: this.y,
@@ -149,7 +150,7 @@ Ship.prototype.snapshot = function() {
     type: this.type,
     id: this.uuid,
     state:this.health(),
-    thrustStatus: this.thrustStatus();
+    thrustStatus: this.thrustStatus()
   }
 }
 
@@ -157,7 +158,7 @@ Ship.prototype.health = function() {
   var healthStatus;
   if(this.state === "spawning"){
     healthStatus = "spawning"
-  } else if(this.hp === 5){
+  } else if(this.hp >= 5){
     healthStatus = "full"
   } else if(this.hp > 2) {
     healthStatus = "medium"

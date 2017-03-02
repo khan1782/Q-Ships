@@ -5,7 +5,7 @@ const SocketServer = require('ws').Server;
 const path = require('path');
 const Game = require('./src/models/game.js')
 
-const PORT = process.env.PORT || 80;
+const PORT = 80;
 const INDEX = path.join(__dirname, 'index.html');
 
 const app = express();

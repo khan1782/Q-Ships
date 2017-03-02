@@ -45,7 +45,6 @@
           display: inherit;
           margin-left: auto;
           margin-right: auto;
-          margin-top: 5%;
         }
 
         #welcome {
@@ -64,6 +63,14 @@
           right: 0;
           padding-right: 20px;
           z-index: 15;
+        }
+
+        #player-name-div {
+          z-index: 15;
+          position: absolute;
+          bottom: 2%;
+          right: 2%;
+          transform: translateY(-50%);
         }
 
         .hidden {
@@ -96,6 +103,11 @@
 
         <div id="game-container" >
           <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <div id="player-name-div">
+          <input type="text" id="player-name" placeholder="What's your name?">
+          <input type="submit" value="Enter" onclick="updateName();">
         </div>
 
       <script src="/js/client/starBackground.js"></script>

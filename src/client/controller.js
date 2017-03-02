@@ -139,9 +139,19 @@ function keyStrokeListeners(uuid) {
       sendMessage({uuid: uuid, fire: true})
     }
     if(event.keyCode === 13) {
-      sendMessage({uuid: uuid, start: true})
+      updateName()
     }
   });
+}
+
+var updateName = function() {
+  var nameForm = document.getElementById('player-name')
+  var clientName = nameForm.value
+  if (clientName) {
+    sendMessage({uuid: render.player.id, start: true, name: clientName})
+    var playerNameDiv = document.getElementById('player-name-div')
+    playerNameDiv.setAttribute("class", "hidden");
+  }
 }
 
 //TODO: fix this hack

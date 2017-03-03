@@ -96,7 +96,7 @@
         this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
 
         if(object.thrustStatus){
-         thrusters = this.thrustImage(object.thrustStatus)  
+         thrusters = this.thrustImage(object.thrustStatus,this.ticker)  
           this.ctx.drawImage(thrusters, dims.width/(-2), dims.height/(-2))
         }
       

@@ -81,6 +81,8 @@
       image.src = "http://i.imgur.com/8i5gG51.png";
     } else if(type === "pew") {
       image.src = "http://i.imgur.com/VioerDV.png";
+    } else if(type === "nuke"){
+      image.src = "http://i.imgur.com/SXaUAZH.png";
     }
     return image;
   };
@@ -100,7 +102,7 @@
     this.ctx.rotate(dims.rad - (Math.PI/2));
 
 
-    if (  object.type === "nuke" || object.type === "debris" || object.type === "shrapnel" || object.type === "star_one"|| object.type === "star_two" || object.type === "star_three"){
+    if (object.type === "debris" || object.type === "shrapnel" || object.type === "star_one"|| object.type === "star_two" || object.type === "star_three"){
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     } else {
       // get the correct image tag based off the type
@@ -209,7 +211,7 @@ Renderer.prototype.announceNuke = function(){
     rightShip: {width: 65, height: 59},
     pumpYourBrakes: {width: 65, height: 59},
     pew: {width: 4, height: 10},
-    nuke: {width: 80, height: 80},
+    nuke: {width: 77, height: 103},
     astroid: {width: 45, height: 49},
     debris: {width: 7, height: 7},
     shrapnel: {width: 3, height: 3},

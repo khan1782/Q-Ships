@@ -36,7 +36,7 @@ Game.prototype.items = function() {
       id: this.players[i].uuid,
       name: this.players[i].name,
       score: this.players[i].score
-    })  
+    })
   }
   for (var k = 0; k < this.shrapnel.length; k++) {
     gameItems.push(this.shrapnel[k].snapshot())
@@ -291,7 +291,6 @@ Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package);
   // find the index of the player
   var index = this.findPlayerIndex(package.uuid);
-  console.log(index)
   if(index || index === 0){
     if (package.name) {
       this.players[index].name = package.name;

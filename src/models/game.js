@@ -36,7 +36,7 @@ Game.prototype.items = function() {
       id: this.players[i].uuid,
       name: this.players[i].name,
       score: this.players[i].score
-    })  
+    })
   }
   for (var k = 0; k < this.shrapnel.length; k++) {
     gameItems.push(this.shrapnel[k].snapshot())
@@ -291,28 +291,30 @@ Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package);
   // find the index of the player
   var index = this.findPlayerIndex(package.uuid);
-  if (package.name) {
-    this.players[index].name = package.name;
-  }
-  if (this.players[index].state === 1 || this.players[index].state === 2) {
-  // update that specific player's ship's movements
-    if(package.keys){
-      this.players[index].ship.keys.up = package.keys.up;
-      this.players[index].ship.keys.down = package.keys.down;
-      this.players[index].ship.keys.left = package.keys.left;
-      this.players[index].ship.keys.right = package.keys.right;
+  if(index || index === 0){
+    if (package.name) {
+      this.players[index].name = package.name;
     }
-  }
-    // update that specific player's pew's movements
-  if (this.players[index].state === 2) {
-    if (package.fire) {
-      this.players[index].ship.sayPew();
+    if (this.players[index].state === 1 || this.players[index].state === 2) {
+    // update that specific player's ship's movements
+      if(package.keys){
+        this.players[index].ship.keys.up = package.keys.up;
+        this.players[index].ship.keys.down = package.keys.down;
+        this.players[index].ship.keys.left = package.keys.left;
+        this.players[index].ship.keys.right = package.keys.right;
+      }
     }
-  }
-  if (this.players[index].state === 0) {
-    if (package.start) {
-      this.players[index].state = 1;
-      this.players[index].spawn();
+      // update that specific player's pew's movements
+    if (this.players[index].state === 2) {
+      if (package.fire) {
+        this.players[index].ship.sayPew();
+      }
+    }
+    if (this.players[index].state === 0) {
+      if (package.start) {
+        this.players[index].state = 1;
+        this.players[index].spawn();
+      }
     }
   }
 };

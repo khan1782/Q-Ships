@@ -50,6 +50,7 @@ var itemsNearby = function(snapshot) {
 }
 
 //initialize renderer machinery *wa wa wa wa*
+
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
@@ -79,11 +80,11 @@ ws.onmessage = function (event) {
 render.tickTock();
 
 //----------------------------------------------
-function sendMessage(msg) {
-  ws.send(JSON.stringify(msg))
-};
 
 function keyStrokeListeners(uuid) {
+  function sendMessage(msg) {
+    ws.send(JSON.stringify(msg))
+  };
   //json package ready for editing
   var keys = {uuid: uuid, keys: {up: false, down: false, left: false, right: false}}
 
@@ -145,6 +146,10 @@ function keyStrokeListeners(uuid) {
 }
 
 var updateName = function() {
+  function sendMessage(msg) {
+    ws.send(JSON.stringify(msg))
+  };
+
   var nameForm = document.getElementById('player-name')
   var clientName = nameForm.value
   if (clientName) {

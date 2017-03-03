@@ -4,7 +4,7 @@ function Player(uuid) {
   this.state = PLAYER_STATE.start;
   this.uuid = uuid;
   this.ship = new Ship(uuid);
-  this.score = 10;
+  this.score = 0;
   this.name = "Player " + (uuid + 1);
 }
 

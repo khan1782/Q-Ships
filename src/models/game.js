@@ -209,6 +209,7 @@ Game.prototype.bounty = function(hunter, target) {
       break;
     case "asteroid":
       hunter.ship.hp += 3;
+      hunter.score += 10;
       break;
   }
 }

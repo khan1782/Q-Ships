@@ -26,8 +26,8 @@ function Ship(uuid) {
 };
 
 Ship.defaults = {
-  height: 40,
-  width: 20,
+  height: 65,
+  width: 59,
   rad: -(Math.PI/2),
   initialDx: 0,
   initialDy: 0,
@@ -112,7 +112,7 @@ Ship.prototype.speed = function() {
 //TODO review initial position of pew. should be outside of hit boxes infront of center of ship.
 Ship.prototype.sayPew = function() {
   var recoil = 2.5;
-  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (2.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (2.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));
+  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));
   this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
 }

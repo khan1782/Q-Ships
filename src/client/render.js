@@ -27,20 +27,38 @@
     }
   };
 
-  Renderer.prototype.shipImages = function(thrustStatus,state,ticker){
+  // Renderer.prototype.shipImages = function(thrustStatus,state,ticker){
 
-    var image = new Image();
+  //   var image = new Image();
+  //   var ticker = ticker || 0;
+
+  //   if(state === "spawning" || state === "full"){
+  //     // image.src = Renderer.images.full[thrustStatus][ticker]
+
+  //   } else if(state === "medium"){
+  //     // image.src = Renderer.images.medium[thrustStatus][ticker]
+  //   } else if(state === "low"){
+  //     // image.src = Renderer.images.low[thrustStatus][ticker]
+  //   }
+  //   return image;
+  // };
+  Renderer.prototype.bodyImage = function(state,id){
+    var image = new Image()
+    image.src= Renderer.images.ships[(id%=5)][state]
+    return image
+  }
+  
+  Renderer.prototype.thrustImage = function(thrustStatus,ticker){
+    var image = new Image()
     var ticker = ticker || 0;
-
-    if(state === "spawning" || state === "full"){
-      image.src = Renderer.images.full[thrustStatus][ticker]
-    } else if(state === "medium"){
-      image.src = Renderer.images.medium[thrustStatus][ticker]
-    } else if(state === "low"){
-      image.src = Renderer.images.low[thrustStatus][ticker]
+    if(thrustStatus === "pumpYourBrakes"){
+      image.src = Renderer.images.pumpYourBrakes  
+    } else{
+      image.src = Renderer.images.thrusters[thrustStatus][ticker]
     }
-    return image;
-  };
+    this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
+    return image
+  }
 
   Renderer.prototype.extraImages = function(type){
     var image = new Image();
@@ -58,7 +76,8 @@
   Renderer.prototype.draw = function(object){
     // get the dimensions of the object
     var dims = this.dimensions(object);
-
+    var ship;
+    var thrusters;
     // for testing purpose only
     this.ctx.fillStyle = "white";
 
@@ -68,26 +87,22 @@
     // rotate at the object's center point
     this.ctx.rotate(dims.rad - (Math.PI/2));
 
-    var img = new Image()
     if(object.type === "ship"){
-
-
-      //run ship images if its a ship to get appropriate frames
-      if(object.thrustStatus === "pumpYourBrakes" || object.thrustStatus === "stationary"){
-        img = this.shipImages(object.thrustStatus, object.state)  
-      } else {
-        img = this.shipImages(object.thrustStatus, object.state, this.ticker)
-      }
-      
       if(object.state === "spawning") {
         //make opaque
         this.ctx.globalAlpha = 0.3
-
       }
-      this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
+        ship = this.bodyImage(object.state,object.id) 
+        this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
+
+        if(object.thrustStatus){
+         thrusters = this.thrustImage(object.thrustStatus)  
+          this.ctx.drawImage(thrusters, dims.width/(-2), dims.height/(-2))
+        }
+      
+      
       this.ctx.globalAlpha = 1.0
-      this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
-    
+
     } else if (object.type === "astroid" || object.type === "pew"){
         img = this.extraImages(object.type)
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
@@ -177,36 +192,68 @@
 //---------------------images----------------------------
 
   Renderer.images = {
-    full: { 
-      upShip: ["http://i.imgur.com/OjQL9nk.png","http://i.imgur.com/Ice0ahG.png","http://i.imgur.com/LPSjtUm.png","http://i.imgur.com/dDo84hf.png","http://i.imgur.com/xeSWbGW.png"],
-      upLeftShip: ["http://i.imgur.com/HB35u91.png","http://i.imgur.com/YigBqAN.png","http://i.imgur.com/utjjT1j.png","http://i.imgur.com/jIrky4d.png","http://i.imgur.com/jIrky4d.png"],
-      upRightShip: ["http://i.imgur.com/dIf6OBS.png","http://i.imgur.com/8CuW90w.png","http://i.imgur.com/2LHj4HA.png","http://i.imgur.com/6GdvCm6.png","http://i.imgur.com/6GdvCm6.png"],
-      leftShip: ["http://i.imgur.com/dPVBJQf.png","http://i.imgur.com/xEy0DFC.png","http://i.imgur.com/asyEDMw.png","http://i.imgur.com/Ji7Y4sk.png","http://i.imgur.com/wDOXFjK.png"],
-      rightShip: ["http://i.imgur.com/7LUcTQ9.png","http://i.imgur.com/R17dabw.png","http://i.imgur.com/F9ZJVCJ.png","http://i.imgur.com/5s52V4w.png","http://i.imgur.com/IuQkhWJ.png"],
-      pumpYourBrakes: ["http://i.imgur.com/h6kWQjf.png"],
-      stationary:["http://i.imgur.com/JDMrHaJ.png"]
+    thrusters:{
+      upShip:["http://i.imgur.com/ELduYCu.png","http://i.imgur.com/2n5Y91F.png","http://i.imgur.com/y4tf3vr.png","http://i.imgur.com/bM9ITV0.png","http://i.imgur.com/vgByS8t.png"],
+      rightShip:["http://i.imgur.com/SBTJui7.png","http://i.imgur.com/KnT9Mkb.png","http://i.imgur.com/r71idEc.png","http://i.imgur.com/nor0HkE.png","http://i.imgur.com/sFNvYbi.png"],
+      leftShip:["http://i.imgur.com/feXJn3N.png","http://i.imgur.com/iqIaoEj.png","http://i.imgur.com/MKto5Wk.png","http://i.imgur.com/8Fc3d0f.png","http://i.imgur.com/l2Qh6Fk.png"],
+      upLeftShip:["http://i.imgur.com/6aX9ZDY.png","http://i.imgur.com/ny9KLCp.png","http://i.imgur.com/HmVECLy.png","http://i.imgur.com/kDYxr1W.png","http://i.imgur.com/SZX0yw0.png"],
+      upRightShip:["http://i.imgur.com/IDWy8rT.png","http://i.imgur.com/ALj9wfK.png","http://i.imgur.com/quwqQnH.png","http://i.imgur.com/2ue1Ypy.png","http://i.imgur.com/e978j5U.png"]
     },
-    medium:{
-      upShip:["http://i.imgur.com/ilRT5sh.png","http://i.imgur.com/fYIkFQW.png","http://i.imgur.com/2sD9KWe.png","http://i.imgur.com/6TDANKi.png","http://i.imgur.com/up6kPHE.png"],
-      upLeftShip:["http://i.imgur.com/SwQRPTD.png","http://i.imgur.com/9k4vXS4.png","http://i.imgur.com/mW00pvw.png","http://i.imgur.com/PaXxsvX.png","http://i.imgur.com/htCN2oH.png"],
-      upRightShip:["http://i.imgur.com/htCN2oH.png","http://i.imgur.com/PaXxsvX.png","http://i.imgur.com/mW00pvw.png","http://i.imgur.com/9k4vXS4.png","http://i.imgur.com/SwQRPTD.png"],
-      leftShip:["http://i.imgur.com/NdErAPq.png","http://i.imgur.com/45tSJYz.png","http://i.imgur.com/PNlJEqV.png","http://i.imgur.com/rrfeH7Y.png","http://i.imgur.com/uoYvUzd.png"],
-      rightShip:["http://i.imgur.com/AttlUbL.png","http://i.imgur.com/sXga3WL.png","http://i.imgur.com/Qsrv7yK.png","http://i.imgur.com/B12oya6.png","http://i.imgur.com/ozVmgPt.png"],
-      pumpYourBrakes:["http://i.imgur.com/TiEaDqK.png"],
-      stationary:["http://i.imgur.com/PQsXuAG.png"]
-    },
-    low:{
-      upShip:["http://i.imgur.com/lPNJFJJ.png","http://i.imgur.com/2t0KFG7.png","http://i.imgur.com/ZDGNdXv.png","http://i.imgur.com/xhf4Ye2.png","http://i.imgur.com/pPIY2dX.png"],
-      upLeftShip:["http://i.imgur.com/Zj88mgl.png","http://i.imgur.com/Yvmv5Kx.png","http://i.imgur.com/h2MrYAL.png","http://i.imgur.com/FpZQCPY.png","http://i.imgur.com/dupbe2I.png"],
-      upRightShip:["http://i.imgur.com/NasSsEW.png","http://i.imgur.com/UxTeSJh.png","http://i.imgur.com/mjGubGk.png","http://i.imgur.com/dIwjqhW.png","http://i.imgur.com/7zDJCl5.png"],
-      leftShip:["http://i.imgur.com/PzeqDqO.png","http://i.imgur.com/Cvc5xd8.png","http://i.imgur.com/KGNss2f.png","http://i.imgur.com/hvjuMr3.png","http://i.imgur.com/UQlXhbs.png"],
-      rightShip:["http://i.imgur.com/o35Ofpx.png","http://i.imgur.com/9HujO7e.png","http://i.imgur.com/QKmRLRw.png","http://i.imgur.com/Uqwcu8p.png","http://i.imgur.com/KoJtlDu.png"],
-      pumpYourBrakes:["http://i.imgur.com/O6JWmEo.png"],
-      stationary:["http://i.imgur.com/UQlXhbs.png"]
-    },
+    pumpYourBrakes:"http://i.imgur.com/rKZH11y.png",
+    // full:"http://i.imgur.com/JDMrHaJ.png",
+    // spawning:"http://i.imgur.com/JDMrHaJ.png",
+    // medium:"http://i.imgur.com/PQsXuAG.png",
+    // low:"http://i.imgur.com/UQlXhbs.png",
     astroid: "http://i.imgur.com/8i5gG51.png",
-    pew: "http://i.imgur.com/VioerDV.png"
+    pew: "http://i.imgur.com/VioerDV.png",
+    ships:[{
+      spawning:"http://i.imgur.com/78UG0pv.png",
+      high:"http://i.imgur.com/78UG0pv.png",
+      full:"http://i.imgur.com/E9Ln1by.png",
+      medium:"http://i.imgur.com/glDm22T.png",
+      low:"http://i.imgur.com/kcJdnch.png"
+    },
+    {
+      spawning:"http://i.imgur.com/s1gmp8k.png",
+      high:"http://i.imgur.com/s1gmp8k.png",
+      full:"http://i.imgur.com/8YWAA4n.png",
+      medium:"http://i.imgur.com/QTvRdzI.png",
+      low:"http://i.imgur.com/rbd2ErY.png"
+    },
+    {
+      spawning:"http://i.imgur.com/vKz3aqq.png",
+      high:"http://i.imgur.com/vKz3aqq.png",
+      full:"http://i.imgur.com/ynOA7pa.png",
+      medium:"http://i.imgur.com/yVLT2Aq.png",
+      low:"http://i.imgur.com/2LQfvfn.png"
+    },
+    {
+      spawning:"http://i.imgur.com/vKz3aqq.png",
+      high:"http://i.imgur.com/xNeuvuA.png",
+      full:"http://i.imgur.com/yfSJ8a1.png",
+      medium:"http://i.imgur.com/hQYd7VQ.png",
+      low:"http://i.imgur.com/No1QhZX.png"
+    },
+    {
+      spawning:"http://i.imgur.com/mHhT0kd.png",
+      high:"http://i.imgur.com/mHhT0kd.png",
+      full:"http://i.imgur.com/7QH7ZbX.png",
+      medium:"http://i.imgur.com/YTZXTjO.png",
+      low:"http://i.imgur.com/L1VHlP2.pnga"
+    },
+    {
+      spawning:"http://i.imgur.com/lAaqCT0.png",
+      high:"http://i.imgur.com/lAaqCT0.png",
+      full:"http://i.imgur.com/ig22rDQ.png",
+      medium:"http://i.imgur.com/QFcyWnA.png",
+      low:"http://i.imgur.com/BczFMuV.png"
+    }]
+      
   }
+
 
   window.Renderer = Renderer;
 })()
+
+
+

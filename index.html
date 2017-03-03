@@ -66,11 +66,36 @@
         }
 
         #player-name-div {
-          z-index: 15;
-          position: absolute;
-          bottom: 2%;
-          right: 2%;
-          transform: translateY(-50%);
+          margin-top: 15px;
+          display: flex;
+          align-items: center;
+        }
+
+        #player-name {
+          margin-left: 50px;
+          width: 50%;
+          color: black;
+          letter-spacing: 1px;
+          text-indent: 5%;
+          height: 34px;
+          border-radius: 5px 0 0 5px;
+          font-family: Arial;
+          font-size: 18px;
+          border: 5px solid #312832;
+          border-right: 0px solid #312832;
+        }
+
+        #player-input-button{
+          width: 25%;
+          height: 45.5px;
+          background: #27abb5;
+          font-weight: bold;
+          letter-spacing: 1px;
+          cursor: pointer;
+          border-radius: 0 5px 5px 0;
+          font-family: Arial;
+          font-size: 18px;
+          border: 5px solid #312832;
         }
 
         .hidden {
@@ -90,11 +115,16 @@
       <div id='container'>
         <div id="welcome">
           <img src="http://i.imgur.com/hzKX3yM.png" alt="pew pew pew" width="500">
-          <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250">
+          <!-- <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250"> -->
+
+          <div id="player-name-div">
+            <input type="text" id="player-name" placeholder="Enter your name?">
+            <input type="submit" id="player-input-button"value="Play" onclick="updateName();">
+          </div>
+
         </div><center>
 
         <div id="score">
-          <h1>High Scores</h1>
         </div>
 
         <div id="background-container">
@@ -103,11 +133,6 @@
 
         <div id="game-container" >
           <canvas id="gameCanvas"></canvas>
-        </div>
-
-        <div id="player-name-div">
-          <input type="text" id="player-name" placeholder="What's your name?">
-          <input type="submit" value="Enter" onclick="updateName();">
         </div>
 
       <script src="/js/client/starBackground.js"></script>

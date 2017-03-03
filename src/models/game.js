@@ -166,6 +166,7 @@ Game.prototype.checkers = function() {
       // invoke explodePew() to create shrapnels...
       this.explodePew(explodingPews[j]);
     }
+
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
       this.players[i].score = 0;
@@ -178,14 +179,17 @@ Game.prototype.checkers = function() {
       // reseting player state
       this.players[i].state = 0;
     }
+
     if (this.players[i].ship.nuked && this.players[i].ship.nuke.length === 1) {
-      if (this.players[i].ship.nuke[0].hp < 1){
-        this.explodeNuke(this.players[i].ship.nuke[0]);
-      } else if (this.players[i].ship.nuke[0].isExpired){
+      // if (this.players[i].ship.nuke[0].hp < 1){
+      //   this.explodeNuke(this.players[i].ship.nuke[0]);
+      // } else
+      if (this.players[i].ship.nuke[0].isExpired){
         this.detonateNuke(this.players[i].ship.nuke[0]);
       }
     }
   }
+
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
       if (this.asteroids[i].hitby !== "undefined") {
@@ -204,7 +208,7 @@ Game.prototype.checkers = function() {
 Game.prototype.bounty = function(hunter, target) {
   switch (target) {
     case "ship":
-      hunter.ship.hp += 5;
+      hunter.ship.hp += 3;
       hunter.score += 1;
       break;
     case "asteroid":
@@ -228,27 +232,39 @@ Game.prototype.explodeShip = function(x, y) {
   this.shrapnelMaker(40, x, y);
 }
 
+
+
+// -------------------------------------------------------------------------------
+
 //Nuke is taken out by pews. Doesn't kill everyone today.
 Game.prototype.explodeNuke = function(nuke) {
-  for (var i = 0; i < 100; i++){
-    this.shrapnelMaker(30, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
-  }
-  this.players[this.findPlayerIndex(nuke.uuid)].ship.nuke = [];
+  this.shrapnelMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
+  this.debrisMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
+
+  var that = this;
+  setTimeout(function() {
+  that.players[that.findPlayerIndex(nuke.uuid)].ship.nuke = [];
+  }, 5000);
 }
 
 //Nuke blew up. everyone ded.
 Game.prototype.detonateNuke = function(nuke) {
   var nuker = this.players[this.findPlayerIndex(nuke.uuid)];
-  // console.log(nuker);
-  nuker.ship.hp += 60;
-  // console.log(nuker);
-  // this.explodeNuke(nuke);
+  nuker.ship.hp += 900;
+  this.explodeNuke(nuke);
+
   var allObjects = this.collidableObjects();
   for (var i = 0; i < allObjects.length; i++){
     this.bounty(nuker, allObjects[i]);
-    allObjects[i].hp = 0;
+    allObjects[i].hp -= 20;
   }
+
+  nuker.ship.hp = 12;
 }
+// -------------------------------------------------------------------------------
+
+
+
 
 
 Game.prototype.shrapnelMaker = function(amount, x, y) {
@@ -332,6 +348,8 @@ Game.prototype.isColliding = function(ufo1, ufo2){
   }
 }
 
+// -------------------------------------------------------------------------------
+
 Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package);
   // find the index of the player
@@ -366,6 +384,7 @@ Game.prototype.updateEntity = function(package){
   }
 };
 
+// -------------------------------------------------------------------------------
 Game.prototype.removeShrapnel = function() {
   var aliveShrapnel = [];
   for(var j = 0; j < this.shrapnel.length; j++){

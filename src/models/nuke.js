@@ -32,19 +32,29 @@ Nuke.prototype.move = function(width, height) {
 }
 
 Nuke.prototype.destructionTimer = function() {
-  var that = this
+  var that = this;
   setTimeout(function() {
     that.isExpired = true
   }, 8000);
 };
 
 Nuke.prototype.snapshot = function() {
-  return {
-    x: this.x,
-    y: this.y,
-    rad: this.rad,
-    type: "nuke",
-    id: this.uuid
+  if (!this.isExpired){
+    return {
+      x: this.x,
+      y: this.y,
+      rad: this.rad,
+      type: "nuke",
+      id: this.uuid
+    }
+  } else {
+    return {
+      x: this.x,
+      y: this.y,
+      rad: this.rad,
+      type: "shrapnel",
+      id: this.uuid
+    }
   }
 }
 

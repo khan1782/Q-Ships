@@ -161,7 +161,7 @@
       score.setAttribute("style", "opacity: 0.4");
     } else {
       welcome.removeAttribute("class");
-      // score.removeAttribute("class");
+      score.removeAttribute("class");
     }
   }
 
@@ -185,10 +185,10 @@
   }
 
 Renderer.prototype.announceNuke = function(){
-  var nukeDiv = document.getElementById("nuke-div")
-  nukeDiv.removeAttribute('class')
+  var nukeDiv = document.getElementById("nuke-div");
+  nukeDiv.removeAttribute('class');
   setTimeout(function() {
-    nukeDiv.setAttribute("class", "hidden")
+    nukeDiv.setAttribute("class", "hidden");
   }, 3000);
 }
 

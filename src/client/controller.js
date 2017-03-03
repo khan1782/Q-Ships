@@ -125,28 +125,28 @@ function keyStrokeListeners(uuid) {
   document.addEventListener('keyup', function(event){
     if(event.keyCode === 38) {
       keys.keys.up = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 40) {
       keys.keys.down = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 37) {
       keys.keys.left = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 39) {
       keys.keys.right = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 32) {
-      sendMessage({uuid: uuid, fire: true})
+      sendMessage({uuid: uuid, fire: true});
     }
     if(event.keyCode === 78 && render.player.canNuke) {
-      sendMessage({uuid: uuid, nuke: true})
+      sendMessage({uuid: uuid, nuke: true});
     }
     if(event.keyCode === 13) {
-      updateName()
+      updateName();
     }
   });
 }

@@ -113,7 +113,7 @@ Ship.prototype.dropNuke = function() {
   var nuke = this.nuke[0];
   setTimeout(function(){
     nuke.hitBuffer = 40;
-  }, 2000)
+  }, 2000);
 }
 
 // Find all pews without hp and set them to expired and queue them for explosion.

@@ -137,7 +137,7 @@
   //runs populateUniverse in a repeated loop
   //takes in a snapshotAssetArray to update itself
   Renderer.prototype.tickTock = function(){
-    var that = this;
+    var that = this; 
     function execute(){
       window.requestAnimationFrame(execute);
       that.populateUniverse();
@@ -182,6 +182,7 @@
   var itemKey = {
 
     ship:     {width: 65, height: 59},
+    rocket:   {width:20, height: 60},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
@@ -261,4 +262,4 @@
 
 
 // ["http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/wd6yp4W.png","http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/uOoyGS5.png","http://i.imgur.com/DVr2Z1X.png"]
-["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"]
+// ["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"]

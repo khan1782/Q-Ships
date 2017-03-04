@@ -168,6 +168,7 @@ Game.prototype.checkers = function() {
       this.players[i].state = 0;
     }
   }
+
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
       if (this.asteroids[i].hitby !== "undefined") {
@@ -227,13 +228,19 @@ Game.prototype.debrisMaker = function(amount, x, y) {
 
 // collision detection for all objects
 Game.prototype.ouch = function() {
-  allCollidableObjects = this.collidableObjects();
+  var allCollidableObjects = this.collidableObjects();
 
   for (var i = 0; i < allCollidableObjects.length; i++) {
     var ufo1 = allCollidableObjects[i];
 
     for (var j = i + 1; j < allCollidableObjects.length; j++) {
       var ufo2 = allCollidableObjects[j];
+
+
+
+
+
+
       if (this.isColliding(ufo1, ufo2)) {
         ufo1.hp -= 1;
         ufo2.hp -= 1;
@@ -308,6 +315,8 @@ Game.prototype.updateEntity = function(package){
     if (this.players[index].state === 2) {
       if (package.fire) {
         this.players[index].ship.sayPew();
+      } else if(package.launch){
+        this.players[index].ship.launchRocket()
       }
     }
     if (this.players[index].state === 0) {

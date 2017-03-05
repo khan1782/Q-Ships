@@ -121,7 +121,7 @@ Ship.prototype.sayPew = function() {
 Ship.prototype.launchRocket = function(){
   if(this.rocketStock){
     var recoil = 5.0;
-    var thrust = 18
+    var thrust = 12
     var type = "rocket"
     var rocket = new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad, thrust,type)
     setTimeout(function(){

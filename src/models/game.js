@@ -12,7 +12,7 @@ var Debris = require("./debris.js")
      this.shrapnel =[];
      this.asteroids = [];
      this.debris = [];
-     for (var i = 0; i < 4; i++){
+     for (var i = 0; i < 5; i++){
         this.spawnAsteroid();
      }
      this.scores = [];
@@ -105,7 +105,7 @@ Game.prototype.removePlayer = function(uuid) {
 }
 
 Game.prototype.jetStream = function(ship){
-  if(this.counter === 3){
+  if(this.counter === 4){
     var x = ship.x + ship.width/2 - (Math.sin(ship.rad + (Math.PI/2))*(ship.width/2))
     var y = ship.y + ship.height/2 + (Math.cos(ship.rad+ (Math.PI/2))*(ship.height/2))
     var dx =  ship.dx/2

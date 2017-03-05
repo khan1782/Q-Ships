@@ -169,6 +169,9 @@ Ship.prototype.snapshot = function() {
     id: this.uuid,
     state:this.health(),
     thrustStatus: this.thrustStatus()
+    // arsenal:{
+    //   rocket: this.rocketStock
+    // }
   }
 }
 

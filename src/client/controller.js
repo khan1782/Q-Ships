@@ -72,6 +72,7 @@ ws.onmessage = function (event) {
   }
 
   render.objectsArray = itemsNearby(snapshot);
+  //player:{id:clientID, state:thisPlayer.state, x:thisPlayer.ship.x, y:thisPlayer.ship.y,arsenal:thisPlayer.ship.rocketStock}
   render.player = snapshot.player;
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);

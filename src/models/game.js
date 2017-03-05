@@ -74,7 +74,8 @@ Game.prototype.snapshot = function(clientID) {
       id: clientID,
       state: thisPlayer.state,
       x: thisPlayer.ship.x,
-      y: thisPlayer.ship.y
+      y: thisPlayer.ship.y,
+      arsenal: thisPlayer.ship.rocketStock
     },
     items: this.items()
   })

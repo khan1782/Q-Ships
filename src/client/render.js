@@ -18,6 +18,7 @@
     //clear the canvas before very frame
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
     //check if there is any input from WS
+    this.arsenal()
     if(this.objectsArray){
       //iterate through all the objects set in controller from on message WS
       for(var i = 0; i < this.objectsArray.length; i++){
@@ -69,8 +70,16 @@
   }
 
   // for an individual asset, run canvas methods to place on canvas
-
-
+  Renderer.prototype.arsenal = function(){
+    if(this.player && this.player.arsenal){
+      
+      var leftPositioning = 450   
+      var bottomPositioning = 100
+      this.ctx.font = "20px Courier";
+      this.ctx.drawImage(this.extraImages("rocket"), this.canvas.width-leftPositioning -50, this.canvas.height-bottomPositioning-40)
+      this.ctx.fillText("'x' to shoot your rocket!",this.canvas.width-leftPositioning,this.canvas.height-bottomPositioning)
+    }
+  }
   Renderer.prototype.draw = function(object){
     // get the dimensions of the object
     var dims = this.dimensions(object);
@@ -102,7 +111,6 @@
           shields = this.shieldImage(object.state)
           this.ctx.drawImage(shields, dims.width/(-2), dims.height/(-2)) 
         }
-      
       
       this.ctx.globalAlpha = 1.0
 

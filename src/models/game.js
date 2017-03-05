@@ -353,12 +353,8 @@ Game.prototype.updateEntity = function(package){
       }
       if(package.blast){
         var that = this.players[index].ship
-        // console.log("*********************************")
-        // console.log(that)
         that.shotgunBlast()
         setTimeout(function(){
-          // console.log(that)
-          // console.log("**************************************")
           that.shotgunBlast()  
         },200)
 

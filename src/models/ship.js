@@ -24,6 +24,10 @@ function Ship(uuid) {
   this.hp = Ship.defaults.hp;
   this.hitBuffer = Ship.defaults.hitBuffer;
   this.rocketStock = true
+  var that = this
+  setInterval(function(){
+    that.rocketStock = true
+  },15000)
 };
 
 Ship.defaults = {

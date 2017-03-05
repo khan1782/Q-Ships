@@ -271,7 +271,7 @@ Game.prototype.ouch = function() {
       if (this.isColliding(ufo1, ufo2)) {
         var damage = 1
         if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
-          damage = 10
+          damage = 5
         } 
         ufo1.hp -= damage;
         ufo2.hp -= damage;

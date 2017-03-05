@@ -93,7 +93,8 @@
       if(object.state === "spawning") {
         this.ctx.globalAlpha = 0.3
       }
-
+      // console.log(dims.rad)
+      // console.log((dims.rad % (2*Math.PI)))
         ship = this.bodyImage(object.state,object.id) 
         this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
 

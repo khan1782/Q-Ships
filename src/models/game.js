@@ -346,8 +346,12 @@ Game.prototype.updateEntity = function(package){
     if (this.players[index].state === 2) {
       if (package.fire) {
         this.players[index].ship.sayPew();
-      } else if(package.launch){
+      }
+      if(package.launch){
         this.players[index].ship.launchRocket()
+      }
+      if(package.blast){
+        this.players[index].ship.shotgunBlast()
       }
     }
     if (this.players[index].state === 0) {

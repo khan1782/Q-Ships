@@ -24,6 +24,7 @@ function Ship(uuid) {
   this.hp = Ship.defaults.hp;
   this.hitBuffer = Ship.defaults.hitBuffer;
   this.rocketStock = true
+  this.shotgunStock = true
   var that = this
   setInterval(function(){
     that.rocketStock = true
@@ -140,6 +141,34 @@ Ship.prototype.launchRocket = function(){
     this.rocketStock = false
     }
 }
+
+Ship.prototype.shotgunBlast = function(){
+  if(this.shotgunStock){
+    console.log((this.rad+(Math.PI/2)) % (2*Math.PI))
+    var recoil = 20
+    var thrust = 20
+    var numPews = 10;
+    if(Math.abs(this.rad+(Math.PI/2)) % (2*Math.PI) < Math.PI){
+      
+    }
+    for(var i=0;i<numPews;i++){
+      var x = this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2)+20+((i)*6)))*(this.width/2)
+      var y = this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2)+20+((i)*6)))*(this.height/2)
+      var dx = this.dx -(Math.sin(this.rad)*5)+ Math.sin(this.rad)*i//-(numPews/2)//+ i //* (Math.sin(this.rad + (Math.PI/2)))
+      var dy = this.dy -(Math.sin(this.rad)*5)+ Math.sin(this.rad)*i//-(numPews/2) //Math.cos(this.rad + (Math.PI/2))*(i)/3
+      var newPew = new Pew(this.uuid, x, y, dx, dy, this.rad, thrust);
+      this.pewBay.push(newPew)
+    }
+    this.x -= recoil * Math.cos(this.rad);
+    this.y -= recoil * Math.sin(this.rad); 
+    // this.shotgunStock = false;
+  }
+}
+//for up(rad0) dx - 1 is good sin(rad0=0) to get -1  cos(rad0)
+//for down(rad PI) dx +1 is good sin(radPI = 0)
+//for right(radPI/2) dy -1 is good cos(radPI/2 = 1)
+//for left(radPI*1.5) dy +1 is good cos(radPI*1.5 = -1)
+
 
 // Find all pews without hp and set them to expired and queue them for explosion.
 // Remove all expired pews from ship's pewBay (missile array)

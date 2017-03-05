@@ -76,7 +76,8 @@ Game.prototype.snapshot = function(clientID) {
       state: thisPlayer.state,
       x: thisPlayer.ship.x,
       y: thisPlayer.ship.y,
-      arsenal: thisPlayer.ship.rocketStock
+      rocketStock: thisPlayer.ship.rocketStock,
+      shotgunStock: thisPlayer.ship.shotgunStock
     },
     items: this.items()
   })
@@ -351,7 +352,16 @@ Game.prototype.updateEntity = function(package){
         this.players[index].ship.launchRocket()
       }
       if(package.blast){
-        this.players[index].ship.shotgunBlast()
+        var that = this.players[index].ship
+        // console.log("*********************************")
+        // console.log(that)
+        that.shotgunBlast()
+        setTimeout(function(){
+          // console.log(that)
+          // console.log("**************************************")
+          that.shotgunBlast()  
+        },200)
+
       }
     }
     if (this.players[index].state === 0) {

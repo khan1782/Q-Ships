@@ -1,9 +1,9 @@
 //pew class (missiles) and associated functions
-function Pew(uuid, x, y, dx, dy, rad,thrust,type) {
+function Pew(uuid, x, y, dx, dy, rad,thrust,type,hitBuffer) {
   // this.pewThrust = 15;
   this.pewThrust = thrust || 15
   this.type = type || "pew"
-  this.hitBuffer = 5;
+  this.hitBuffer = hitBuffer || 5;
   this.hp = 1;
   this.x = x;
   this.y = y;

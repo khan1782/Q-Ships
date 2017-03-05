@@ -24,11 +24,14 @@ function Ship(uuid) {
   this.hp = Ship.defaults.hp;
   this.hitBuffer = Ship.defaults.hitBuffer;
   this.rocketStock = true
-  this.shotgunStock = true
+  this.shotgunStock = 2
   var that = this
   setInterval(function(){
-    that.rocketStock = true
+    that.rocketStock = true;
   },15000)
+  setInterval(function(){
+      that.shotgunStock = 2;
+  },10000)
 };
 
 Ship.defaults = {
@@ -143,31 +146,27 @@ Ship.prototype.launchRocket = function(){
 }
 
 Ship.prototype.shotgunBlast = function(){
-  if(this.shotgunStock){
-    console.log((this.rad+(Math.PI/2)) % (2*Math.PI))
+  if(this.shotgunStock > 0){
+    // console.log((this.rad+(Math.PI/2)) % (2*Math.PI))
     var recoil = 20
     var thrust = 20
-    var numPews = 10;
+    var numPews = 22;
     if(Math.abs(this.rad+(Math.PI/2)) % (2*Math.PI) < Math.PI){
-      
+
     }
     for(var i=0;i<numPews;i++){
-      var x = this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2)+20+((i)*6)))*(this.width/2)
-      var y = this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2)+20+((i)*6)))*(this.height/2)
-      var dx = this.dx -(Math.sin(this.rad)*5)+ Math.sin(this.rad)*i//-(numPews/2)//+ i //* (Math.sin(this.rad + (Math.PI/2)))
-      var dy = this.dy -(Math.sin(this.rad)*5)+ Math.sin(this.rad)*i//-(numPews/2) //Math.cos(this.rad + (Math.PI/2))*(i)/3
-      var newPew = new Pew(this.uuid, x, y, dx, dy, this.rad, thrust);
+      var updatedRad = this.rad -Math.PI/8 + (Math.PI/75)*i
+      var newPew = new Pew(this.uuid, this.x + this.width/2 + (Math.sin(updatedRad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (Math.cos(updatedRad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, updatedRad,20,"pew",0.000001);
+      setTimeout(function(){
+        newPew.hitBuffer = 5
+      },200)
       this.pewBay.push(newPew)
     }
     this.x -= recoil * Math.cos(this.rad);
     this.y -= recoil * Math.sin(this.rad); 
-    // this.shotgunStock = false;
+    this.shotgunStock -= 1;
   }
 }
-//for up(rad0) dx - 1 is good sin(rad0=0) to get -1  cos(rad0)
-//for down(rad PI) dx +1 is good sin(radPI = 0)
-//for right(radPI/2) dy -1 is good cos(radPI/2 = 1)
-//for left(radPI*1.5) dy +1 is good cos(radPI*1.5 = -1)
 
 
 // Find all pews without hp and set them to expired and queue them for explosion.

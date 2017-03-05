@@ -65,13 +65,20 @@
 
   // for an individual asset, run canvas methods to place on canvas
   Renderer.prototype.arsenal = function(){
-    if(this.player && this.player.arsenal){
+    if(this.player && this.player.rocketStock){
       
       var leftPositioning = 450   
       var bottomPositioning = 100
       this.ctx.font = "20px Courier";
       this.ctx.drawImage(this.extraImages("rocket"), this.canvas.width-leftPositioning -50, this.canvas.height-bottomPositioning-40)
       this.ctx.fillText("'x' to shoot your rocket!",this.canvas.width-leftPositioning,this.canvas.height-bottomPositioning)
+    }
+    if(this.player && this.player.shotgunStock){
+      var leftPositioning = 450   
+      var bottomPositioning = 200
+      this.ctx.font = "20px Courier";
+      this.ctx.drawImage(this.extraImages("pew"), this.canvas.width-leftPositioning -50, this.canvas.height-bottomPositioning-40)
+      this.ctx.fillText("'c' to shoot your shotgun!",this.canvas.width-leftPositioning,this.canvas.height-bottomPositioning)
     }
   }
   Renderer.prototype.draw = function(object){

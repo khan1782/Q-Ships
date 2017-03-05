@@ -62,6 +62,8 @@
       image.src = Renderer.images.astroid
     } else if(type === "pew"){
       image.src = Renderer.images.pew
+    } else if(type === "rocket"){
+      image.src = Renderer.images.rocket
     }
     return image
   }
@@ -104,7 +106,7 @@
       
       this.ctx.globalAlpha = 1.0
 
-    } else if (object.type === "astroid" || object.type === "pew"){
+    } else if (object.type === "astroid" || object.type === "pew" || object.type === "rocket"){
         img = this.extraImages(object.type)
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
     } else {
@@ -209,6 +211,7 @@
 
     astroid: "http://i.imgur.com/8i5gG51.png",
     pew: "http://i.imgur.com/VioerDV.png",
+    rocket:"http://i.imgur.com/Rqf0XOu.png",
     ships:[{
       spawning:"http://i.imgur.com/78UG0pv.png",
       // high:"http://i.imgur.com/78UG0pv.png",

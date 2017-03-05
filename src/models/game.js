@@ -154,16 +154,13 @@ Game.prototype.checkers = function() {
     for (var j = 0; j < explodingPews.length; j++) {
 
       // check for either pew or rocket to explode
-      
       if(explodingPews[j].type === "pew"){
         this.explodePew(explodingPews[j]);
       } else if (explodingPews[j].type === "rocket"){
-        console.log(explodingPews[j])
         this.explodeRocket(explodingPews[j])
       }
-
-
     }
+
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
       this.players[i].score = 0;
@@ -254,13 +251,13 @@ Game.prototype.ouch = function() {
       var ufo2 = allCollidableObjects[j];
 
 
-
-
-
-
       if (this.isColliding(ufo1, ufo2)) {
-        ufo1.hp -= 1;
-        ufo2.hp -= 1;
+        var damage = 1
+        if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
+          damage = 10
+        } 
+        ufo1.hp -= damage;
+        ufo2.hp -= damage;
         ufo1.hitby = ufo2.uuid;
         ufo2.hitby = ufo1.uuid;
 

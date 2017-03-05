@@ -13,27 +13,6 @@ function Asteroid(){
   this.hitBuffer = Asteroid.sizes[this.type].hitBuffer;
   this.drad = (Math.random() - .5) * Math.PI/16
 };
-Asteroid.sizes = {
-  asteroidOne:{
-      hp:10,
-      height: 40,
-      width:40,
-      hitBuffer: 25
-    },
-  asteroidTwo:{
-      hp:15,
-      height:70,
-      width:70,
-      hitBuffer:40
-    },
-  asteroidThree:{
-      hp:20,
-      height:90,
-      width:90,
-      hitBuffer:50
-    }
-}
-
 
 Asteroid.prototype.move = function(width, height) {
   if (this.dx !== this.originalDx) {
@@ -67,6 +46,27 @@ Asteroid.prototype.snapshot = function() {
     rad: this.rad,
     type: this.type
   }
+}
+
+Asteroid.sizes = {
+  asteroidOne:{
+      hp:10,
+      height: 40,
+      width:40,
+      hitBuffer: 25
+    },
+  asteroidTwo:{
+      hp:15,
+      height:70,
+      width:70,
+      hitBuffer:40
+    },
+  asteroidThree:{
+      hp:20,
+      height:90,
+      width:90,
+      hitBuffer:50
+    }
 }
 
 module.exports = Asteroid;

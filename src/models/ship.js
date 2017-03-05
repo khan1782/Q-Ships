@@ -140,6 +140,7 @@ Ship.prototype.removePew = function() {
   for (var i = 0; i < this.pewBay.length; i++) {
     if (this.pewBay[i].hp < 1) {
       var explodingPew = {
+        type: this.pewBay[i].type,
         x: this.pewBay[i].x,
         y: this.pewBay[i].y
       }

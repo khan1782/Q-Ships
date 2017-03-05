@@ -152,8 +152,17 @@ Game.prototype.checkers = function() {
     // collect all the pews that exploded...
     var explodingPews = this.players[i].ship.removePew();
     for (var j = 0; j < explodingPews.length; j++) {
-      // invoke explodePew() to create shrapnels...
-      this.explodePew(explodingPews[j]);
+
+      // check for either pew or rocket to explode
+      
+      if(explodingPews[j].type === "pew"){
+        this.explodePew(explodingPews[j]);
+      } else if (explodingPews[j].type === "rocket"){
+        console.log(explodingPews[j])
+        this.explodeRocket(explodingPews[j])
+      }
+
+
     }
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
@@ -206,13 +215,21 @@ Game.prototype.explodePew = function(coordinates) {
   this.shrapnelMaker(8, x, y);
 }
 
+Game.prototype.explodeRocket = function(coordinates) {
+  var x = coordinates.x;
+  var y = coordinates.y;
+  var spread = 100
+  this.shrapnelMaker(80, x, y, spread);
+}
+
 Game.prototype.explodeShip = function(x, y) {
   this.shrapnelMaker(40, x, y);
 }
 
-Game.prototype.shrapnelMaker = function(amount, x, y) {
+Game.prototype.shrapnelMaker = function(amount, x, y, spread) {
+  var spread = spread || 5
   for (var i = 0; i < amount; i++) {
-    this.shrapnel.push(new Shrapnel(x, y));
+    this.shrapnel.push(new Shrapnel(x, y, spread));
   }
 }
 

@@ -59,13 +59,7 @@
 
   Renderer.prototype.extraImages = function(type){
     var image = new Image();
-    if(type === "astroid"){
-      image.src = Renderer.images.astroid
-    } else if(type === "pew"){
-      image.src = Renderer.images.pew
-    } else if(type === "rocket"){
-      image.src = Renderer.images.rocket
-    }
+    image.src = Renderer.images[type]
     return image
   }
 
@@ -114,7 +108,8 @@
       
       this.ctx.globalAlpha = 1.0
 
-    } else if (object.type === "astroid" || object.type === "pew" || object.type === "rocket"){
+      // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
+      } else if (object.type === "asteroidOne" || object.type === "asteroidTwo" || object.type === "asteroidThree" || object.type === "pew" || object.type === "rocket"){
         img = this.extraImages(object.type)
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
     } else {
@@ -133,6 +128,7 @@
 
   // takes in a snapshot asset (each asset has an x, y, rad - width and height are accessed from itemKey object literal)
   Renderer.prototype.dimensions = function(currentAsset){
+
     return {
       width: itemKey[currentAsset.type].width,
       height: itemKey[currentAsset.type].height,
@@ -194,7 +190,9 @@
     ship:     {width: 65, height: 59},
     rocket:   {width:20, height: 60},
     pew:      {width: 4, height: 10},
-    astroid:  {width: 45, height: 49},
+    asteroidOne:  {width: 45, height: 49},
+    asteroidTwo: {width: 70, height: 70},
+    asteroidThree: {width: 90, height: 90},
     debris:  {width: 7, height: 7},
     shrapnel: {width: 3, height: 3},
     star_one: {width: 2, height: 2},
@@ -217,7 +215,9 @@
     },
     pumpYourBrakes:"http://i.imgur.com/rKZH11y.png",
 
-    astroid: "http://i.imgur.com/8i5gG51.png",
+    asteroidOne: "http://i.imgur.com/8i5gG51.png",
+    asteroidTwo:"http://i.imgur.com/waNVaK1.png",
+    asteroidThree:"http://i.imgur.com/CPkC5Ui.png",
     pew: "http://i.imgur.com/VioerDV.png",
     rocket:"http://i.imgur.com/Rqf0XOu.png",
     ships:[{

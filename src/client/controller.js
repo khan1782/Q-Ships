@@ -68,7 +68,7 @@ ws.onmessage = function (event) {
       rad: 0,
       type: stars[i].type
     }
-    snapshot.items.push(starObject);
+    snapshot.items.unshift(starObject);
   }
 
   render.objectsArray = itemsNearby(snapshot);

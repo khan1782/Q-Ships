@@ -12,10 +12,11 @@ var Debris = require("./debris.js")
      this.shrapnel =[];
      this.asteroids = [];
      this.debris = [];
-     for (var i = 0; i < 4; i++){
+     for (var i = 0; i < 5; i++){
         this.spawnAsteroid();
      }
      this.scores = [];
+     this.counter = 0
   }
 
 //Create collection of snapshots of all objects in game packaged for renderer.
@@ -103,12 +104,27 @@ Game.prototype.removePlayer = function(uuid) {
   this.players.splice(quitter, 1);
 }
 
+Game.prototype.jetStream = function(ship){
+  if(this.counter === 4){
+    var x = ship.x + ship.width/2 - (Math.sin(ship.rad + (Math.PI/2))*(ship.width/2))
+    var y = ship.y + ship.height/2 + (Math.cos(ship.rad+ (Math.PI/2))*(ship.height/2))
+    var dx =  ship.dx/2
+    var dy =  ship.dy/2     
+    this.shrapnel.push(new Shrapnel(x,y,2,dx,dy));
+    this.counter = 0
+  } else {
+    this.counter +=1
+  }
+
+}
+
 //Master function to make all objects move (active and passive).
 Game.prototype.makeTheWorldMove = function() {
   for (var i = 0; i < this.players.length; i++) {
     if (this.players[i].state === 1 || this.players[i].state === 2) {
       this.players[i].ship.navigateTheStars();
       this.players[i].ship.move(this.width, this.height);
+      this.jetStream(this.players[i].ship)
     }
     for (var j = 0; j < this.players[i].ship.pewBay.length; j++) {
       this.players[i].ship.pewBay[j].move(this.width, this.height)
@@ -255,7 +271,7 @@ Game.prototype.ouch = function() {
       if (this.isColliding(ufo1, ufo2)) {
         var damage = 1
         if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
-          damage = 10
+          damage = 5
         } 
         ufo1.hp -= damage;
         ufo2.hp -= damage;

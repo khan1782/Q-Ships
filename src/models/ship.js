@@ -158,6 +158,8 @@ Ship.prototype.health = function() {
   var healthStatus;
   if(this.state === "spawning"){
     healthStatus = "spawning"
+  } else if(this.hp >= 12){
+    healthStatus = "high"
   } else if(this.hp >= 5){
     healthStatus = "full"
   } else if(this.hp > 2) {
@@ -193,10 +195,6 @@ Ship.prototype.thrustStatus = function(){
   // down
   else if (this.keys.up === false  && this.keys.down === true && this.keys.left === false &&  this.keys.right === false){
     status = "pumpYourBrakes";
-  }
-  // stationary
-  else {
-    status = "stationary";
   }
   return status;
 }

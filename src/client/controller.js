@@ -143,6 +143,9 @@ function keyStrokeListeners(uuid) {
     if(event.keyCode === 88) {
       sendMessage({uuid: uuid, launch: true})
     }
+    if(event.keyCode === 67) {
+      sendMessage({uuid: uuid, blast: true})
+    }
     if(event.keyCode === 13) {
       updateName()
     }

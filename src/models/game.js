@@ -74,7 +74,8 @@ Game.prototype.snapshot = function(clientID) {
       id: clientID,
       state: thisPlayer.state,
       x: thisPlayer.ship.x,
-      y: thisPlayer.ship.y
+      y: thisPlayer.ship.y,
+      arsenal: thisPlayer.ship.rocketStock
     },
     items: this.items()
   })
@@ -152,9 +153,15 @@ Game.prototype.checkers = function() {
     // collect all the pews that exploded...
     var explodingPews = this.players[i].ship.removePew();
     for (var j = 0; j < explodingPews.length; j++) {
-      // invoke explodePew() to create shrapnels...
-      this.explodePew(explodingPews[j]);
+
+      // check for either pew or rocket to explode
+      if(explodingPews[j].type === "pew"){
+        this.explodePew(explodingPews[j]);
+      } else if (explodingPews[j].type === "rocket"){
+        this.explodeRocket(explodingPews[j])
+      }
     }
+
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
       this.players[i].score = 0;
@@ -168,6 +175,7 @@ Game.prototype.checkers = function() {
       this.players[i].state = 0;
     }
   }
+
   for (var i = 0; i < this.asteroids.length; i++){
     if (this.asteroids[i].hp < 1) {
       if (this.asteroids[i].hitby !== "undefined") {
@@ -205,13 +213,21 @@ Game.prototype.explodePew = function(coordinates) {
   this.shrapnelMaker(8, x, y);
 }
 
+Game.prototype.explodeRocket = function(coordinates) {
+  var x = coordinates.x;
+  var y = coordinates.y;
+  var spread = 100
+  this.shrapnelMaker(80, x, y, spread);
+}
+
 Game.prototype.explodeShip = function(x, y) {
   this.shrapnelMaker(40, x, y);
 }
 
-Game.prototype.shrapnelMaker = function(amount, x, y) {
+Game.prototype.shrapnelMaker = function(amount, x, y, spread) {
+  var spread = spread || 5
   for (var i = 0; i < amount; i++) {
-    this.shrapnel.push(new Shrapnel(x, y));
+    this.shrapnel.push(new Shrapnel(x, y, spread));
   }
 }
 
@@ -227,16 +243,22 @@ Game.prototype.debrisMaker = function(amount, x, y) {
 
 // collision detection for all objects
 Game.prototype.ouch = function() {
-  allCollidableObjects = this.collidableObjects();
+  var allCollidableObjects = this.collidableObjects();
 
   for (var i = 0; i < allCollidableObjects.length; i++) {
     var ufo1 = allCollidableObjects[i];
 
     for (var j = i + 1; j < allCollidableObjects.length; j++) {
       var ufo2 = allCollidableObjects[j];
+
+
       if (this.isColliding(ufo1, ufo2)) {
-        ufo1.hp -= 1;
-        ufo2.hp -= 1;
+        var damage = 1
+        if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
+          damage = 10
+        } 
+        ufo1.hp -= damage;
+        ufo2.hp -= damage;
         ufo1.hitby = ufo2.uuid;
         ufo2.hitby = ufo1.uuid;
 
@@ -308,6 +330,8 @@ Game.prototype.updateEntity = function(package){
     if (this.players[index].state === 2) {
       if (package.fire) {
         this.players[index].ship.sayPew();
+      } else if(package.launch){
+        this.players[index].ship.launchRocket()
       }
     }
     if (this.players[index].state === 0) {

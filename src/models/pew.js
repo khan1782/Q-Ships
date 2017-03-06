@@ -1,18 +1,20 @@
 //pew class (missiles) and associated functions
-function Pew(uuid, x, y, dx, dy, rad) {
-  var pewThrust = 15;
+function Pew(uuid, x, y, dx, dy, rad,thrust,type) {
+  // this.pewThrust = 15;
+  this.pewThrust = thrust || 15
+  this.type = type || "pew"
+  this.hitBuffer = 5;
+  this.hp = 1;
   this.x = x;
   this.y = y;
   this.width = 4;
   this.height = 10;
-  this.dx = dx + pewThrust * Math.cos(rad);
-  this.dy = dy + pewThrust * Math.sin(rad);
+  this.dx = dx + this.pewThrust * Math.cos(rad);
+  this.dy = dy + this.pewThrust * Math.sin(rad);
   this.rad = rad;
   this.uuid = uuid;
   this.isExpired = false;
   this.destructionTimer();
-  this.hp = 1;
-  this.hitBuffer = 5;
 }
 
 Pew.prototype.move = function(width, height) {
@@ -42,7 +44,7 @@ Pew.prototype.snapshot = function() {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: "pew",
+    type: this.type,
     id: this.uuid
   }
 }

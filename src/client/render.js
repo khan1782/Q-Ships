@@ -18,6 +18,7 @@
     //clear the canvas before very frame
     this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
     //check if there is any input from WS
+    this.arsenal()
     if(this.objectsArray){
       //iterate through all the objects set in controller from on message WS
       for(var i = 0; i < this.objectsArray.length; i++){
@@ -62,13 +63,23 @@
       image.src = Renderer.images.astroid
     } else if(type === "pew"){
       image.src = Renderer.images.pew
+    } else if(type === "rocket"){
+      image.src = Renderer.images.rocket
     }
     return image
   }
 
   // for an individual asset, run canvas methods to place on canvas
-
-
+  Renderer.prototype.arsenal = function(){
+    if(this.player && this.player.arsenal){
+      
+      var leftPositioning = 450   
+      var bottomPositioning = 100
+      this.ctx.font = "20px Courier";
+      this.ctx.drawImage(this.extraImages("rocket"), this.canvas.width-leftPositioning -50, this.canvas.height-bottomPositioning-40)
+      this.ctx.fillText("'x' to shoot your rocket!",this.canvas.width-leftPositioning,this.canvas.height-bottomPositioning)
+    }
+  }
   Renderer.prototype.draw = function(object){
     // get the dimensions of the object
     var dims = this.dimensions(object);
@@ -101,10 +112,9 @@
           this.ctx.drawImage(shields, dims.width/(-2), dims.height/(-2)) 
         }
       
-      
       this.ctx.globalAlpha = 1.0
 
-    } else if (object.type === "astroid" || object.type === "pew"){
+    } else if (object.type === "astroid" || object.type === "pew" || object.type === "rocket"){
         img = this.extraImages(object.type)
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
     } else {
@@ -137,7 +147,7 @@
   //runs populateUniverse in a repeated loop
   //takes in a snapshotAssetArray to update itself
   Renderer.prototype.tickTock = function(){
-    var that = this;
+    var that = this; 
     function execute(){
       window.requestAnimationFrame(execute);
       that.populateUniverse();
@@ -182,6 +192,7 @@
   var itemKey = {
 
     ship:     {width: 65, height: 59},
+    rocket:   {width:20, height: 60},
     pew:      {width: 4, height: 10},
     astroid:  {width: 45, height: 49},
     debris:  {width: 7, height: 7},
@@ -208,6 +219,7 @@
 
     astroid: "http://i.imgur.com/8i5gG51.png",
     pew: "http://i.imgur.com/VioerDV.png",
+    rocket:"http://i.imgur.com/Rqf0XOu.png",
     ships:[{
       spawning:"http://i.imgur.com/78UG0pv.png",
       // high:"http://i.imgur.com/78UG0pv.png",
@@ -261,4 +273,4 @@
 
 
 // ["http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/wd6yp4W.png","http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/uOoyGS5.png","http://i.imgur.com/DVr2Z1X.png"]
-["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"]
+// ["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"]

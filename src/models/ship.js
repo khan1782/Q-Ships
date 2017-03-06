@@ -23,6 +23,7 @@ function Ship(uuid) {
   this.uuid = uuid;
   this.hp = Ship.defaults.hp;
   this.hitBuffer = Ship.defaults.hitBuffer;
+  this.rocketStock = true
 };
 
 Ship.defaults = {
@@ -117,6 +118,25 @@ Ship.prototype.sayPew = function() {
   this.y -= recoil * Math.sin(this.rad);
 }
 
+Ship.prototype.launchRocket = function(){
+  if(this.rocketStock){
+    var recoil = 5.0;
+    var thrust = 18
+    var type = "rocket"
+    var rocket = new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad, thrust,type)
+    setTimeout(function(){
+      rocket.hitBuffer = 100
+    },200)
+    setTimeout(function(){
+      rocket.hp = 0
+    },1299)
+    this.pewBay.push(rocket);
+    this.x -= recoil * Math.cos(this.rad);
+    this.y -= recoil * Math.sin(this.rad); 
+    this.rocketStock = false
+    }
+}
+
 // Find all pews without hp and set them to expired and queue them for explosion.
 // Remove all expired pews from ship's pewBay (missile array)
 // Return array of objects with coordinates of exploding pews.
@@ -126,6 +146,7 @@ Ship.prototype.removePew = function() {
   for (var i = 0; i < this.pewBay.length; i++) {
     if (this.pewBay[i].hp < 1) {
       var explodingPew = {
+        type: this.pewBay[i].type,
         x: this.pewBay[i].x,
         y: this.pewBay[i].y
       }
@@ -151,6 +172,9 @@ Ship.prototype.snapshot = function() {
     id: this.uuid,
     state:this.health(),
     thrustStatus: this.thrustStatus()
+    // arsenal:{
+    //   rocket: this.rocketStock
+    // }
   }
 }
 

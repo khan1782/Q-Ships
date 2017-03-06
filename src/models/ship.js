@@ -160,9 +160,11 @@ Ship.prototype.health = function() {
     healthStatus = "spawning"
   } else if(this.hp >= 12){
     healthStatus = "high"
+  } else if(this.hp >= 7){
+    healthStatus = "fuller"
   } else if(this.hp >= 5){
     healthStatus = "full"
-  } else if(this.hp > 2) {
+  } else if(this.hp > 3) {
     healthStatus = "medium"
   } else {
     healthStatus = "low"

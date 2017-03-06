@@ -27,24 +27,20 @@
     }
   };
 
-  // Renderer.prototype.shipImages = function(thrustStatus,state,ticker){
-
-  //   var image = new Image();
-  //   var ticker = ticker || 0;
-
-  //   if(state === "spawning" || state === "full"){
-  //     // image.src = Renderer.images.full[thrustStatus][ticker]
-
-  //   } else if(state === "medium"){
-  //     // image.src = Renderer.images.medium[thrustStatus][ticker]
-  //   } else if(state === "low"){
-  //     // image.src = Renderer.images.low[thrustStatus][ticker]
-  //   }
-  //   return image;
-  // };
   Renderer.prototype.bodyImage = function(state,id){
     var image = new Image()
-    image.src= Renderer.images.ships[(id%=5)][state]
+    if(state === "medium" || state === "low" || state === "spawning") {
+      image.src= Renderer.images.ships[(id%=5)][state]
+    } else {
+      image.src = Renderer.images.ships[(id%=5)]["full"] 
+    }
+    return image
+  }
+
+  Renderer.prototype.shieldImage = function(state){
+    var image = new Image()
+    image.src = Renderer.images.shields[state][this.ticker]
+    this.ticker === 4 ? this.ticker = 0 : this.ticker += 1
     return image
   }
   
@@ -78,6 +74,7 @@
     var dims = this.dimensions(object);
     var ship;
     var thrusters;
+    var shields;
     // for testing purpose only
     this.ctx.fillStyle = "white";
 
@@ -89,15 +86,19 @@
 
     if(object.type === "ship"){
       if(object.state === "spawning") {
-        //make opaque
         this.ctx.globalAlpha = 0.3
       }
+
         ship = this.bodyImage(object.state,object.id) 
         this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
 
         if(object.thrustStatus){
          thrusters = this.thrustImage(object.thrustStatus,this.ticker)  
           this.ctx.drawImage(thrusters, dims.width/(-2), dims.height/(-2))
+        }
+        if(object.state === "high" || object.state === "fuller"){
+          shields = this.shieldImage(object.state)
+          this.ctx.drawImage(shields, dims.width/(-2), dims.height/(-2)) 
         }
       
       
@@ -199,51 +200,52 @@
       upLeftShip:["http://i.imgur.com/6aX9ZDY.png","http://i.imgur.com/ny9KLCp.png","http://i.imgur.com/HmVECLy.png","http://i.imgur.com/kDYxr1W.png","http://i.imgur.com/SZX0yw0.png"],
       upRightShip:["http://i.imgur.com/IDWy8rT.png","http://i.imgur.com/ALj9wfK.png","http://i.imgur.com/quwqQnH.png","http://i.imgur.com/2ue1Ypy.png","http://i.imgur.com/e978j5U.png"]
     },
+    shields:{
+      fuller:["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"],
+      high:["http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/wd6yp4W.png","http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/uOoyGS5.png","http://i.imgur.com/DVr2Z1X.png"]
+    },
     pumpYourBrakes:"http://i.imgur.com/rKZH11y.png",
-    // full:"http://i.imgur.com/JDMrHaJ.png",
-    // spawning:"http://i.imgur.com/JDMrHaJ.png",
-    // medium:"http://i.imgur.com/PQsXuAG.png",
-    // low:"http://i.imgur.com/UQlXhbs.png",
+
     astroid: "http://i.imgur.com/8i5gG51.png",
     pew: "http://i.imgur.com/VioerDV.png",
     ships:[{
       spawning:"http://i.imgur.com/78UG0pv.png",
-      high:"http://i.imgur.com/78UG0pv.png",
+      // high:"http://i.imgur.com/78UG0pv.png",
       full:"http://i.imgur.com/E9Ln1by.png",
       medium:"http://i.imgur.com/glDm22T.png",
       low:"http://i.imgur.com/kcJdnch.png"
     },
     {
       spawning:"http://i.imgur.com/s1gmp8k.png",
-      high:"http://i.imgur.com/s1gmp8k.png",
+      // high:"http://i.imgur.com/s1gmp8k.png",
       full:"http://i.imgur.com/8YWAA4n.png",
       medium:"http://i.imgur.com/QTvRdzI.png",
       low:"http://i.imgur.com/rbd2ErY.png"
     },
     {
       spawning:"http://i.imgur.com/vKz3aqq.png",
-      high:"http://i.imgur.com/vKz3aqq.png",
+      // high:"http://i.imgur.com/vKz3aqq.png",
       full:"http://i.imgur.com/ynOA7pa.png",
       medium:"http://i.imgur.com/yVLT2Aq.png",
       low:"http://i.imgur.com/2LQfvfn.png"
     },
     {
       spawning:"http://i.imgur.com/vKz3aqq.png",
-      high:"http://i.imgur.com/xNeuvuA.png",
+      // high:"http://i.imgur.com/xNeuvuA.png",
       full:"http://i.imgur.com/yfSJ8a1.png",
       medium:"http://i.imgur.com/hQYd7VQ.png",
       low:"http://i.imgur.com/No1QhZX.png"
     },
     {
       spawning:"http://i.imgur.com/mHhT0kd.png",
-      high:"http://i.imgur.com/mHhT0kd.png",
+      // high:"http://i.imgur.com/mHhT0kd.png",
       full:"http://i.imgur.com/7QH7ZbX.png",
       medium:"http://i.imgur.com/YTZXTjO.png",
       low:"http://i.imgur.com/L1VHlP2.pnga"
     },
     {
       spawning:"http://i.imgur.com/lAaqCT0.png",
-      high:"http://i.imgur.com/lAaqCT0.png",
+      // high:"http://i.imgur.com/lAaqCT0.png",
       full:"http://i.imgur.com/ig22rDQ.png",
       medium:"http://i.imgur.com/QFcyWnA.png",
       low:"http://i.imgur.com/BczFMuV.png"
@@ -257,3 +259,6 @@
 
 
 
+
+// ["http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/wd6yp4W.png","http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/uOoyGS5.png","http://i.imgur.com/DVr2Z1X.png"]
+["http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png","http://i.imgur.com/xxcyELi.png","http://i.imgur.com/stQcDyZ.png","http://i.imgur.com/I9XLZDC.png"]

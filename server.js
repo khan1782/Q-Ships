@@ -40,7 +40,7 @@ wss.on('connection', (ws) => {
 //outgoing snapshots of game loop
 
 setInterval(() => {
-  for(var i = 0; i<CLIENTS.length; i++){
+  for(var i = 0; i < CLIENTS.length; i++){
     //calling readyState on client returns 0 1 2 3
       //0 means connection is not established
       //1 is connection established

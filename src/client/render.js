@@ -93,31 +93,27 @@
       if(object.state === "spawning") {
         this.ctx.globalAlpha = 0.3
       }
+      ship = this.bodyImage(object.state,object.id) 
+      this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
 
-        ship = this.bodyImage(object.state,object.id) 
-        this.ctx.drawImage(ship, dims.width/(-2), dims.height/(-2))
-
-        if(object.thrustStatus){
-         thrusters = this.thrustImage(object.thrustStatus,this.ticker)  
-          this.ctx.drawImage(thrusters, dims.width/(-2), dims.height/(-2))
-        }
-        if(object.state === "high" || object.state === "fuller"){
-          shields = this.shieldImage(object.state)
-          this.ctx.drawImage(shields, dims.width/(-2), dims.height/(-2)) 
-        }
-      
+      if(object.thrustStatus){
+       thrusters = this.thrustImage(object.thrustStatus,this.ticker)  
+        this.ctx.drawImage(thrusters, dims.width/(-2), dims.height/(-2))
+      }
+      if(object.state === "high" || object.state === "fuller"){
+        shields = this.shieldImage(object.state)
+        this.ctx.drawImage(shields, dims.width/(-2), dims.height/(-2)) 
+      }
+    
       this.ctx.globalAlpha = 1.0
 
       // this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
-      } else if (object.type === "asteroidOne" || object.type === "asteroidTwo" || object.type === "asteroidThree" || object.type === "pew" || object.type === "rocket"){
+      } else if (object.type === "asteroidOne" || object.type === "asteroidTwo" || object.type === "asteroidThree" || object.type === "pew" || object.type === "rocket" || object.type === "nuke"){
         img = this.extraImages(object.type)
         this.ctx.drawImage(img, dims.width/(-2), dims.height/(-2))
     } else {
         this.ctx.fillRect(dims.width/(-2),dims.height/(-2), dims.width, dims.height);
     }
-
-
-
 
     // rotate the canvas back to its original state
     this.ctx.rotate((dims.rad-(Math.PI/2))/-1);
@@ -160,7 +156,7 @@
       score.setAttribute("style", "opacity: 0.4");
     } else {
       welcome.removeAttribute("class");
-      // score.removeAttribute("class");
+      score.removeAttribute("class");
     }
   }
 
@@ -183,10 +179,22 @@
     scoreDiv.appendChild(scoresDisplay);
   }
 
+Renderer.prototype.announceNuke = function(){
+  var nukeDiv = document.getElementById("nuke-div");
+  nukeDiv.removeAttribute('class');
+  setTimeout(function() {
+    nukeDiv.setAttribute("class", "hidden");
+  }, 3000);
+}
+
+// Renderer.prototype.findNuke = function(scores) {
+//   var nukers = [];
+//   for (var i = 0; i < scores.length; i++) {
+//   }
+// }
 
   // item keys to identify their dimensions
   var itemKey = {
-
     ship:     {width: 65, height: 59},
     rocket:   {width:20, height: 60},
     pew:      {width: 4, height: 10},
@@ -194,6 +202,7 @@
     asteroidTwo: {width: 70, height: 70},
     asteroidThree: {width: 90, height: 90},
     debris:  {width: 7, height: 7},
+    nuke: {width: 77, height: 103},
     shrapnel: {width: 3, height: 3},
     star_one: {width: 2, height: 2},
     star_two: {width: 4, height: 4},
@@ -214,6 +223,7 @@
       high:["http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/wd6yp4W.png","http://i.imgur.com/ve8pwH9.png","http://i.imgur.com/uOoyGS5.png","http://i.imgur.com/DVr2Z1X.png"]
     },
     pumpYourBrakes:"http://i.imgur.com/rKZH11y.png",
+    nuke: "http://i.imgur.com/SXaUAZH.png",
 
     asteroidOne: "http://i.imgur.com/8i5gG51.png",
     asteroidTwo:"http://i.imgur.com/waNVaK1.png",

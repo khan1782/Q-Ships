@@ -27,6 +27,7 @@ var itemsNearby = function(snapshot) {
   var height = 2500;
   var items = snapshot.items;
   var neighbors = [];
+
   for (var i = 0; i < items.length; i++) {
     if (x < xtoEdge && (width - items[i].x + x) < xtoEdge) {
       items[i].x -= width;
@@ -61,7 +62,7 @@ ws.onmessage = function (event) {
   var stars = starfield.stars;
 
   var starObjects = [];
-  for(var i = 0 ;i < stars.length; i++){
+  for(var i = 0; i < stars.length; i++){
     var starObject = {
       x: stars[i].x,
       y: stars[i].y,
@@ -74,6 +75,9 @@ ws.onmessage = function (event) {
   render.objectsArray = itemsNearby(snapshot);
   //player:{id:clientID, state:thisPlayer.state, x:thisPlayer.ship.x, y:thisPlayer.ship.y,arsenal:thisPlayer.ship.rocketStock}
   render.player = snapshot.player;
+  if (render.player.canNuke) {
+    render.announceNuke();
+  }
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);
 };
@@ -123,28 +127,31 @@ function keyStrokeListeners(uuid) {
   document.addEventListener('keyup', function(event){
     if(event.keyCode === 38) {
       keys.keys.up = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 40) {
       keys.keys.down = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 37) {
       keys.keys.left = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 39) {
       keys.keys.right = false;
-      sendMessage(keys)
+      sendMessage(keys);
     }
     if(event.keyCode === 32) {
-      sendMessage({uuid: uuid, fire: true})
+      sendMessage({uuid: uuid, fire: true});
+    }
+    if(event.keyCode === 78 && render.player.canNuke) {
+      sendMessage({uuid: uuid, nuke: true});
     }
     if(event.keyCode === 88) {
       sendMessage({uuid: uuid, launch: true})
     }
     if(event.keyCode === 13) {
-      updateName()
+      updateName();
     }
   });
 }
@@ -155,12 +162,14 @@ var updateName = function() {
   };
 
   var nameForm = document.getElementById('player-name')
-  var clientName = nameForm.value
-  if (clientName) {
-    sendMessage({uuid: render.player.id, start: true, name: clientName})
-    var playerNameDiv = document.getElementById('player-name-div')
+  var clientName = nameForm.value;
+
+  // commented out for testing purposes
+  // if (clientName) {
+    sendMessage({uuid: render.player.id, start: true, name: clientName});
+    var playerNameDiv = document.getElementById('player-name-div');
     playerNameDiv.setAttribute("class", "hidden");
-  }
+  // }
 }
 
 //TODO: fix this hack

@@ -3,19 +3,21 @@ var Shrapnel = require("./shrapnel.js")
 var Asteroid = require("./asteroid.js")
 var Debris = require("./debris.js")
 
-//Game Class and associated functions
-function Game() {
- this.width = 2500;
- this.height = 2500;
- this.players = [];
- this.shrapnel =[];
- this.asteroids = [];
- this.debris = [];
- for (var i = 0; i < 3; i++){
-  this.spawnAsteroid();
- }
- this.scores = [];
-}
+
+  //Game Class and associated functions
+  function Game() {
+
+     this.width = 2500;
+     this.height = 2500;
+     this.players = [];
+     this.shrapnel =[];
+     this.asteroids = [];
+     this.debris = [];
+     for (var i = 0; i < 4; i++){
+        this.spawnAsteroid();
+     }
+     this.scores = [];
+  }
 
 //Create collection of snapshots of all objects in game packaged for renderer.
 Game.prototype.items = function() {
@@ -77,7 +79,8 @@ Game.prototype.snapshot = function(clientID) {
       id: clientID,
       state: thisPlayer.state,
       x: thisPlayer.ship.x,
-      y: thisPlayer.ship.y
+      y: thisPlayer.ship.y,
+      arsenal: thisPlayer.ship.rocketStock
     },
     items: this.items()
   });
@@ -107,6 +110,7 @@ Game.prototype.removePlayer = function(uuid) {
   var quitter = this.findPlayerIndex(uuid);
   this.players.splice(quitter, 1);
 }
+
 
 //Master function to make all objects move (active and passive).
 Game.prototype.makeTheWorldMove = function() {
@@ -163,8 +167,13 @@ Game.prototype.checkers = function() {
     // collect all the pews that exploded...
     var explodingPews = this.players[i].ship.removePew();
     for (var j = 0; j < explodingPews.length; j++) {
-      // invoke explodePew() to create shrapnels...
-      this.explodePew(explodingPews[j]);
+
+      // check for either pew or rocket to explode
+      if(explodingPews[j].type === "pew"){
+        this.explodePew(explodingPews[j]);
+      } else if (explodingPews[j].type === "rocket"){
+        this.explodeRocket(explodingPews[j])
+      }
     }
 
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
@@ -212,7 +221,7 @@ Game.prototype.bounty = function(hunter, target) {
       hunter.score += 1;
       break;
     case "asteroid":
-      hunter.ship.hp += 3;
+      hunter.ship.hp += 2;
       hunter.score += 10;
       break;
   }
@@ -228,10 +237,16 @@ Game.prototype.explodePew = function(coordinates) {
   this.shrapnelMaker(8, x, y);
 }
 
+Game.prototype.explodeRocket = function(coordinates) {
+  var x = coordinates.x;
+  var y = coordinates.y;
+  var spread = 100
+  this.shrapnelMaker(80, x, y, spread);
+}
+
 Game.prototype.explodeShip = function(x, y) {
   this.shrapnelMaker(40, x, y);
 }
-
 
 
 // -------------------------------------------------------------------------------
@@ -259,7 +274,7 @@ Game.prototype.detonateNuke = function(nuke) {
     allObjects[i].hp -= 20;
   }
 
-  nuker.ship.hp = 12;
+  nuker.ship.hp = 25;
 }
 // -------------------------------------------------------------------------------
 
@@ -267,9 +282,11 @@ Game.prototype.detonateNuke = function(nuke) {
 
 
 
-Game.prototype.shrapnelMaker = function(amount, x, y) {
+
+Game.prototype.shrapnelMaker = function(amount, x, y, spread) {
+  var spread = spread || 5
   for (var i = 0; i < amount; i++) {
-    this.shrapnel.push(new Shrapnel(x, y));
+    this.shrapnel.push(new Shrapnel(x, y, spread));
   }
 }
 
@@ -285,16 +302,22 @@ Game.prototype.debrisMaker = function(amount, x, y) {
 
 // collision detection for all objects
 Game.prototype.ouch = function() {
-  allCollidableObjects = this.collidableObjects();
+  var allCollidableObjects = this.collidableObjects();
 
   for (var i = 0; i < allCollidableObjects.length; i++) {
     var ufo1 = allCollidableObjects[i];
 
     for (var j = i + 1; j < allCollidableObjects.length; j++) {
       var ufo2 = allCollidableObjects[j];
+
+
       if (this.isColliding(ufo1, ufo2)) {
-        ufo1.hp -= 1;
-        ufo2.hp -= 1;
+        var damage = 1
+        if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
+          damage = 5
+        } 
+        ufo1.hp -= damage;
+        ufo2.hp -= damage;
         ufo1.hitby = ufo2.uuid;
         ufo2.hitby = ufo1.uuid;
 
@@ -354,35 +377,47 @@ Game.prototype.updateEntity = function(package){
   var package = JSON.parse(package);
   // find the index of the player
   var index = this.findPlayerIndex(package.uuid);
-  if (package.name) {
-    this.players[index].name = package.name;
-  }
-  if (this.players[index].state === 1 || this.players[index].state === 2) {
-  // update that specific player's ship's movements
-    if(package.keys){
-      this.players[index].ship.keys.up = package.keys.up;
-      this.players[index].ship.keys.down = package.keys.down;
-      this.players[index].ship.keys.left = package.keys.left;
-      this.players[index].ship.keys.right = package.keys.right;
+
+  // if the index exists or it is 0, execute the following...
+  if(index || index === 0){
+    if (package.name) {
+      this.players[index].name = package.name;
     }
-  }
-    // update that specific player's pew's movements
-  if (this.players[index].state === 2) {
-    if (package.fire) {
-      this.players[index].ship.sayPew();
+
+    // if the player is in spawning state or alive
+    if (this.players[index].state === 1 || this.players[index].state === 2) {
+    // update that specific player's ship's movements
+      if(package.keys){
+        this.players[index].ship.keys.up = package.keys.up;
+        this.players[index].ship.keys.down = package.keys.down;
+        this.players[index].ship.keys.left = package.keys.left;
+        this.players[index].ship.keys.right = package.keys.right;
+      }
+
+      // if the player is alive
+      if (this.players[index].state === 2){
+        if (package.fire) {
+          this.players[index].ship.sayPew();
+        } else if(package.launch){
+          this.players[index].ship.launchRocket()
+        }
+      }
     }
+
     // player is going to drop the nuke here | check it's score
     if (package.nuke && this.players[index].score > 9 && this.players[index].ship.nuked === false) {
       this.players[index].ship.dropNuke();
     }
-  }
-  if (this.players[index].state === 0) {
-    if (package.start) {
-      this.players[index].state = 1;
-      this.players[index].spawn();
+
+    // if the player is dead, reset its state to spawning
+    if (this.players[index].state === 0) {
+      if (package.start) {
+        this.players[index].state = 1;
+        this.players[index].spawn();
+      }
     }
   }
-};
+}
 
 // -------------------------------------------------------------------------------
 Game.prototype.removeShrapnel = function() {

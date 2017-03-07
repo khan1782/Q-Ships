@@ -51,6 +51,7 @@ var itemsNearby = function(snapshot) {
 }
 
 //initialize renderer machinery *wa wa wa wa*
+
 render = new Renderer(canvas);
 
 ws.onmessage = function (event) {
@@ -68,10 +69,11 @@ ws.onmessage = function (event) {
       rad: 0,
       type: stars[i].type
     }
-    snapshot.items.push(starObject);
+    snapshot.items.unshift(starObject);
   }
 
   render.objectsArray = itemsNearby(snapshot);
+  //player:{id:clientID, state:thisPlayer.state, x:thisPlayer.ship.x, y:thisPlayer.ship.y,arsenal:thisPlayer.ship.rocketStock}
   render.player = snapshot.player;
   if (render.player.canNuke) {
     render.announceNuke();
@@ -83,11 +85,11 @@ ws.onmessage = function (event) {
 render.tickTock();
 
 //----------------------------------------------
-function sendMessage(msg) {
-  ws.send(JSON.stringify(msg))
-};
 
 function keyStrokeListeners(uuid) {
+  function sendMessage(msg) {
+    ws.send(JSON.stringify(msg))
+  };
   //json package ready for editing
   var keys = {uuid: uuid, keys: {up: false, down: false, left: false, right: false}}
 
@@ -145,6 +147,9 @@ function keyStrokeListeners(uuid) {
     if(event.keyCode === 78 && render.player.canNuke) {
       sendMessage({uuid: uuid, nuke: true});
     }
+    if(event.keyCode === 88) {
+      sendMessage({uuid: uuid, launch: true})
+    }
     if(event.keyCode === 13) {
       updateName();
     }
@@ -152,6 +157,10 @@ function keyStrokeListeners(uuid) {
 }
 
 var updateName = function() {
+  function sendMessage(msg) {
+    ws.send(JSON.stringify(msg))
+  };
+
   var nameForm = document.getElementById('player-name')
   var clientName = nameForm.value;
 

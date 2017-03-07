@@ -1,8 +1,9 @@
-function Shrapnel(x,y){
-	this.x = x + (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
-	this.y = y + (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1);
-	this.dx = (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1)
-	this.dy = (Math.floor(Math.random()*7)) * (Math.round(Math.random()) * 2 - 1)
+function Shrapnel(x,y,spread,dx, dy){
+  this.spread = spread || 5
+	this.x = x + (Math.floor(Math.random()*this.spread)) * (Math.round(Math.random()) * 2 - 1);
+	this.y = y + (Math.floor(Math.random()*this.spread)) * (Math.round(Math.random()) * 2 - 1);
+	this.dx = dx || (Math.floor(Math.random()*5)) * (Math.round(Math.random()) * 2 - 1)
+	this.dy = dy || (Math.floor(Math.random()*7)) * (Math.round(Math.random()) * 2 - 1)
 	this.isExpired = false;
 	this.persistenceFactor = (Math.floor(Math.random()*3))
 	this.destructionTimer();

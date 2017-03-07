@@ -11,7 +11,7 @@ function Nuke(uuid, x, y, dx, dy, rad) {
   this.uuid = uuid;
   this.isExpired = false;
   this.destructionTimer();
-  this.hp = 100;
+  this.hp = 50;
   this.hitBuffer = 0;
 }
 

@@ -21,8 +21,8 @@ Player.prototype.spawn = function() {
   setTimeout(function() {
     spawner.state = PLAYER_STATE.alive;
     spawner.ship.type = "ship";
-    spawner.ship.state = "inPlay";
-  }, 3.210); //GO! :D
+    spawner.ship.state = "full";
+  }, 3210); //GO! :D
 }
 
 module.exports = Player;

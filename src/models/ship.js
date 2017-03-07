@@ -7,7 +7,7 @@ function Ship(uuid) {
   this.height = Ship.defaults.height;
   this.width = Ship.defaults.width;
   this.rad = Ship.defaults.rad;
-  this.type = "spawnship";
+  this.type = "ship";
   this.state = "spawning"
   this.keys = {
     up: false,
@@ -26,11 +26,17 @@ function Ship(uuid) {
   this.hitBuffer = Ship.defaults.hitBuffer;
   this.nuke = [];
   this.nuked = false;
+  this.rocketStock = true
+  var that = this
+  setInterval(function(){
+    that.rocketStock = true
+  },15000)
+
 };
 
 Ship.defaults = {
-  height: 40,
-  width: 20,
+  height: 65,
+  width: 59,
   rad: -(Math.PI/2),
   initialDx: 0,
   initialDy: 0,
@@ -102,10 +108,11 @@ Ship.prototype.speed = function() {
 //TODO review initial position of pew. should be outside of hit boxes infront of center of ship.
 Ship.prototype.sayPew = function() {
   var recoil = 2.5;
-  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (2.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (2.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));
+  this.pewBay.push(new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad));
   this.x -= recoil * Math.cos(this.rad);
   this.y -= recoil * Math.sin(this.rad);
 }
+
 
 Ship.prototype.dropNuke = function() {
   this.nuke.push(new Nuke(this.uuid, this.x, this.y, this.dx, this.dy, this.rad));
@@ -114,6 +121,25 @@ Ship.prototype.dropNuke = function() {
   setTimeout(function(){
     nuke.hitBuffer = 40;
   }, 2000);
+}
+
+Ship.prototype.launchRocket = function(){
+  if(this.rocketStock){
+    var recoil = 5.0;
+    var thrust = 12
+    var type = "rocket"
+    var rocket = new Pew(this.uuid, this.x + this.width/2 + (1.5*Math.sin(this.rad + (Math.PI/2))*(this.width/2)), this.y + this.height/2 - (1.5*Math.cos(this.rad+ (Math.PI/2))*(this.height/2)), this.dx, this.dy, this.rad, thrust,type)
+    setTimeout(function(){
+      rocket.hitBuffer = 100
+    },200)
+    setTimeout(function(){
+      rocket.hp = 0
+    },1299)
+    this.pewBay.push(rocket);
+    this.x -= recoil * Math.cos(this.rad);
+    this.y -= recoil * Math.sin(this.rad); 
+    this.rocketStock = false
+    }
 }
 
 // Find all pews without hp and set them to expired and queue them for explosion.
@@ -125,6 +151,7 @@ Ship.prototype.removePew = function() {
   for (var i = 0; i < this.pewBay.length; i++) {
     if (this.pewBay[i].hp < 1) {
       var explodingPew = {
+        type: this.pewBay[i].type,
         x: this.pewBay[i].x,
         y: this.pewBay[i].y
       }
@@ -140,48 +167,66 @@ Ship.prototype.removePew = function() {
 
 //in this section based on the ships current truthful key strokes, we will dictate which type to send
 Ship.prototype.snapshot = function() {
-  var type = this.thrustStatus();
+
   return {
     x: this.x,
     y: this.y,
     rad: this.rad,
-    type: type,
+    type: this.type,
     id: this.uuid,
-    state:this.state
+    state:this.health(),
+    thrustStatus: this.thrustStatus()
+    // arsenal:{
+    //   rocket: this.rocketStock
+    // }
   }
 }
 
+Ship.prototype.health = function() {
+  var healthStatus;
+  if(this.state === "spawning"){
+    healthStatus = "spawning"
+  } else if(this.hp >= 12){
+    healthStatus = "high"
+  } else if(this.hp >= 7){
+    healthStatus = "fuller"
+  } else if(this.hp >= 5){
+    healthStatus = "full"
+  } else if(this.hp > 3) {
+    healthStatus = "medium"
+  } else {
+    healthStatus = "low"
+  }
+  return healthStatus;
+};
+
 Ship.prototype.thrustStatus = function(){
-    var type;
+    var status;
   // up
   if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === false){
-    type = "upShip";
+    status = "upShip";
   }
   //  up & left
   else if (this.keys.up === true  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
-    type = "upLeftShip";
+    status = "upLeftShip";
     }
   // up & right
   else if (this.keys.up === true  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
-    type = "upRightShip";
+    status = "upRightShip";
   }
   //  left
   else if (this.keys.up === false  && this.keys.down === false && this.keys.left === true &&  this.keys.right === false){
-    type = "leftShip";
+    status = "leftShip";
   }
   //  right
   else if (this.keys.up === false  && this.keys.down === false && this.keys.left === false &&  this.keys.right === true){
-    type = "rightShip";
+    status = "rightShip";
   }
   // down
   else if (this.keys.up === false  && this.keys.down === true && this.keys.left === false &&  this.keys.right === false){
-    type = "pumpYourBrakes";
+    status = "pumpYourBrakes";
   }
-  // stationary
-  else {
-    type = this.type;
-  }
-  return type;
+  return status;
 }
 
 module.exports = Ship;

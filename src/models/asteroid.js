@@ -11,6 +11,7 @@ function Asteroid(){
   this.height = Asteroid.sizes[this.type].height;
   this.width = Asteroid.sizes[this.type].width;
   this.hitBuffer = Asteroid.sizes[this.type].hitBuffer;
+  this.damage = Asteroid.sizes[this.type].damage;
   this.drad = (Math.random() - .5) * Math.PI/16
 };
 
@@ -53,19 +54,22 @@ Asteroid.sizes = {
       hp:10,
       height: 40,
       width:40,
-      hitBuffer: 25
+      hitBuffer: 25,
+      damage: 1
     },
   asteroidTwo:{
       hp:15,
       height:70,
       width:70,
-      hitBuffer:40
+      hitBuffer:40,
+      damage: 1.5
     },
   asteroidThree:{
       hp:20,
       height:90,
       width:90,
-      hitBuffer:50
+      hitBuffer:50,
+      damage: 2
     }
 }
 

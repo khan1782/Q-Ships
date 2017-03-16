@@ -78,6 +78,7 @@ ws.onmessage = function (event) {
   if (render.player.canNuke) {
     render.announceNuke();
   }
+  // !!!!!!!!!!!!!
   render.showState(snapshot.player.state);
   render.showScores(snapshot.scores);
 };

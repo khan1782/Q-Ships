@@ -31,6 +31,7 @@ function Ship(uuid) {
   setInterval(function(){
     that.rocketStock = true
   },15000)
+  this.damage = 2;
 
 };
 
@@ -118,12 +119,12 @@ Ship.prototype.dropNuke = function() {
   this.nuke.push(new Nuke(this.uuid, this.x, this.y, this.dx, this.dy, this.rad));
   this.nuked = true;
   var nuke = this.nuke[0];
-  console.log(nuke)
   setTimeout(function(){
     nuke.hitBuffer = 40;
-  }, 5000);
+  }, 3500);
 }
 
+// a rocket is just a modified pew..
 Ship.prototype.launchRocket = function(){
   if(this.rocketStock){
     var recoil = 5.0;

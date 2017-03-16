@@ -14,6 +14,7 @@ function Pew(uuid, x, y, dx, dy, rad,thrust,type) {
   this.rad = rad;
   this.uuid = uuid;
   this.isExpired = false;
+  this.damage = 1;
   this.destructionTimer();
 }
 

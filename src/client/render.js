@@ -187,12 +187,6 @@ Renderer.prototype.announceNuke = function(){
   }, 3000);
 }
 
-// Renderer.prototype.findNuke = function(scores) {
-//   var nukers = [];
-//   for (var i = 0; i < scores.length; i++) {
-//   }
-// }
-
   // item keys to identify their dimensions
   var itemKey = {
     ship:     {width: 65, height: 59},
@@ -274,7 +268,6 @@ Renderer.prototype.announceNuke = function(){
     }]
       
   }
-
 
   window.Renderer = Renderer;
 })()

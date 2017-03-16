@@ -13,6 +13,7 @@ var Debris = require("./debris.js")
      this.shrapnel =[];
      this.asteroids = [];
      this.debris = [];
+     this.nukes = [];
      for (var i = 0; i < 4; i++){
         this.spawnAsteroid();
      }
@@ -176,24 +177,27 @@ Game.prototype.checkers = function() {
       }
     }
 
+    //  if the player dropped a nuke and the player gets killed...then what happens?
     if (this.players[i].state === 2 && this.players[i].ship.hp < 1) {
+      // if you dropped the nuke and you die or if you reload the page, you lose the nuke
+      this.players[i].ship.nuke = [];
+      // explode the ship
       this.explodeShip(this.players[i].ship.x, this.players[i].ship.y);
+      // reseting player's score and state, game stops taking snapshot of this ship
       this.players[i].score = 0;
+      this.players[i].state = 0;
+
       if (this.players[i].hitby !== 'undefined') {
         var killer = this.players[this.findPlayerIndex(this.players[i].ship.hitby)];
         if (killer) {
           this.bounty(killer, "ship");
         }
       }
-      // reseting player state
-      this.players[i].state = 0;
     }
 
     if (this.players[i].ship.nuked && this.players[i].ship.nuke.length === 1) {
-      // if (this.players[i].ship.nuke[0].hp < 1){
-      //   this.explodeNuke(this.players[i].ship.nuke[0]);
-      // } else
-      if (this.players[i].ship.nuke[0].isExpired){
+       // nuke.hp and nuke.isExpired have conflicting logic, the moment nuke explodes it will affect it's own hp
+       if (this.players[i].ship.nuke[0].isExpired){
         this.detonateNuke(this.players[i].ship.nuke[0]);
       }
     }
@@ -249,29 +253,32 @@ Game.prototype.explodeShip = function(x, y) {
 }
 
 
-// -------------------------------------------------------------------------------
+// -----------------------------------nuke-----------------------------------------
 
-//Nuke is taken out by pews. Doesn't kill everyone today.
+//Nuke creates all the explosions
 Game.prototype.explodeNuke = function(nuke) {
   this.shrapnelMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
   this.debrisMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
 
+  // after the nuke explosion, get rid of the nuke after 6 seconds
   var that = this;
   setTimeout(function() {
-  that.players[that.findPlayerIndex(nuke.uuid)].ship.nuke = [];
-  }, 5000);
+    if (that.players[that.findPlayerIndex(nuke.uuid)]){
+      that.players[that.findPlayerIndex(nuke.uuid)].ship.nuke = [];
+    }
+  }, 6000);
 }
 
 //Nuke blew up. everyone ded.
 Game.prototype.detonateNuke = function(nuke) {
   var nuker = this.players[this.findPlayerIndex(nuke.uuid)];
-  nuker.ship.hp += 900;
+  nuker.ship.hp += 100;
   this.explodeNuke(nuke);
 
   var allObjects = this.collidableObjects();
   for (var i = 0; i < allObjects.length; i++){
     this.bounty(nuker, allObjects[i]);
-    allObjects[i].hp -= 20;
+    allObjects[i].hp -= 40;
   }
 
   nuker.ship.hp = 25;
@@ -312,12 +319,10 @@ Game.prototype.ouch = function() {
 
 
       if (this.isColliding(ufo1, ufo2)) {
-        var damage = 1
-        if(ufo1.type === "rocket"|| ufo2.type === "rocket"){
-          damage = 5
-        } 
-        ufo1.hp -= damage;
-        ufo2.hp -= damage;
+        // every collidable object now has a damage attribute
+        ufo1.hp -= ufo2.damage;
+        ufo2.hp -= ufo1.damage;
+
         ufo1.hitby = ufo2.uuid;
         ufo2.hitby = ufo1.uuid;
 

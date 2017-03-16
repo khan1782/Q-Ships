@@ -12,7 +12,7 @@ function Nuke(uuid, x, y, dx, dy, rad) {
   this.isExpired = false;
   this.destructionTimer();
   this.hp = 50;
-  this.hitBuffer = 0;
+  // this.hitBuffer = 0;
 }
 
 Nuke.prototype.move = function(width, height) {

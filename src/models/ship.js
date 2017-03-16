@@ -118,9 +118,10 @@ Ship.prototype.dropNuke = function() {
   this.nuke.push(new Nuke(this.uuid, this.x, this.y, this.dx, this.dy, this.rad));
   this.nuked = true;
   var nuke = this.nuke[0];
+  console.log(nuke)
   setTimeout(function(){
     nuke.hitBuffer = 40;
-  }, 2000);
+  }, 5000);
 }
 
 Ship.prototype.launchRocket = function(){

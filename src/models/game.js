@@ -226,7 +226,7 @@ Game.prototype.bounty = function(hunter, target) {
       break;
     case "asteroid":
       hunter.ship.hp += 2;
-      hunter.score += 10;
+      // hunter.score += 10;
       break;
   }
 }
@@ -252,15 +252,13 @@ Game.prototype.explodeShip = function(x, y) {
   this.shrapnelMaker(40, x, y);
 }
 
-
-// -----------------------------------nuke-----------------------------------------
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~nuke~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Nuke creates all the explosions
 Game.prototype.explodeNuke = function(nuke) {
   this.shrapnelMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
   this.debrisMaker(50, nuke.x + (Math.random()-.5)*100, nuke.y + (Math.random()-.5)*100);
 
-  // after the nuke explosion, get rid of the nuke after 6 seconds
+  // after the nuke explosion, get rid of the nuke from the game universe after 6 seconds
   var that = this;
   setTimeout(function() {
     if (that.players[that.findPlayerIndex(nuke.uuid)]){
@@ -283,11 +281,7 @@ Game.prototype.detonateNuke = function(nuke) {
 
   nuker.ship.hp = 25;
 }
-// -------------------------------------------------------------------------------
-
-
-
-
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Game.prototype.shrapnelMaker = function(amount, x, y, spread) {
@@ -409,7 +403,7 @@ Game.prototype.updateEntity = function(package){
       }
     }
 
-    // player is going to drop the nuke here | check it's score
+    // player is going to drop the nuke here | double check it's score
     if (package.nuke && this.players[index].score > 9 && this.players[index].ship.nuked === false) {
       this.players[index].ship.dropNuke();
     }

@@ -4,19 +4,40 @@
 
     //grab given html canvas object
     this.canvas = canvas;
-    this.canvas.height = window.innerHeight
-    this.canvas.width = window.innerWidth
 
     //start lawn mower
     this.ctx = this.canvas.getContext("2d");
+    this.viewportWidth = 0;
+    this.viewportHeight = 0;
+    this.pixelRatio = 1;
+    this.ticker = 0;
 
-    this.ticker = 0
+    this.resizeCanvas = this.resizeCanvas.bind(this);
+    this.resizeCanvas();
+    window.addEventListener("resize", this.resizeCanvas);
+    window.addEventListener("orientationchange", this.resizeCanvas);
+  }
+
+  Renderer.prototype.resizeCanvas = function() {
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    var height = window.innerHeight || document.documentElement.clientHeight;
+    var ratio = window.devicePixelRatio || 1;
+
+    this.viewportWidth = width;
+    this.viewportHeight = height;
+    this.pixelRatio = ratio;
+
+    this.canvas.style.width = width + "px";
+    this.canvas.style.height = height + "px";
+    this.canvas.width = Math.floor(width * ratio);
+    this.canvas.height = Math.floor(height * ratio);
+    this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
   //iterate through all of the snapshot assets and run draw and each one
   Renderer.prototype.populateUniverse = function(){
     //clear the canvas before very frame
-    this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
+    this.ctx.clearRect(0,0,this.viewportWidth, this.viewportHeight)
     //check if there is any input from WS
     this.arsenal()
     if(this.objectsArray){
@@ -67,11 +88,11 @@
   Renderer.prototype.arsenal = function(){
     if(this.player && this.player.arsenal){
       
-      var leftPositioning = 450   
-      var bottomPositioning = 100
+      var leftPositioning = Math.min(450, this.viewportWidth * 0.55)
+      var bottomPositioning = Math.min(100, this.viewportHeight * 0.2)
       this.ctx.font = "20px Courier";
-      this.ctx.drawImage(this.extraImages("rocket"), this.canvas.width-leftPositioning -50, this.canvas.height-bottomPositioning-40)
-      this.ctx.fillText("'x' to shoot your rocket!",this.canvas.width-leftPositioning,this.canvas.height-bottomPositioning)
+      this.ctx.drawImage(this.extraImages("rocket"), this.viewportWidth-leftPositioning -50, this.viewportHeight-bottomPositioning-40)
+      this.ctx.fillText("Rocket ready",this.viewportWidth-leftPositioning,this.viewportHeight-bottomPositioning)
     }
   }
   Renderer.prototype.draw = function(object){
@@ -153,10 +174,12 @@
     var score = document.getElementById("score");
     if (state !== 0) {
       welcome.setAttribute("class", "hidden");
-      score.setAttribute("style", "opacity: 0.4");
+      score.style.opacity = "0.6";
+      document.body.classList.add("playing");
     } else {
       welcome.removeAttribute("class");
-      score.removeAttribute("class");
+      score.style.opacity = "1";
+      document.body.classList.remove("playing");
     }
   }
 

@@ -1,156 +1,318 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Q-Ships</title>
-      <style >
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+    >
+    <title>Q-Ships</title>
+    <style>
       @font-face {
-        font-family: 'MyWebFont';
-        src: local('fonts/ARCADECLASSIC.ttf'),
-          url('fonts/ARCADECLASSIC.ttf') format('ttf');/* Modern
-         Browsers */
+        font-family: "MyWebFont";
+        src: local("fonts/ARCADECLASSIC.ttf"),
+          url("fonts/ARCADECLASSIC.ttf") format("truetype");
       }
 
-        body, html {
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-        }
+      :root {
+        --safe-top: env(safe-area-inset-top);
+        --safe-right: env(safe-area-inset-right);
+        --safe-bottom: env(safe-area-inset-bottom);
+        --safe-left: env(safe-area-inset-left);
+      }
 
-        #container {
-          display: flex;
-          justify-content: center;
-        }
-         #starfield {
-            width:100%;
-            height:100%;
-            z-index: -1;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        overscroll-behavior: none;
+      }
 
-        #background-container,
-        #game-container {
-          z-index: 10;
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
+      body {
+        font-family: "MyWebFont", ArcadeClassic, Arial, sans-serif;
+        color: #48d1cc;
+      }
 
-        #gameCanvas {
-          display: inherit;
-          margin-left: auto;
-          margin-right: auto;
-        }
+      #container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+      }
 
-        #welcome {
-          z-index: 15;
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
+      #background-container,
+      #game-container {
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        touch-action: none;
+      }
+
+      #starField,
+      #gameCanvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      #welcome {
+        z-index: 15;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(90vw, 620px);
+        text-align: center;
+      }
+
+      #welcome img {
+        display: block;
+        width: min(80vw, 500px);
+        height: auto;
+        margin: 5px auto 0;
+      }
+
+      #player-name-div {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #player-name {
+        flex: 1 1 auto;
+        min-width: 0;
+        color: black;
+        letter-spacing: 1px;
+        text-indent: 5%;
+        height: 34px;
+        border-radius: 5px 0 0 5px;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        border: 5px solid #312832;
+        border-right: 0 solid #312832;
+      }
+
+      #player-input-button {
+        flex: 0 0 auto;
+        min-width: 90px;
+        height: 45.5px;
+        background: #27abb5;
+        font-weight: bold;
+        letter-spacing: 1px;
+        cursor: pointer;
+        border-radius: 0 5px 5px 0;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        border: 5px solid #312832;
+      }
+
+      #nuke-div {
+        z-index: 20;
+        position: absolute;
+        top: max(14px, var(--safe-top));
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 18px;
+        color: tomato;
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.55);
+        text-align: center;
+      }
+
+      #score {
+        font-size: 18px;
+        position: absolute;
+        top: max(8px, var(--safe-top));
+        right: max(8px, var(--safe-right));
+        padding: 8px 12px;
+        z-index: 20;
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 8px;
+        max-width: min(52vw, 380px);
+      }
+
+      #score ol {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      #score li {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #mobile-controls {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        min-height: 180px;
+        z-index: 30;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 120ms ease-out;
+        display: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      body.playing #mobile-controls {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      #movement-pad {
+        position: absolute;
+        left: max(14px, var(--safe-left));
+        bottom: max(14px, var(--safe-bottom));
+        width: clamp(120px, 30vw, 180px);
+        height: clamp(120px, 30vw, 180px);
+        border-radius: 50%;
+        pointer-events: auto;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      #movement-base {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid rgba(72, 209, 204, 0.6);
+        background: rgba(72, 209, 204, 0.08);
+        box-shadow: inset 0 0 24px rgba(72, 209, 204, 0.2);
+      }
+
+      #movement-knob {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 42%;
+        height: 42%;
+        border-radius: 50%;
+        background: rgba(39, 171, 181, 0.85);
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        transform: translate(-50%, -50%);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+      }
+
+      #action-buttons {
+        position: absolute;
+        right: max(14px, var(--safe-right));
+        bottom: max(14px, var(--safe-bottom));
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        pointer-events: auto;
+      }
+
+      #action-buttons button {
+        min-width: 78px;
+        min-height: 56px;
+        border-radius: 14px;
+        border: 2px solid #39d0c9;
+        background: rgba(39, 171, 181, 0.18);
+        color: #dffffd;
+        font-family: "MyWebFont", ArcadeClassic, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        touch-action: none;
+        -webkit-touch-callout: none;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      #action-buttons button:disabled {
+        opacity: 0.45;
+        border-color: rgba(57, 208, 201, 0.45);
+      }
+
+      #action-buttons button.is-ready {
+        box-shadow: 0 0 12px rgba(57, 208, 201, 0.6);
+      }
+
+      #action-fire {
+        grid-column: span 2;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (hover: none), (pointer: coarse) {
+        #mobile-controls {
+          display: block;
         }
 
         #score {
-          font-size: 20px;
-          font-family: 'MyWebFont', ArcadeClassic, Arial;
-          color: 	#48D1CC;
-          position:absolute;
-          top: 0;
-          right: 0;
-          padding-right: 20px;
-          z-index: 15;
+          font-size: 16px;
+          max-width: min(60vw, 340px);
         }
+
         #player-name-div {
-          margin-top: 15px;
-          display: flex;
-          align-items: center;
+          width: 100%;
+        }
+      }
+
+      @media (orientation: portrait) {
+        #mobile-controls {
+          min-height: 240px;
         }
 
-        #player-name {
-          margin-left: 50px;
-          width: 50%;
-          color: black;
-          letter-spacing: 1px;
-          text-indent: 5%;
-          height: 34px;
-          border-radius: 5px 0 0 5px;
-          font-family: Arial;
-          font-size: 18px;
-          border: 5px solid #312832;
-          border-right: 0px solid #312832;
+        #action-buttons {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+      }
+    </style>
+  </head>
 
-        #player-input-button{
-          width: 25%;
-          height: 45.5px;
-          background: #27abb5;
-          font-weight: bold;
-          letter-spacing: 1px;
-          cursor: pointer;
-          border-radius: 0 5px 5px 0;
-          font-family: Arial;
-          font-size: 18px;
-          border: 5px solid #312832;
-        }
-
-        #nuke-div {
-          z-index: 15;
-          position: absolute;
-          top: 10%;
-          right: 50%;
-          transform: translateY(-50%);
-          font-size: 20px;
-          font-family: 'MyWebFont', ArcadeClassic, Arial;
-          color: tomato;
-        }
-
-        .hidden {
-          display: none;
-        }
-
-        img {
-          display: block;
-          margin-top: 5px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-      </style>
-    </head>
-
-    <body>
-      <div id='container'>
-        <div id="welcome">
-          <img src="http://i.imgur.com/hzKX3yM.png" alt="pew pew pew" width="500">
-          <!-- <img src="http://i.imgur.com/aAUcqMV.png" alt="pew pew pew" width="250"> -->
-
-          <div id="player-name-div">
-            <input type="text" id="player-name" placeholder="Enter your name?">
-            <input type="submit" id="player-input-button"value="Play" onclick="updateName();">
-          </div>
-v 
-        </div><center>
-
-        <div id="nuke-div" class="hidden">
-          <h1>You have the nuke! Press 'N' to deploy</h1>
+  <body>
+    <div id="container">
+      <div id="welcome">
+        <img src="http://i.imgur.com/hzKX3yM.png" alt="Q-Ships">
+        <div id="player-name-div">
+          <input type="text" id="player-name" placeholder="Enter your name?">
+          <input type="submit" id="player-input-button" value="Play" onclick="updateName();">
         </div>
+      </div>
 
-        <div id="score">
+      <div id="nuke-div" class="hidden">
+        <h1>Nuke ready!</h1>
+      </div>
+
+      <div id="score"></div>
+
+      <div id="background-container">
+        <canvas id="starField"></canvas>
+      </div>
+
+      <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+      </div>
+
+      <div id="mobile-controls" aria-hidden="true">
+        <div id="movement-pad">
+          <div id="movement-base"></div>
+          <div id="movement-knob"></div>
         </div>
-
-        <div id="background-container">
-          <canvas id="starField"></canvas>
+        <div id="action-buttons">
+          <button id="action-fire" type="button">Fire</button>
+          <button id="action-rocket" type="button">Rocket</button>
+          <button id="action-nuke" type="button">Nuke</button>
         </div>
+      </div>
+    </div>
 
-        <div id="game-container" >
-          <canvas id="gameCanvas"></canvas>
-        </div>
-
-      <script src="/js/client/starBackground.js"></script>
-      <script src="/js/client/render.js"></script>
-      <script src="/js/client/controller.js"></script>
-    </body>
+    <script src="/js/client/starBackground.js"></script>
+    <script src="/js/client/render.js"></script>
+    <script src="/js/client/controller.js"></script>
+  </body>
 </html>
